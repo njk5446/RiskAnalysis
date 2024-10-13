@@ -1,0 +1,37 @@
+.bg{
+    /* Desktop - 1 */
+    display: flex;
+    position: fixed;
+    overflow-y: hidden;
+    overflow-x: hidden;
+    width: 100%;
+    height: 100%;
+
+    background: #ECF2F4
+
+}
+.chart{
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    flex-grow: 1;
+    align-items: center;
+    justify-content: space-around;
+    position: absolute;
+    width: 18vw;
+    height: 8.5vh;
+    left: 79.5vw;
+    top: 3vw;
+    font-family:  "Nanum Gothic", sans-serif;
+    background: #abe7dfdc;
+    border-radius: 15px;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 19px;
+    color: #ffffff;
+    z-index: 100;
+}
+.chart:hover{
+    transform: scale(1.02);
+}

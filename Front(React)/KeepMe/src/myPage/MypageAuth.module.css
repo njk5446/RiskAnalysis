@@ -1,0 +1,100 @@
+.modalOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5); /* 배경 오버레이 */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+  }
+.mypageAuth{
+    display: flex;
+    flex-direction: column;
+    justify-items: center;
+    position: fixed;
+    width: 400px;
+    height: 200px;
+    top : 45%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #ECF2F4;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    z-index: 999;
+    padding: 20px;
+}
+
+/* .closeButton {
+    background-color: #f0f0f0;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 3px;
+    cursor: pointer;
+    margin-top: 10px;
+  } */
+.closeButton{
+    position: absolute;
+    
+    border: none;
+    margin-bottom: 10px;
+    left: 400px;
+    top: 10px;
+
+    color: #143A52;
+    border: none;
+    cursor: pointer;
+    font-family: 'Inter';
+    font-size: 20px;
+    svg{
+        width: 100%;
+        height: 100%;
+        
+    }
+}
+.closeButton:hover{
+    color: rgba(255, 255, 255, 0.6);
+}
+.mypageAuth h3{
+    
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 20px;
+    margin-top: 35px;
+    margin-left: 40px;
+}
+.mypageAuth input{
+    display: inline;
+    padding-left: 10px;
+    width: 250px;
+    height: 30px;
+    border-radius: 5px;
+    border: 1px solid #000;
+    margin-bottom: 10px;
+    margin-left: 40px;
+    margin-right: 100px;
+    margin-top: 10px;
+}
+.checkButton{
+    position: absolute;
+    width: 50px;
+    height: 35px;
+    border-radius: 5px;
+    border: none;
+    margin-bottom: 10px;
+    font-weight: bold;
+    margin-left: 10px;
+    left: 320px;
+    top: 110px;
+    background: #143A52;
+    color: rgba(255, 255, 255, 0.6);
+    border: none;
+    font-family: 'Inter';
+}
+.mypageAuth button:hover{
+    color: white;
+}
+
+

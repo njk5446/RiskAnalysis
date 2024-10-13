@@ -1,0 +1,239 @@
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.container1 {
+  border-radius: 5px;
+  width: 31%;
+  /* 화면 너비의 90% */
+  /* 최대 너비는 600px로 제한 */
+  height: 41%;
+  max-height: 600px;
+  overflow-y: hidden;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+}
+
+.container2 {
+  background-color: white;
+  padding: 10px;
+  border-radius: 10px;
+  width: 100%;
+  height: 70%;
+  left: 70%;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.container3 {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+}
+
+.infoSection {
+  margin-left: 5px;
+  width:100%;
+}
+.infoSection h3 {
+  margin-top: 0px;
+  margin-bottom: 5px;
+  font-family:  "Nanum Gothic", sans-serif;
+}
+.graphSection {
+  flex: 2;
+  height: 150px;
+  margin-right: 20px;
+  margin-left: 20px;
+}
+
+.infoTitleContainer {
+  display: flex;
+  width: 10vw;
+  font-size: 20px;
+  margin-left: 24px;
+}
+
+.infoTitle {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 22px;
+  border-bottom: 2px solid #00000080;
+  font-family:  'Jura', sans-serif;
+}
+
+.GraphContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-right: 15px;
+  margin-left: 10px;
+}
+
+.HeartbeatgraphSection {
+  margin-left: 10px;
+  margin-bottom: 10px;
+}
+
+.TemperaturegraphSection {
+  margin-left: 10px;
+  height: 100px;
+}
+
+.infoConditionContainer {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #00000080;
+  border-radius: 10px;
+  width: 180px;
+  height: 100px;
+  font-family:  "Nanum Gothic", sans-serif;
+}
+
+.infoConditionContainer h3 {
+  margin-top: 10px;
+  margin-left: 10px;
+  font-size: 15px;
+  margin-bottom: 0px;
+  width: 30px;
+  font-family:  "Nanum Gothic", sans-serif;
+}
+
+.infoCondition {
+  width: 40px;
+  border: 1px solid #00000059;
+  font-size: 19px;
+  padding: 6px;
+  padding-left: 7px;
+  border-radius: 10px;
+  margin-left: 15px;
+  font-family:  "Nanum Gothic", sans-serif;
+  background-color: #eee4e4;
+  font-weight: bold;
+  color: #0000009f;
+}
+
+.infoTemperature {
+  display: flex;
+  flex-direction: column;
+  
+}
+.infoAction{
+  display: flex;
+  flex-direction: column;
+}
+
+.infoHeartbeatContainer {
+  display: block;
+  flex-direction: column;
+  align-items: center;
+  border: 1px solid #00000080;
+  border-radius: 10px;
+  margin-top: 10px;
+  width: 180px;
+  height: 120px;
+  font-size: 15px;
+  font-family:  "Nanum Gothic", sans-serif;
+}
+
+.infoHeartbeatContainer h3 {
+
+  margin-left: 10px;
+  margin-bottom: 0px;
+  font-size: 15px;
+  width: 50px;
+  font-family:  "Nanum Gothic", sans-serif;
+}
+
+.heartbeat {
+  display: flex;
+  flex-direction: row;
+  width: 100px;
+  height: 100px;
+  margin-bottom: 10px;
+  font-size: 15px;
+  padding-bottom: 10px;
+ 
+}
+.infoMaxHeartbeat{
+  display: flex;
+  flex-direction: column;
+}
+.infoHeartbeat{
+  display: flex;
+  flex-direction: column;
+}
+.heartbeat span {
+  width: 100px;
+  margin: 0px;
+  margin-top: 10px;
+  font-size: 25px;
+  font-family: 'Jura', sans-serif;
+  font-weight: 500;
+}
+.heartbeat h3 {
+  text-align: center;
+  width: 100px;
+  margin: 0px;
+  margin-top: 10px;
+  font-size: 12px;
+  font-family:  "Nanum Gothic", sans-serif;
+}
+.closeButton {
+  align-self: flex-end;
+  margin-right: 10px;
+  margin-bottom: 60px;
+  padding: 5px 10px;
+  background-color: #f0f0f0;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+  font-family:  "Nanum Gothic", sans-serif;
+}
+.temperatureAction{
+  display: flex;
+  flex-direction: row;
+}
+.temperatureAction h2{
+  text-align: center;
+  width: 100px;
+  margin: 0px;
+  margin-top: 10px;
+  font-size: 13px;
+  font-family:  "Nanum Gothic", sans-serif;
+  
+  
+}
+
+.temperatureAction span{
+  width: 100px;
+  text-align: center;
+  margin-top: 10px;
+  font-size: 25px;
+  font-family: 'Jura', sans-serif;
+  font-weight: 500;
+}
+.temperatureAction h3{
+  text-align: center;
+  width: 100px;
+  margin: 0px;
+  margin-top: 14px;
+  font-size: 20px;
+  font-family:  "Nanum Gothic", sans-serif;
+  font-weight: 700;
+  color: #000000c5;
+}
