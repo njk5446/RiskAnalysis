@@ -36,7 +36,7 @@ public class BoardController {
 	// PageableDefault를 통해 첫페이지, 페이지당 항목수, 기본정렬기준, 정렬방향을 설정
     {	
 		try {
-			return ResponseEntity.ok(boardService.getBoards(pageable));
+			return ResponseEntity.ok(boardService.getBoardList(pageable));
 		} catch (Exception e) {
 			e.printStackTrace();
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("게시판 조회 실패");
@@ -54,6 +54,18 @@ public class BoardController {
     	} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("게시물 조회 실패");
 		}
+    }
+    
+    @GetMapping("/boards/search")
+    public ResponseEntity<?> getSearch(
+    		@PageableDefault(page = 0,
+    						 size = 10,
+    						 sort = "idx",
+    						 direction = Sort.Direction.DESC) Pageable pageable,
+    		@RequestParam String type,
+    		@RequestParam String keyword) {
+    	System.out.println("응답 데이터: " + boardService.findBoards(pageable, type, keyword) );
+    	return ResponseEntity.ok(boardService.findBoards(pageable, type, keyword));
     }
     
     // 게시물 등록

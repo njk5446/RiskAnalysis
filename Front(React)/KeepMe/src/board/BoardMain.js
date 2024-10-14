@@ -1,10 +1,11 @@
-import React from 'react'
-import { useState, useEffect } from 'react'
-import styles from './BoardMain.module.css'
-import Pagination from '../pagination/Pagination'
+import React, { useState, useEffect, useRef } from 'react';
+import styles from './BoardMain.module.css';
+import Pagination from '../pagination/Pagination';
 import axios from 'axios';
 import BoardWrite from './BoardWrite';
 import BoardDetail from './BoardDetail';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 
 export default function BoardMain({ onClose }) {
   const [currentPage, setCurrentPage] = useState(() => {
@@ -19,10 +20,13 @@ export default function BoardMain({ onClose }) {
     totalElements: 0,
     totalPages: 0,
   });
-  const [selectedPostId, setSelectedPostId] = useState(null); // 선택된 게시글 저장
+
+  const [selectedPostId, setSelectedPostId] = useState(null);
   const [isDetail, setIsDetail] = useState(false);
   const [isWrite, setIsWrite] = useState(false);
-
+  const [searchMode, setSearchMode] = useState(false);
+  const inputRef = useRef();
+  const selectRef = useRef();
 
   const url = process.env.REACT_APP_BACKEND_URL;
 
@@ -36,22 +40,73 @@ export default function BoardMain({ onClose }) {
           },
           headers: { 'Authorization': sessionStorage.getItem('token') }
         })).data;
+        console.log(response.content);
         setDataBoard(response.content);
-        console.log('게시판response', response);
         setPage({
           size: response.pagesize,
           number: response.pageNumber,
           totalElements: response.totalElements,
           totalPages: response.totalPages,
         });
-        console.log(response);
       } catch (error) {
         console.error('Error fetching posts:', error);
       }
     };
+
+    if (searchMode) {
+      return; // 검색 모드일 경우, 게시물 로드하지 않음
+    }
+
     loadBoard();
     localStorage.setItem('currentBoardPage', currentPage.toString());
-  }, [currentPage, url, postsPerPage]);
+  }, [currentPage, url, postsPerPage, searchMode]);
+
+  const searchBoard = async (pageNumber = 0) => {
+    let keyword = inputRef.current.value.trim();
+    const selectedType = selectRef.current.value; // 선택한 타입
+
+    if (keyword.length < 2) {
+      alert("2글자 이상 입력해주세요.");
+      inputRef.current.focus();
+      return;
+    }
+    try {
+      const resp = await axios.get(`${url}boards/search`, {
+        params: {
+          type: selectedType,
+          keyword: keyword,
+          page: pageNumber,
+          size: postsPerPage,
+        },
+        headers: {
+          'Authorization': sessionStorage.getItem('token')
+        }
+      });
+
+      console.log('Response:', resp.data);  // 응답 데이터를 확인
+      const results = resp.data.content;
+      const pageInfo = resp.data.page || {};  // page 객체가 없으면 빈 객체로 처리
+
+      setDataBoard(results);
+      setPage({
+        size: pageInfo.size || 10,  // page.size가 undefined일 경우 기본값 10
+        number: pageInfo.number || 0,
+        totalElements: pageInfo.totalElements || 0,
+        totalPages: pageInfo.totalPages || 0
+      });
+
+      setSearchMode(true);
+    } catch (error) {
+      console.error("게시판 자료를 가져오는데 실패했습니다.", error.response ? error.response.data : error);
+      alert("게시판 자료를 가져오는데 실패했습니다.");
+    }
+  };
+
+
+  const handleSearch = (e) => {
+    e.preventDefault();
+    searchBoard(currentPage - 1); // 현재 페이지 번호를 전달
+  };
 
   const handleWrite = (e) => {
     e.preventDefault();
@@ -61,6 +116,9 @@ export default function BoardMain({ onClose }) {
   const paginate = (pageNumber) => {
     setCurrentPage(pageNumber);
     localStorage.setItem('currentBoardPage', pageNumber.toString());
+    if (searchMode) {
+      searchBoard(pageNumber - 1); // 검색 모드일 경우 검색 실행
+    }
   };
 
   const dept = {
@@ -76,19 +134,36 @@ export default function BoardMain({ onClose }) {
     const formattedHours = String(hours).padStart(2, '0');
     const formattedMinutes = String(minutes).padStart(2, '0');
     const formattedSeconds = String(seconds).padStart(2, '0');
-  
+
     return `${year}-${formattedMonth}-${formattedDay} ${formattedHours}:${formattedMinutes}:${formattedSeconds}`;
   };
 
   const handleRowClick = (idx) => {
-    setSelectedPostId(idx); // 선택된 게시글 저장
-    console.log('post', idx);
-    setIsDetail(true); // 디테일 모달 열기
+    setSelectedPostId(idx);
+    setIsDetail(true);
   };
 
   return (
     <div className={styles.modalOverlay} onClick={onClose}>
       <div className={styles.boardMain} onClick={e => e.stopPropagation()}>
+        {/* 검색 기능을 좌측 상단에 배치 */}
+        <form onSubmit={handleSearch} className={`${styles.searchForm} flex items-center space-x-3`}>
+          <select ref={selectRef} className="p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+            <option value="title">제목</option>
+            <option value="content">내용</option>
+            <option value="userName">이름</option>
+          </select>
+          <input
+            type="text"
+            ref={inputRef}
+            placeholder="검색어 입력"
+            className="w-64 p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+          <button type="submit" className="flex items-center p-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600">
+            <FontAwesomeIcon icon={faMagnifyingGlass} />
+          </button>
+        </form>
+
         <table className={styles.boardTable}>
           <thead>
             <tr>
@@ -100,19 +175,26 @@ export default function BoardMain({ onClose }) {
             </tr>
           </thead>
           <tbody className={styles.body}>
-            {dataBoard.map((post) => (
-              <tr key={post.idx} onClick={() => handleRowClick(post.idx)}>
-                <td>{post.idx}</td>
-                <td>{post.title}</td>
-                <td>{dept[post.dept]}</td>
-                <td>{post.userName}</td>
-                <td className={styles.createDate}>{formatDate(post.createDate)}</td>
+            {dataBoard.length > 0 ? (
+              dataBoard.map((post) => (
+                <tr key={post.idx} onClick={() => handleRowClick(post.idx)}>
+                  <td>{post.idx}</td>
+                  <td>{post.title}</td>
+                  <td>{dept[post.dept]}</td>
+                  <td>{post.userName}</td>
+                  <td className={styles.createDate}>{formatDate(post.createDate)}</td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td colSpan="5" className={styles.noDataMessage}>
+                  해당하는 결과를 찾을 수 없습니다.
+                </td>
               </tr>
-            ))}
+            )}
           </tbody>
         </table>
 
-        {/* 선택된 게시글이 있을 때만 BoardDetail 모달을 보여줌 */}
         {isDetail && selectedPostId && <BoardDetail postId={selectedPostId} onClose={onClose} />}
 
         <button onClick={handleWrite} className={styles.writeButton}>작성</button>

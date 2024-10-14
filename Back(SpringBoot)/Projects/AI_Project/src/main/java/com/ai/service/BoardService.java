@@ -32,13 +32,24 @@ public class BoardService {
 
 	// 게시판 출력
 	// Pageable: 페이지네이션정보(페이지 번호, 페이지 크기, 정렬방식을 포함)
-	public Page<GetBoardsProjection> getBoards(Pageable pageable) {
-		return boardRepo.findBoardsDTO(pageable);
+	public Page<GetBoardsProjection> getBoardList(Pageable pageable) {
+		return boardRepo.getBoards(pageable);
 		// map 함수를 통해 Board 객체를 GetBoardDTO로 변환
 		// boardRepo.findAll을 사용시, Page 내장 객체의 totalElements, totalPage, number 등,
 		// 불필요한 데이터를 포함해서 구조가 맞지않을수 있다.
 		// 이럴때 GetBoardsDTO(테이블 컬럼에 필요한 필드만 담아서)를 이용한 사용자 정의 데이터만 사용해서 
 		// Pageable을 통해 전체 데이터 개수를 계산한다
+	}
+	
+	public Page<GetBoardsProjection> findBoards(Pageable pageable, String type, String keyword) {
+		if (type.equals("userName"))
+			return boardRepo.findBoardsByUserName(pageable, keyword);
+		else if (type.equals("title"))
+			return boardRepo.findBoardsByTitle(pageable, keyword);
+		else if (type.equals("content"))
+			return boardRepo.findBoardsByContent(pageable, keyword);
+		else 
+			return null;
 	}
 	
 	// 게시물 조회
@@ -115,7 +126,7 @@ public class BoardService {
 		// 토큰의 userCode와 일치하는 User 객체가 없다면 예외 처리
 		if (board.isPresent()) { // 해당 게시물이 존재하면 
 			return board.get().getUser().getUserCode().equals(currentUser.getUserCode()) || currentUser.getRole() == Role.ROLE_ADMIN;
-			// 게시물 저장된 userCode와 토큰 userCode가 같거나, 현재 유저가 ADMIN 권한이 있다면 1 반환, 아니면 0 반환
+			// 게시물 저장된 userCode와 토큰 userCode가 같거나, 현재 유저가 ADMIN 권한이 있다면 true 반환, 아니면 false 반환
 		} else { // 해당 게시물이 존재하지 않으면,
 			throw new NoSuchElementException("해당 유저 코드와 일치하는 게시물이 없습니다."); // 예외 처리
 		}	

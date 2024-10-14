@@ -23,7 +23,6 @@ public class LogController {
 	@GetMapping("/userlog")
 	public ResponseEntity<?> getUserLog(@RequestParam String userCode, @RequestParam LocalDate workDate) {
 		try {
-			System.out.println("유저 이전데이터: " + logService.getUserLogs(userCode, workDate));
 			return ResponseEntity.ok(logService.getUserLogs(userCode, workDate));
 		} catch (NoSuchElementException  e) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Logs not found for user code: " + userCode);

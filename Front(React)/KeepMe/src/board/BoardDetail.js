@@ -89,7 +89,7 @@ export default function BoardDetail({onClose, postId}) {
         <div className={styles.modalOverlay} onClick={onClose}>
             <div className={styles.boardContainer} onClick={e => e.stopPropagation()}>
                 <div className={styles.postContainer}>
-                    <h3 className={styles.title}>제목: {post.title}</h3>
+                    <h3 className={styles.title}>제목: {post.title}</h3><br/>
                     <div className={styles.etcContainer}>
                         <span>부서: {dept[post.dept]}</span>
                         <span>작성자: {post.userName}</span>

@@ -35,7 +35,7 @@ export default function NaverMap({ onLocationClick }) {
       return;
     }
     console.log('selectedUserCode', selectedUserCode); 
-    
+
     try {
       const response = await axios.get(`${url}userlog?`, {
         params: {

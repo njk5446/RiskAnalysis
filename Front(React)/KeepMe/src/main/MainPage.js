@@ -38,8 +38,8 @@ export default function MainPage() {
         setSocketData((prevData) => ({
           ...prevData,
           [newData.userCode]: {
-            heartbeat: [...(prevData[newData.userCode]?.heartbeat || []), newData.heartbeat].slice(-60),
-            temperature: [...(prevData[newData.userCode]?.temperature || []), Number(newData.temperature)].slice(-60),
+            heartbeat: [...(prevData[newData.userCode]?.heartbeat || []), newData.heartbeat].slice(-10),
+            temperature: [...(prevData[newData.userCode]?.temperature || []), Number(newData.temperature)].slice(-10),
             latitude: newData.latitude,
             longitude: newData.longitude,
             timestamp: new Date().getTime(),

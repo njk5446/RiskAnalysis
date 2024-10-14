@@ -25,11 +25,13 @@ public interface LogRepository extends JpaRepository<Log, Integer> {
              "ORDER BY l.no DESC LIMIT 60",
     nativeQuery = true)
 	List<LogProjection> findByUserCodeAndWorkDate(String userCode, LocalDate workDate);
+		
 	
 	@Query // 데이터 조회 및 전체 데이터 개수를 계산하는 SQL 쿼리문 정의 어노테이션
 	(value = "SELECT * FROM log " +
 			 "ORDER BY no DESC LIMIT 1", // db에서 조회할 데이터  
     nativeQuery = true) // 해당 쿼리가 실제 SQL 쿼리임을 지정
 	Optional<Log> findByLastNo();
+	
 	
 }

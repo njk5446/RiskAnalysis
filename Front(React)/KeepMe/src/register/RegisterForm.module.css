@@ -1,7 +1,8 @@
 .bg{
-    background-image: url('loginbg3.jpg');
+    background-image: url('construction1.jpg');
     width: 100vw;
     height: 100vh;
+    background-size: cover;
 }
 .RegisterForm{
     display: flex;
@@ -85,7 +86,7 @@
 }
 .Idcheckbutton{
     position: absolute;
-    width: 50px;
+    width: 90px;
     height: 50px;
     left: 325px;
     top: 217px;
@@ -99,7 +100,6 @@
     font-weight: 400;
     font-size: 20px;
     line-height: 29px;
-
 }
 .Idcheckbutton:hover{
     color:white;

@@ -13,7 +13,7 @@
 .container {
     background-color: white;
     width: 20vw;
-    height: 21vh;
+    height: 30vh;
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.5);
@@ -23,11 +23,13 @@
     flex-direction: column;
 }
 .modalContent h3 {
-    font-size: 25px ;
+    display: flex; /* Flexbox 사용 */
+    align-items: center; /* 수직 중앙 정렬 */
+    font-size: 25px;
     font-weight: 600;
     margin-bottom: 20px;
     margin-top: 0px;
-    font-family:  "Nanum Gothic", sans-serif;
+    font-family: "Nanum Gothic", sans-serif;
 }
 .modalContent span {
     font-size: 20px;
