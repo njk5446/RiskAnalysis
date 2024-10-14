@@ -16,6 +16,7 @@ import org.springframework.web.socket.WebSocketSession;
 import com.ai.config.WebSocketConfig;
 import com.ai.domain.Log;
 import com.ai.domain.RiskPrediction;
+import com.ai.domain.Role;
 import com.ai.domain.SensorData;
 
 import com.ai.repository.LogRepository;
@@ -189,12 +190,23 @@ public class WebSocketService {
 			for (WebSocketSession sess : clients) {
 				Map<String, Object> map = sess.getAttributes();
 				String userCode = (String) map.get("userCode");
+				Role role = (Role) map.get("role");
 				if (frontData != null) {
-					if (userCode.equals("0") || userCode.equals("00") || userCode.equals(frontData.getUserCode())) {
+					if (Role.ROLE_ADMIN.equals(role) || userCode.equals(frontData.getUserCode())) {
 						sendMessageToClient(sess, message, userCode, msg);
 					} 
 				} 
 			}
+			
+//			for (WebSocketSession sess : clients) {
+//				Map<String, Object> map = sess.getAttributes();
+//				String userCode = (String) map.get("userCode");
+//				if (frontData != null) {
+//					if (userCode.equals("0") || userCode.equals("00") || userCode.equals(frontData.getUserCode())) {
+//						sendMessageToClient(sess, message, userCode, msg);
+//					} 
+//				} 
+//			}
 	    }
 	}
 	

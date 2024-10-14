@@ -5,9 +5,9 @@ import { useNavigate } from 'react-router-dom'
 import styles from './LoginForm.module.css'
 import { useRecoilState } from 'recoil';
 
-import { userIdState, authState} from '../recoil/Atoms';
+import { userIdState, authState, userRoleState} from '../recoil/Atoms';
 export default function LoginForm() {
-    const [userRole, setUserRole] = useRecoilState(userIdState);
+    const [userRole, setUserRole] = useRecoilState(userRoleState);
     const [userId, setUserId] = useState('');
     const [password, setPassword] = useState('');
     const navigate = useNavigate();
@@ -46,11 +46,20 @@ export default function LoginForm() {
                     console.log('setauth',setAuth)
                     setUserRole(userId);
                     navigate('/main');
-                }else{
+                } else{
                     setUserRole(userId);
                     console.log('userrole',userId)
                     navigate('/user');
                 }
+                // if (userRole === 'ROLE_ADMIN'){
+                //     console.log('userROLE',userRole)
+                //     setUserRole(userRole);
+                //     navigate('/main');
+                // }else if (userRole === 'ROLE_USER') {
+                //     setUserRole(userRole);
+                //     console.log('userRole',userRole)
+                //     navigate('/user');
+                // }
             } else {
                 console.error('Login Failed');
                 alert('아이디와 비밀번호를 확인해주세요.')
