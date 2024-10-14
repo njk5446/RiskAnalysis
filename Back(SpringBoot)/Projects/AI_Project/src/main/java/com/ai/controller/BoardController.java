@@ -38,6 +38,7 @@ public class BoardController {
 		try {
 			return ResponseEntity.ok(boardService.getBoards(pageable));
 		} catch (Exception e) {
+			e.printStackTrace();
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("게시판 조회 실패");
 		}
         

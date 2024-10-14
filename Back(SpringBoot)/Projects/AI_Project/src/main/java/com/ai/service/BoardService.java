@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 import com.ai.domain.Board;
 import com.ai.domain.Role;
 import com.ai.domain.User;
-import com.ai.dto.GetBoardsDTO;
+import com.ai.dto.GetBoardsProjection;
 import com.ai.dto.WriteUserDTO;
 import com.ai.repository.BoardRepository;
 import com.ai.repository.UserRepository;
@@ -32,8 +32,9 @@ public class BoardService {
 
 	// 게시판 출력
 	// Pageable: 페이지네이션정보(페이지 번호, 페이지 크기, 정렬방식을 포함)
-	public Page<GetBoardsDTO> getBoards(Pageable pageable) {
+	public Page<GetBoardsProjection> getBoards(Pageable pageable) {
 		return boardRepo.findBoardsDTO(pageable);
+		// map 함수를 통해 Board 객체를 GetBoardDTO로 변환
 		// boardRepo.findAll을 사용시, Page 내장 객체의 totalElements, totalPage, number 등,
 		// 불필요한 데이터를 포함해서 구조가 맞지않을수 있다.
 		// 이럴때 GetBoardsDTO(테이블 컬럼에 필요한 필드만 담아서)를 이용한 사용자 정의 데이터만 사용해서 

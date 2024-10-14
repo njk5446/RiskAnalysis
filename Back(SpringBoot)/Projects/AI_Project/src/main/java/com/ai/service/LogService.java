@@ -6,7 +6,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.ai.domain.Log;
-import com.ai.dto.LogDTO;
+import com.ai.dto.LogProjection;
 import com.ai.repository.LogRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -22,7 +22,7 @@ public class LogService {
 //	}
 	
     // 해당 userCode의 이전 데이터 조회
-    public List<LogDTO> getUserLogs(String userCode, LocalDate workDate) {
+    public List<LogProjection> getUserLogs(String userCode, LocalDate workDate) {
         return logRepo.findByUserCodeAndWorkDate(userCode, workDate);
     }
 	
