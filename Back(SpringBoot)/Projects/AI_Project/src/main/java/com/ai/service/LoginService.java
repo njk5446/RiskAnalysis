@@ -56,7 +56,7 @@ public class LoginService {
 					  .dept(user.getDept())
 					  .region(user.getRegion())
 					  .gender(user.getGender())
-					  .role(Role.ROLE_USER)
+					  .role(Role.ROLE_ADMIN)
 					  .build());
 	}
 	

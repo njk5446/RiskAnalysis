@@ -14,17 +14,22 @@ import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 
 import com.ai.config.WebSocketConfig;
+import com.ai.domain.LastNo;
 import com.ai.domain.Log;
 import com.ai.domain.RiskPrediction;
 import com.ai.domain.Role;
 import com.ai.domain.SensorData;
-
+import com.ai.repository.LastNoRepository;
 import com.ai.repository.LogRepository;
 import com.ai.repository.RiskPredictionRepository;
 import com.ai.repository.SensorDataRepository;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
+import jakarta.annotation.PostConstruct;
+import jakarta.annotation.PreDestroy;
+
 import com.ai.dto.FlaskRequestDTO;
 import com.ai.dto.FlaskResponseDTO;
 
@@ -37,15 +42,18 @@ public class WebSocketService {
 	private final LogRepository logRepo;
 	private final RiskPredictionRepository riskRepo;
 	private final SensorDataRepository sensorRepo;
+	private final LastNoRepository lastNoRepo;
 	
-	private int no = 1;
+	private int no;
 	private final WebSocketConfig wsConfig;
 	private final WebClient webClient = WebClient.create();
 	
-	// 
+	
+	// 위험 분석 응답 데이터 전송
 	@Scheduled(fixedRate = 20)
 	public void pushData() throws IOException {
 		// DB의 user_vital_sign 테이블에서 no를 1씩 증가시키며 해당 행 조회 후 vitalSign 인스턴스에 저장
+		// 현재 lastNo값 추출
 		System.out.println("no: " + no);
 
 		// (최종)Vital Gyro 통합 테이블
@@ -60,6 +68,36 @@ public class WebSocketService {
 		sendData(fqDTO);
 		// sensor_data 순회
 		no++;
+	}
+	
+	@PostConstruct // 서버 시작 시 마지막 저장된 no를 불러옴
+	public void init() {
+	    LastNo lastNoEntity = lastNoRepo.findById(1).orElse(null);
+	    
+	    if (lastNoEntity == null) {
+	        // 엔티티가 없으면 기본값 1로 새로 생성하여 저장
+	        lastNoEntity = new LastNo(1, 1);
+	        lastNoRepo.save(lastNoEntity);
+	        no = 1; // 기본값으로 설정
+	    } else {
+	        no = lastNoEntity.getLastNo(); // 기존 값 가져오기
+	    }
+	}
+	
+	@PreDestroy // 서버 종료 직전은 읽은 행을 db에 저장
+	public void shutdown() {
+		System.out.println("서버 종료 중...");
+		try {
+			updateLastNo(no); // 서버 종료 시 마지막으로 읽은 lastNo를 업데이트
+			System.out.println("종료 완료");
+		} catch (Exception e) {
+			System.out.println("종료 중 오류 발생: " + e.getMessage());
+		}
+	}
+	
+	// 서버 종료 직전 마지막 행을 저장
+	private void updateLastNo(int lastNo) {
+		lastNoRepo.updateLastNo(lastNo);
 	}
 	
 	// Flask에 요청 데이터 전송 후 응답 데이터 프론트에 전송
@@ -198,15 +236,6 @@ public class WebSocketService {
 				} 
 			}
 			
-//			for (WebSocketSession sess : clients) {
-//				Map<String, Object> map = sess.getAttributes();
-//				String userCode = (String) map.get("userCode");
-//				if (frontData != null) {
-//					if (userCode.equals("0") || userCode.equals("00") || userCode.equals(frontData.getUserCode())) {
-//						sendMessageToClient(sess, message, userCode, msg);
-//					} 
-//				} 
-//			}
 	    }
 	}
 	

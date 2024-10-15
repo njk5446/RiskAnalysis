@@ -119,19 +119,11 @@ export default function RegisterForm() {
             return;
         }
 
-        if (password.length > MAX_LENGTH) {
+        if (confirmPassword.length < MIN_LENGTH) {
+            alert("비밀번호를 6자 이상 입력해주세요.");
+            return;
+        } else if (confirmPassword.length > MAX_LENGTH) {
             alert("비밀번호를 16자 이내로 입력해주세요.");
-            return;
-        } else if (password.length <= MIN_LENGTH) {
-            alert("비밀번호를 6자 이상 입력해주세요.")
-            return;
-        }
-
-        if (confirmPassword.length > MAX_LENGTH) {
-            alert("비밀번호를 16자 이내로 입력해주세요.");
-            return;
-        } else if (confirmPassword.length < MIN_LENGTH) {
-            alert("비밀번호를 6자 이상 입력해주세요.")
             return;
         }
 

@@ -45,7 +45,7 @@ export default function BoardWrite({ onClose }) {
         try{
             await axios.post(`${url}board/write`, { title:title, content:content},{ headers: headers });
             alert("성공적으로 게시글을 등록하였습니다.");
-            navigate("/main");
+            onClose();
         }catch(error){
             setError("게시글 등록에 실패하였습니다.");
         }

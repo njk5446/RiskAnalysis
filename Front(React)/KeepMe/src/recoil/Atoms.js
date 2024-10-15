@@ -8,7 +8,7 @@ export const socketDataState = atom({
 
 export const authState = atom({
   key: 'authState',
-  default: sessionStorage.getItem('token') || false,  // sessionStorage에서 토큰을 가져와서 기본값으로 설정
+  default: false,  // sessionStorage에서 토큰을 가져와서 기본값으로 설정
 });
 export const selectedUserCodeState = atom({
   key: 'selectedUserCodeState',

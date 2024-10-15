@@ -125,7 +125,7 @@ public class BoardService {
 				.orElseThrow(() -> new NoSuchElementException("해당 유저를 찾을 수 없습니다.")); 
 		// 토큰의 userCode와 일치하는 User 객체가 없다면 예외 처리
 		if (board.isPresent()) { // 해당 게시물이 존재하면 
-			return board.get().getUser().getUserCode().equals(currentUser.getUserCode()) || currentUser.getRole() == Role.ROLE_ADMIN;
+			return board.get().getUser().getUserCode().equals(currentUser.getUserCode());
 			// 게시물 저장된 userCode와 토큰 userCode가 같거나, 현재 유저가 ADMIN 권한이 있다면 true 반환, 아니면 false 반환
 		} else { // 해당 게시물이 존재하지 않으면,
 			throw new NoSuchElementException("해당 유저 코드와 일치하는 게시물이 없습니다."); // 예외 처리

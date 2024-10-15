@@ -9,9 +9,10 @@ import { useRecoilState, useRecoilValue } from 'recoil';
 import { socketDataState, userIdState, authState, wsState } from '../recoil/Atoms'; // WebSocket에서 가져온 심박수 데이터
 import OutsideTemperature from '../outsideTemp/OutsideTemperature';
 import AllWorker from '../allWorker/AllWorker';
+
 export default function MainPage() {
   const [socketData, setSocketData] = useRecoilState(socketDataState);
-  const userRole = useRecoilValue(userIdState) || sessionStorage.getItem('userId');
+  const userId = useRecoilValue(userIdState) || sessionStorage.getItem('userId');
   const setAuth = useRecoilValue(authState);
   const [isRisk, setIsRisk] = useState(false);
   const [riskUserCode, setRiskUserCode] = useState(null);
@@ -24,10 +25,12 @@ export default function MainPage() {
   const [ws, setWs] = useRecoilState(wsState); // WebSocket 상태
   const [isChart, setIsChart] = useState(false);
   console.log('socketData', socketData);
+  console.log("userId 확인: " + userId);
   useEffect(() => {
-    if (!ws && userRole) {
+    if (!ws && userId) {
       const url = process.env.REACT_APP_BACKEND_URL;
-      const newWs = new WebSocket(`${url}pushservice?userId=${userRole}`);
+      
+      const newWs = new WebSocket(`${url}pushservice?userId=${userId}`);
       setWs(newWs);
       newWs.onopen = () => {
         console.log('WebSocket 연결 성공');
@@ -38,8 +41,8 @@ export default function MainPage() {
         setSocketData((prevData) => ({
           ...prevData,
           [newData.userCode]: {
-            heartbeat: [...(prevData[newData.userCode]?.heartbeat || []), newData.heartbeat].slice(-10),
-            temperature: [...(prevData[newData.userCode]?.temperature || []), Number(newData.temperature)].slice(-10),
+            heartbeat: [...(prevData[newData.userCode]?.heartbeat || []), newData.heartbeat].slice(-60),
+            temperature: [...(prevData[newData.userCode]?.temperature || []), Number(newData.temperature)].slice(-0),
             latitude: newData.latitude,
             longitude: newData.longitude,
             timestamp: new Date().getTime(),
@@ -69,25 +72,30 @@ export default function MainPage() {
         };
       }
     };
-  }, [setSocketData, userRole, setAuth, ws]);
+  }, [setSocketData, userId, setAuth, ws]);
   
   useEffect(() => {
     if (riskUserCode&&riskUserHeartbeat&&riskUserTemperature&&riskUserLatitude&&riskUserLongitude&&riskUserWorkDate&&riskUserActivity) {
       setIsRisk(true);
     }
   }, [riskUserCode, riskUserHeartbeat, riskUserTemperature, riskUserLatitude, riskUserLongitude, riskUserWorkDate, riskUserActivity]);
+
   const outsideTemperature = Object.values(socketData).map(data => data.outsideTemperature);
+
   const userCount = Object.keys(socketData).length;
+
   const normalCount = Object.values(socketData).filter(data => {
     const normal = data.riskFlag === 0;
     console.log('normal', normal);
     return normal;
   }).length;
+
   const cautionCount = Object.values(socketData).filter(data => {
     const caution = data.riskFlag === 1;
     console.log('caution', caution);
     return caution;
   }).length;
+
   const dangerCount = Object.values(socketData).filter(data => {
     const danger = data.riskFlag === 2;
     console.log('danger', danger);

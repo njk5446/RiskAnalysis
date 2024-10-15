@@ -9,7 +9,7 @@ import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 
 export default function BoardMain({ onClose }) {
   const [currentPage, setCurrentPage] = useState(() => {
-    const savedPage = localStorage.getItem('currentBoardPage');
+    const savedPage = sessionStorage.getItem('currentBoardPage');
     return savedPage ? parseInt(savedPage, 10) : 1;
   });
   const [dataBoard, setDataBoard] = useState([]);
@@ -58,7 +58,7 @@ export default function BoardMain({ onClose }) {
     }
 
     loadBoard();
-    localStorage.setItem('currentBoardPage', currentPage.toString());
+    sessionStorage.setItem('currentBoardPage', currentPage.toString());
   }, [currentPage, url, postsPerPage, searchMode]);
 
   const searchBoard = async (pageNumber = 0) => {
@@ -102,6 +102,11 @@ export default function BoardMain({ onClose }) {
     }
   };
 
+  const handleClose = () => {
+    setCurrentPage(1); // 현재 페이지를 1로 초기화
+    onClose(); // 모달 닫기
+  };
+
 
   const handleSearch = (e) => {
     e.preventDefault();
@@ -115,7 +120,7 @@ export default function BoardMain({ onClose }) {
 
   const paginate = (pageNumber) => {
     setCurrentPage(pageNumber);
-    localStorage.setItem('currentBoardPage', pageNumber.toString());
+    sessionStorage.setItem('currentBoardPage', pageNumber.toString());
     if (searchMode) {
       searchBoard(pageNumber - 1); // 검색 모드일 경우 검색 실행
     }
@@ -144,7 +149,7 @@ export default function BoardMain({ onClose }) {
   };
 
   return (
-    <div className={styles.modalOverlay} onClick={onClose}>
+    <div className={styles.modalOverlay} onClick={handleClose}>
       <div className={styles.boardMain} onClick={e => e.stopPropagation()}>
         {/* 검색 기능을 좌측 상단에 배치 */}
         <form onSubmit={handleSearch} className={`${styles.searchForm} flex items-center space-x-3`}>
@@ -195,11 +200,11 @@ export default function BoardMain({ onClose }) {
           </tbody>
         </table>
 
-        {isDetail && selectedPostId && <BoardDetail postId={selectedPostId} onClose={onClose} />}
+        {isDetail && selectedPostId && <BoardDetail postId={selectedPostId} onClose={handleClose} />}
 
         <button onClick={handleWrite} className={styles.writeButton}>작성</button>
-        {isWrite && <BoardWrite onClose={onClose} />}
-        <button onClick={onClose} className={styles.homeButton}>닫기</button>
+        {isWrite && <BoardWrite onClose={handleClose} />}
+        <button onClick={handleClose} className={styles.homeButton}>닫기</button>
 
         {/* 페이지네이션 컴포넌트 */}
         <div className={styles.paginationContainer}>

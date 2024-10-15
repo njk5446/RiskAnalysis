@@ -71,13 +71,17 @@ public class JWTAuthenFilter extends UsernamePasswordAuthenticationFilter{
 		// User로 캐스팅해서 user에 저장
 		
 		String token = JWT.create() // 새로운 JWT 토큰 생성
-				.withExpiresAt(new Date(System.currentTimeMillis()+1000*60*1000)) // 토큰만료시간설정(10분)
+				.withExpiresAt(new Date(System.currentTimeMillis()+1000*60*10000)) // 토큰만료시간설정(100분)
 				.withClaim("userId", user.getUsername()) // 클레임에 유저 아이디 추가(User 내장객체의 함수(username=아이디)
 				.sign(Algorithm.HMAC256("com.ai.project")); // 서명
 		response.addHeader(HttpHeaders.AUTHORIZATION, "Bearer " + token);
 		// 토큰을 응답헤더에 추가
 		response.setStatus(HttpStatus.OK.value());
 		// 응답으로 인증 성공했음을 클라이언트 화면에 출력
+		
+		// 응답 본문에 토큰과 Role 정보를 포함
+		String jsonResponse = String.format("{\"role\":\"%s\"}", user.getAuthorities().toString());
+		response.getWriter().write(jsonResponse);
 	}
 	
 }

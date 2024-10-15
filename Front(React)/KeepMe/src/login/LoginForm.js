@@ -42,24 +42,18 @@ export default function LoginForm() {
                 sessionStorage.setItem("userId", userId);
                 sessionStorage.setItem("token", token);
                 setAuth(true);
-                if(userId === 'admin1' || userId === 'admin2'){
-                    console.log('setauth',setAuth)
-                    setUserRole(userId);
+                console.log("로그인 시도");
+                console.log(response.data.role);
+                const role = response.data.role;
+                if (role.includes('ROLE_ADMIN')){
+                    console.log('userROLE',role)
+                    setUserRole(role);
                     navigate('/main');
-                } else{
-                    setUserRole(userId);
-                    console.log('userrole',userId)
+                }else if (role.includes('ROLE_USER')) {
+                    console.log('userRole',userRole)
+                    setUserRole(role);
                     navigate('/user');
                 }
-                // if (userRole === 'ROLE_ADMIN'){
-                //     console.log('userROLE',userRole)
-                //     setUserRole(userRole);
-                //     navigate('/main');
-                // }else if (userRole === 'ROLE_USER') {
-                //     setUserRole(userRole);
-                //     console.log('userRole',userRole)
-                //     navigate('/user');
-                // }
             } else {
                 console.error('Login Failed');
                 alert('아이디와 비밀번호를 확인해주세요.')
