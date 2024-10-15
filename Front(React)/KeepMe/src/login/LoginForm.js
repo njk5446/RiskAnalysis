@@ -5,12 +5,13 @@ import { useNavigate } from 'react-router-dom'
 import styles from './LoginForm.module.css'
 import { useRecoilState } from 'recoil';
 
-import { userIdState, authState, userRoleState} from '../recoil/Atoms';
+import { userIdState, authState, userRoleState, wsState} from '../recoil/Atoms';
 export default function LoginForm() {
     const [userRole, setUserRole] = useRecoilState(userRoleState);
     const [userId, setUserId] = useState('');
     const [password, setPassword] = useState('');
     const navigate = useNavigate();
+    // const [ws, setWs] = useRecoilState(wsState); // WebSocket 상태 추가
     const [auth, setAuth] = useRecoilState(authState);
     const url = process.env.REACT_APP_BACKEND_URL;
     console.log(url)
@@ -42,7 +43,19 @@ export default function LoginForm() {
                 sessionStorage.setItem("userId", userId);
                 sessionStorage.setItem("token", token);
                 setAuth(true);
-                console.log("로그인 시도");
+
+                // // WebSocket 연결 설정
+                // const newWs = new WebSocket(`${url}pushservice?userId=${userId}`);
+                // newWs.onopen = () => {
+                //     console.log('로그인에서WebSocket 연결 성공');
+                // };
+
+                // newWs.onmessage = (e) => {
+                //     const newData = JSON.parse(e.data);
+                //     console.log('WebSocket 메시지 수신', newData);
+                // };
+                // setWs(newWs);
+                
                 console.log(response.data.role);
                 const role = response.data.role;
                 if (role.includes('ROLE_ADMIN')){
