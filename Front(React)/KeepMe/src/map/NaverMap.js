@@ -28,6 +28,10 @@ export default function NaverMap({ onLocationClick }) {
     }
   };
 
+  const fetchInitialData = async () => {
+    
+  }
+
   const fetchUserdata = async () => {
     const token = sessionStorage.getItem('token');
     if (!token) {

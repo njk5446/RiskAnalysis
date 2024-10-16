@@ -11,7 +11,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import com.ai.domain.Board;
-import com.ai.domain.Role;
 import com.ai.domain.User;
 import com.ai.dto.GetBoardsProjection;
 import com.ai.dto.WriteUserDTO;

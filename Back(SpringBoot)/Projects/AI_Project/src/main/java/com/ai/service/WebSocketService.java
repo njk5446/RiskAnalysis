@@ -3,6 +3,7 @@ package com.ai.service;
 import java.io.IOException;
 
 import java.math.RoundingMode;
+import java.time.LocalDate;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
@@ -21,6 +22,7 @@ import com.ai.domain.Role;
 import com.ai.domain.SensorData;
 import com.ai.repository.LastNoRepository;
 import com.ai.repository.LogRepository;
+import com.ai.repository.CurrentWorkDateRepository;
 import com.ai.repository.RiskPredictionRepository;
 import com.ai.repository.SensorDataRepository;
 
@@ -32,6 +34,7 @@ import jakarta.annotation.PreDestroy;
 
 import com.ai.dto.FlaskRequestDTO;
 import com.ai.dto.FlaskResponseDTO;
+import com.ai.dto.SensorWorkDateProjection;
 
 import lombok.RequiredArgsConstructor;
 
@@ -43,11 +46,11 @@ public class WebSocketService {
 	private final RiskPredictionRepository riskRepo;
 	private final SensorDataRepository sensorRepo;
 	private final LastNoRepository lastNoRepo;
+	private final CurrentWorkDateRepository recentRepo;
 	
 	private int no;
 	private final WebSocketConfig wsConfig;
 	private final WebClient webClient = WebClient.create();
-	
 	
 	// 위험 분석 응답 데이터 전송
 	@Scheduled(fixedRate = 20)
@@ -58,6 +61,8 @@ public class WebSocketService {
 
 		// (최종)Vital Gyro 통합 테이블
 		SensorData sd = sensorRepo.findById(no).orElse(null);
+		
+		setCurrentStoreProcedure(sd);
 		
 		if(sd == null) {
 			return; // DB 데이터가 더이상 조회 안되면 종료
@@ -72,6 +77,7 @@ public class WebSocketService {
 	
 	@PostConstruct // 서버 시작 시 마지막 저장된 no를 불러옴
 	public void init() {
+		System.out.println("서버 실행");
 	    LastNo lastNoEntity = lastNoRepo.findById(1).orElse(null);
 	    
 	    if (lastNoEntity == null) {
@@ -111,7 +117,7 @@ public class WebSocketService {
 				
 				System.out.println(frDTO);
 				// 저장 프로시저 메서드
-				setStoreProcedure(frDTO);
+				setRiskStoreProcedure(frDTO);
 
 				// 초기에 logRepo에는 값이 없으니까 null과 응답을 비교할수없으니까 바로 프론트로 전송
 				if (ld == null) {
@@ -127,9 +133,15 @@ public class WebSocketService {
 		});
 	}
 	
+	// 현재 행의 workDate 가져오기 
+	private void setCurrentStoreProcedure(SensorData sd) {
+		SensorWorkDateProjection swp = sensorRepo.findWorkDateById(sd.getNo());
+		LocalDate workDate = swp.getWorkDate();
+		recentRepo.updateRecentWorkDate(workDate);
+	}
 	
 	// risk_prediction 저장 프로시저 메서드
-	private void setStoreProcedure(FlaskResponseDTO frDTO) {
+	private void setRiskStoreProcedure(FlaskResponseDTO frDTO) {
 		riskRepo.upsertRiskPrediction(frDTO.getUserCode(), frDTO.getWorkDate(), 
 				frDTO.getRiskFlag(), frDTO.getHeartbeat(),frDTO.getTemperature(), frDTO.getOutsideTemperature(), 
 				frDTO.getLatitude(), frDTO.getLongitude(), frDTO.getActivity(), frDTO.getVitalDate());

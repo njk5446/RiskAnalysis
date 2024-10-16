@@ -41,7 +41,7 @@ export default function BoardDetail({ onClose, postId }) {
       }
     } catch (error) {
       if (error.response.status === 401) {
-        alert('게시물 작성자가 아니므로 해당 게시물을 수정 할 수 없습니다.');
+        alert('해당 게시물 작성자가 아니므로 수정 할 수 없습니다.');
       }
     }
   }
