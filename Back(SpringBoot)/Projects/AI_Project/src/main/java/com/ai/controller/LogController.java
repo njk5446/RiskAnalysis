@@ -1,6 +1,8 @@
 package com.ai.controller;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.NoSuchElementException;
 
 import org.springframework.http.HttpStatus;
@@ -9,6 +11,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ai.dto.LogProjection;
+import com.ai.dto.UserCodeProjection;
+import com.ai.service.CurrentWorkDateService;
 import com.ai.service.LogService;
 
 import lombok.RequiredArgsConstructor;
@@ -33,17 +38,32 @@ public class LogController {
 	}
 	
 	@GetMapping("/alllog/workdate")
-	public ResponseEntity<?> getAllLogWorkdate(@RequestParam LocalDate workDate) {
+	public ResponseEntity<?> getUserLogs() {
 		try {
-			return ResponseEntity.ok(logService.getLogsByDate(workDate));
+			List<LogProjection> logs = logService.getAllUserLogs(1);
+			return ResponseEntity.ok(logs);
 		} catch (NoSuchElementException e) {
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Logs not found for work date: " + workDate);
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Logs not found for user code");
 		} catch (Exception e) {
+			// 기타 예외 발생 시
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
 					.body("Error retrieving logs: " + e.getMessage());
 		}
 	}
-
+	
+//	@GetMapping("/alllog/workdate")
+//	public ResponseEntity<?> getAllLogWorkdate(@RequestParam LocalDate workDate) {
+//		try {
+//			return ResponseEntity.ok(logService.getLogsByDate(workDate));
+//		} catch (NoSuchElementException e) {
+//			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Logs not found for work date: " + workDate);
+//		} catch (Exception e) {
+//			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+//					.body("Error retrieving logs: " + e.getMessage());
+//		}
+//	}
+	
+	
 	@GetMapping("/alllog")
 	public ResponseEntity<?> getAllLog() {
 		try {

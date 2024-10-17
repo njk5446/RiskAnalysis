@@ -17,5 +17,5 @@ public interface CurrentWorkDateRepository extends JpaRepository<CurrentWorkDate
 	@Transactional
 	@Query
 	(value = "CALL update_current_work_date(?)", nativeQuery = true)
-	void updateRecentWorkDate(LocalDate workDate);
+	void updateCurrentWorkDate(LocalDate workDate);
 }

@@ -89,15 +89,15 @@ public class CORSConfig implements WebMvcConfigurer {
 				"*"
 				);
 		
-//        // 메인 경로에 대한 CORS 정책 설정 (특정 IP에서만 접근 가능)
-//        registry.addMapping("/main/**")
-//                .allowCredentials(true)
-//                .allowedHeaders(HttpHeaders.AUTHORIZATION)
-//                .allowedMethods(HttpMethod.GET.name(), HttpMethod.POST.name())
-//                .allowedOrigins(
-//                        "http://192.168.0.143:3000", // 특정 IP로 변경
-//                        "http://192.168.0.131:3000"  // 추가적인 특정 IP
-//                );
+        // 메인 경로에 대한 CORS 정책 설정 (특정 IP에서만 접근 가능)
+        registry.addMapping("/main/**")
+                .allowCredentials(true)
+                .allowedHeaders(HttpHeaders.AUTHORIZATION)
+                .allowedMethods(HttpMethod.GET.name(), HttpMethod.POST.name())
+                .allowedOrigins(
+                        "http://192.168.0.143:3000", // 특정 IP로 변경
+                        "http://192.168.0.131:3000"  // 추가적인 특정 IP
+                );
 		
 		
 	}

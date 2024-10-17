@@ -24,12 +24,83 @@ export default function MainPage() {
   const [riskUserActivity, setRiskUserActivity] = useState(null);
   const [ws, setWs] = useRecoilState(wsState); // WebSocket 상태
   const [isChart, setIsChart] = useState(false);
+
+
+
   console.log('socketData', socketData);
   console.log("userId 확인: " + userId);
+
+  // useEffect(() => {
+  //   const fetchInitialData = async () => {
+  //     const url = process.env.REACT_APP_BACKEND_URL;
+  //     const token = sessionStorage.getItem('token');
+  //     if (!token) {
+  //       console.error("토큰이 없습니다.");
+  //       return;
+  //     }
+  //     try {
+  //       const response = await axios.get(`${url}alllog/workdate`, {
+  //         headers: {
+  //           'Content-Type': 'application/json',
+  //           'Authorization': token,
+  //         }
+  //       });
+  //       console.log(response);
+
+  //       const userdata = response.data.map(item => ({
+  //         userCode: item.userCode,
+  //         heartbeat: item.heartbeat,
+  //         temperature: item.temperature,
+  //         latitude: item.latitude,
+  //         longitude: item.longitude,
+  //         timestamp: item.timestamp,
+  //         riskFlag: item.riskFlag,
+  //         vitalDate: item.vitalDate,
+  //         workDate: item.workDate,
+  //         activity: item.activity,
+  //         outsideTemperature: item.outsideTemperature,
+  //       }));
+
+  //       setSocketData(prevData => {
+  //         const newData = { ...prevData };
+  //         userdata.forEach(item => {
+  //           const existingData = newData[item.userCode] || {};
+  //           newData[item.userCode] = {
+  //             ...existingData,
+  //             heartbeat: [...(existingData.heartbeat || []), item.heartbeat].slice(-60),
+  //             temperature: [...(existingData.temperature || []), Number(item.temperature)].slice(-60),
+  //             latitude: item.latitude,
+  //             longitude: item.longitude,
+  //             timestamp: new Date().getTime(),
+  //             riskFlag: item.riskFlag,
+  //             vitalDate: item.vitalDate,
+  //             workDate: item.workDate,
+  //             activity: item.activity,
+  //             outsideTemperature: item.outsideTemperature,
+  //           };
+  //         });
+  //         return newData;
+  //       });
+
+  //     } catch (error) {
+  //       console.error("요청 실패: " + error);
+  //       // console.error('초기 데이터를 가져오는 중 오류 발생', error);
+  //       if(error.response) {
+  //         console.error("응답 상태 코드: " + error.response.status);
+  //         console.error("응답 데이터: " + error.response.data);
+  //       } else {
+  //         console.error("요청이 서버에 도달하지 않았습니다." + error.message);
+  //       }
+  //     }
+  //   };
+  //   fetchInitialData();
+  // }, [setSocketData, userId])
+
+
   useEffect(() => {
     if (!ws && userId) {
       const url = process.env.REACT_APP_BACKEND_URL;
-      
+
       const newWs = new WebSocket(`${url}pushservice?userId=${userId}`);
       setWs(newWs);
       newWs.onopen = () => {
@@ -73,9 +144,9 @@ export default function MainPage() {
       }
     };
   }, [setSocketData, userId, setAuth, ws]);
-  
+
   useEffect(() => {
-    if (riskUserCode&&riskUserHeartbeat&&riskUserTemperature&&riskUserLatitude&&riskUserLongitude&&riskUserWorkDate&&riskUserActivity) {
+    if (riskUserCode && riskUserHeartbeat && riskUserTemperature && riskUserLatitude && riskUserLongitude && riskUserWorkDate && riskUserActivity) {
       setIsRisk(true);
     }
   }, [riskUserCode, riskUserHeartbeat, riskUserTemperature, riskUserLatitude, riskUserLongitude, riskUserWorkDate, riskUserActivity]);
@@ -115,13 +186,13 @@ export default function MainPage() {
       <HeaderForm />
       {isRisk && <RiskAlert onClose={onClose} riskUserCode={riskUserCode} riskUserHeartbeat={riskUserHeartbeat} riskUserTemperature={riskUserTemperature} riskUserLatitude={riskUserLatitude} riskUserLongitude={riskUserLongitude} riskUserWorkDate={riskUserWorkDate} riskUserActivity={riskUserActivity} />}
       <OutsideTemperature outsideTemperature={outsideTemperature} />
-      <div className={styles.chart} onClick={openchart}>일별 위험 빈도<svg xmlns="http://www.w3.org/2000/svg" height="50px" viewBox="0 -960 960 960" width="30px" fill="#FFFFFF"><path d="M49.7-83.65v-113.18h860.6v113.18H49.7Zm34.95-175.09v-296.61h153.18v296.61H84.65Zm211.76 0v-496.61h153.18v496.61H296.41Zm212.76 0v-376.61h153.18v376.61H509.17Zm213 0v-616.61h153.18v616.61H722.17Z"/></svg></div>
-      {isChart && <AllWorker onClose={CloseChart}/>}
+      <div className={styles.chart} onClick={openchart}>일별 위험 빈도<svg xmlns="http://www.w3.org/2000/svg" height="50px" viewBox="0 -960 960 960" width="30px" fill="#FFFFFF"><path d="M49.7-83.65v-113.18h860.6v113.18H49.7Zm34.95-175.09v-296.61h153.18v296.61H84.65Zm211.76 0v-496.61h153.18v496.61H296.41Zm212.76 0v-376.61h153.18v376.61H509.17Zm213 0v-616.61h153.18v616.61H722.17Z" /></svg></div>
+      {isChart && <AllWorker onClose={CloseChart} />}
       <div className={styles.fourcontainer}>
         <PCountBar userCount={userCount} normalCount={normalCount} cautionCount={cautionCount} dangerCount={dangerCount} />
       </div>
       <div>
-        <NaverMap />  
+        <NaverMap />
       </div>
       <Footer />
     </div>

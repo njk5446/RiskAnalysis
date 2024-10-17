@@ -1,5 +1,6 @@
 package com.ai.controller;
 
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.HttpClientErrorException.Unauthorized;
 
 import com.ai.domain.Board;
+import com.ai.dto.GetBoardsProjection;
 import com.ai.dto.WriteUserDTO;
 import com.ai.service.BoardService;
 
@@ -64,7 +66,11 @@ public class BoardController {
     						 direction = Sort.Direction.DESC) Pageable pageable,
     		@RequestParam String type,
     		@RequestParam String keyword) {
-    	System.out.println("응답 데이터: " + boardService.findBoards(pageable, type, keyword) );
+    	Page<GetBoardsProjection> boards = boardService.findBoards(pageable, type, keyword);
+    	
+    	System.out.println("전체 게시물수: " + boards.getTotalElements());
+    	System.out.println("전체 페이지: " + boards.getTotalPages());
+    	
     	return ResponseEntity.ok(boardService.findBoards(pageable, type, keyword));
     }
     

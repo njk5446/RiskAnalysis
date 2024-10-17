@@ -26,19 +26,21 @@ public interface BoardRepository extends JpaRepository<Board, Integer> {
 	
 	// 이름으로 검색
 	@Query
-	(value = "SELECT b.idx, u.user_code, b.title, b.content, b.user_id, b.user_name, b.dept, b.create_date " +
-			 "FROM board b JOIN user u ON b.user_code = u.user_code " +
-			 "WHERE b.user_name LIKE %?1%",
-	countQuery = "SELECT COUNT(*) FROM board",
+	(value = "SELECT b.idx, u.user_code, b.title, b.content, b.user_id, b.user_name, b.dept, b.create_date "
+			 + "FROM board b JOIN user u ON b.user_code = u.user_code "
+			 + "WHERE b.user_name LIKE %?%",
+	countQuery = "SELECT COUNT(*) FROM board b "
+			   	+ "JOIN user u ON b.user_code = u.user_code WHERE b.user_name LIKE %?%",
 	nativeQuery = true)
 	Page<GetBoardsProjection> findBoardsByUserName(Pageable pageable, String userName);
 	
 	// 제목으로 검색
 	@Query
-	(value = "SELECT b.idx, u.user_code, b.title, b.content, b.user_id, b.user_name, b.dept, b.create_date " +
-			 "FROM board b JOIN user u ON b.user_code = u.user_code " +
-			 "WHERE b.title LIKE %?1%",
-	countQuery = "SELECT COUNT(*) FROM board",
+	(value = "SELECT b.idx, u.user_code, b.title, b.content, b.user_id, b.user_name, b.dept, b.create_date "
+			 + "FROM board b JOIN user u ON b.user_code = u.user_code " 
+			 + "WHERE b.title LIKE %?%",
+	countQuery = "SELECT COUNT(*) FROM board b "
+			 	+ "JOIN user u ON b.user_code = u.user_code WHERE b.title LIKE %?%",
 	nativeQuery = true)
 	Page<GetBoardsProjection> findBoardsByTitle(Pageable pageable, String title);
 	
@@ -46,8 +48,9 @@ public interface BoardRepository extends JpaRepository<Board, Integer> {
 	@Query
 	(value = "SELECT b.idx, u.user_code, b.title, b.content, b.user_id, b.user_name, b.dept, b.create_date " +
 			 "FROM board b JOIN user u ON b.user_code = u.user_code " +
-			 "WHERE b.content LIKE %?1%",
-	countQuery = "SELECT COUNT(*) FROM board",
+			 "WHERE b.content LIKE %?%",
+	countQuery = "SELECT COUNT(*) FROM board b "
+				+ "JOIN user u ON b.user_code = u.user_code WHERE b.content LIKE %?%",
 	nativeQuery = true)
 	Page<GetBoardsProjection> findBoardsByContent(Pageable pageable, String title);
 }

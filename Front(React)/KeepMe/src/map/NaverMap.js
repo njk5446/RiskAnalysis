@@ -15,30 +15,90 @@ export default function NaverMap({ onLocationClick }) {
   const { naver } = window; // naver 객체는 Naver Maps API가 로드된 후 접근 가능
   const url = process.env.REACT_APP_BACKEND_URL;
 
-  const getIconUrl = (riskFlag) => {
+  // riskFlag에 따라 CSS 필터를 적용하는 함수
+  const getIconStyle = (riskFlag) => {
     switch (riskFlag) {
-      case 0:
-        return '/img/normal.png'; // 정상 상태일 때
-      case 1:
-        return '/img/caution (2).png'; // 위험 상태일 때
-      case 2:
-        return '/img/danger.png'; // 경고 상태일 때 (필요에 따라 이미지 변경)
+      case 0: // 정상 상태
+        return { filter: 'hue-rotate(0deg) brightness(1.5)' }; // 원래 색상
+      case 1: // 경고 상태 (노란색)
+        return { filter: 'hue-rotate(280deg) brightness(2.0)' }; // 노란색으로 조정
+      case 2: // 위험 상태 (빨간색)
+        return { filter: 'hue-rotate(1300deg) brightness(1.0)' }; // 빨간색으로 조정
       default:
-        return '/img/normal.png'; // 기본 이미지 (예외 처리용)
+        return { filter: 'none' }; // 기본 색상
     }
   };
 
+  // 네이버맵 렌더링시에 나타는 최근 로그 표시 
   const fetchInitialData = async () => {
-    
-  }
+    const token = sessionStorage.getItem('token');
+    if (!token) {
+      console.error("토큰이 없습니다.");
+      return;
+    }
 
+    try {
+      const response = await axios.get(`${url}alllog/workdate`, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': token,
+        }
+      });
+
+      const userdata = response.data.map(item => ({
+        userCode: item.userCode,
+        heartbeat: item.heartbeat,
+        temperature: item.temperature,
+        latitude: item.latitude,
+        longitude: item.longitude,
+        timestamp: item.timestamp,
+        riskFlag: item.riskFlag,
+        vitalDate: item.vitalDate,
+        workDate: item.workDate,
+        activity: item.activity,
+        outsideTemperature: item.outsideTemperature,
+      }));
+
+      setMapsocketData(prevData => {
+        const newData = { ...prevData };
+        userdata.forEach(item => {
+          const existingData = newData[item.userCode] || {};
+          newData[item.userCode] = {
+            ...existingData,
+            heartbeat: [...(existingData.heartbeat || []), item.heartbeat].slice(-60),
+            temperature: [...(existingData.temperature || []), Number(item.temperature)].slice(-60),
+            latitude: item.latitude,
+            longitude: item.longitude,
+            timestamp: new Date().getTime(),
+            riskFlag: item.riskFlag,
+            vitalDate: item.vitalDate,
+            workDate: item.workDate,
+            activity: item.activity,
+            outsideTemperature: item.outsideTemperature,
+          };
+        });
+        return newData;
+      });
+
+    } catch (error) {
+      console.error('초기 데이터를 가져오는 중 오류 발생', error);
+    }
+  };
+  // NaverMap이 렌더링될 때 데이터 가져오기
+  useEffect(() => {
+    fetchInitialData();
+  }, []);
+
+  // 특정 유저의 마커 클릭시 정보 확인
   const fetchUserdata = async () => {
     const token = sessionStorage.getItem('token');
     if (!token) {
       console.error('No token found');
       return;
     }
-    console.log('selectedUserCode', selectedUserCode); 
+    console.log('selectedUserCode: ' + selectedUserCode);
+    console.log("workdate: " + selectedWorkDate);
+    console.log(`${url}userlog?userCode=${selectedUserCode}&workDate=${selectedWorkDate}`);
 
     try {
       const response = await axios.get(`${url}userlog?`, {
@@ -50,7 +110,7 @@ export default function NaverMap({ onLocationClick }) {
           'Content-Type': 'application/json',
           'Authorization': token,
         }
-      });    
+      });
       console.log('백엔드에서 받은거', response);
       const userCodedata = response.data;
       console.log('userCodedata', userCodedata);
@@ -58,7 +118,7 @@ export default function NaverMap({ onLocationClick }) {
         console.error('No data found for user');
         return;
       }
-      const userdata = userCodedata.map(item =>({
+      const userdata = userCodedata.map(item => ({
         userCode: item.userCode,
         heartbeat: item.heartbeat,
         temperature: item.temperature,
@@ -72,7 +132,7 @@ export default function NaverMap({ onLocationClick }) {
         outsideTemperature: item.outsideTemperature,
       }))
       setMapsocketData(prevData => {
-        const newData = {...prevData};
+        const newData = { ...prevData };
         console.log('userCodedata', userCodedata);
         userdata.forEach(item => {
           const existingData = newData[item.userCode] || {};
@@ -92,11 +152,14 @@ export default function NaverMap({ onLocationClick }) {
         });
         return newData;
       });
-  
+
     } catch (error) {
-      console.error('Error fetching initial data:', error);
+      console.error("에러 확인용: " + error.response);
+      console.error('Error fetching user data:', error);
     }
   };
+
+
 
   // 마커를 생성하는 함수
   const createMarker = (userCode, position, riskFlag, workDate) => {
@@ -104,12 +167,12 @@ export default function NaverMap({ onLocationClick }) {
     const marker = new naver.maps.Marker({
       position,
       icon: {
-        url: getIconUrl(riskFlag),
+        url: '/img/worker_normal.png'
       },
       title: `User ${userCode}`,
       workDate: workDate,
     });
-    console.log('marker' , marker);
+    console.log('marker', marker);
     // 마커 클릭 이벤트 등록
     naver.maps.Event.addListener(marker, 'click', (e) => {
       e.domEvent.stopPropagation();
@@ -120,15 +183,24 @@ export default function NaverMap({ onLocationClick }) {
         onLocationClick(userCode); // 외부 클릭 처리 함수 호출
       }
     });
+
+    // 마커에 필터 스타일을 적용 (색상 변화를 위해)
+    const markerElement = marker.getElement(); // DOM 요소 가져오기
+    if (markerElement) {
+      Object.assign(markerElement.style, getIconStyle(riskFlag)); // 필터 적용
+    }
+
+    return marker;
+
     return marker;
   };
-  
+
   useEffect(() => {
     if (selectedUserCode && selectedWorkDate) {
       fetchUserdata();
     }
   }, [selectedUserCode, selectedWorkDate]);
-  
+
   // 맵 초기화
   useEffect(() => {
     const initializeMap = () => {
@@ -147,71 +219,55 @@ export default function NaverMap({ onLocationClick }) {
     }
   }, []);
 
-  // useEffect(() => {
-  //   const refreshInterval = setInterval(() => {
-  //     window.location.reload();
-  //   }, 60000); // 60000ms = 1분
-  //   console.log('refreshInterval', refreshInterval);
-  //   // 컴포넌트가 언마운트될 때 인터벌 클리어
-  //   return () => clearInterval(refreshInterval);
-  // }, []);
   useEffect(() => {
-    console.log('mapsocketData가 변했을떼', mapsocketData); // 데이터 확인용 로그
+    console.log('mapsocketData가 변했을때', mapsocketData); // 데이터 확인용 로그
   }, [mapsocketData]);
   useEffect(() => {
     let animationFrameId;
-  
+
     const updateMarkers = () => {
       Object.entries(mapsocketData).forEach(([userCode, data]) => {
         if (!userCode || !data.latitude || !data.longitude) {
           console.error(`Invalid position data for user ${userCode}`);
-          return;    
+          return;
         }
-  
+
         const workDate = mapsocketData[userCode].workDate;
         const position = new naver.maps.LatLng(data.latitude, data.longitude);
         const riskFlag = mapsocketData[userCode].riskFlag;
-        const iconUrl = getIconUrl(riskFlag);
-  
+
         // 이미 있는 마커를 업데이트하거나 새로운 마커 생성
         if (markersRef.current[userCode]) {
           const marker = markersRef.current[userCode];
           marker.setPosition(position);
-  
-          // 기존 아이콘과 riskFlag를 비교하고, 다르면 아이콘을 업데이트
-          if (marker.customIcon !== iconUrl) {
-            marker.setIcon({
-              url: iconUrl,
-            });
-  
-            // 새로운 아이콘 URL 저장
-            marker.customIcon = iconUrl;
+
+          // 아이콘 필터 업데이트
+          const markerElement = marker.getElement();
+          if (markerElement) {
+            Object.assign(markerElement.style, getIconStyle(riskFlag)); // 필터 적용
           }
         } else {
           const newMarker = createMarker(userCode, position, riskFlag, workDate);
           markersRef.current[userCode] = newMarker;
-  
-          // 마커에 새 아이콘 정보 저장
-          newMarker.customIcon = iconUrl;
           newMarker.setMap(mapRef.current);
         }
       });
     };
-  
+
     const animate = () => {
       updateMarkers();
       animationFrameId = requestAnimationFrame(animate);
     };
-  
+
     animate();
-  
+
     return () => {
       if (animationFrameId) {
         cancelAnimationFrame(animationFrameId);
       }
     };
   }, [mapsocketData]);
-  
+
   // 모달 닫기 핸들러
   const handleClose = () => {
     setSelectedUserCode(null);
@@ -220,8 +276,8 @@ export default function NaverMap({ onLocationClick }) {
 
   return (
     <div>
-      <div id="map" className={styles.map} /> 
-      {selectedUserCode && selectedWorkDate && <HeartbeatGraph userCode={selectedUserCode} workDate={selectedWorkDate} onClose={handleClose}/>}
+      <div id="map" className={styles.map} />
+      {selectedUserCode && selectedWorkDate && <HeartbeatGraph userCode={selectedUserCode} workDate={selectedWorkDate} onClose={handleClose} />}
     </div>
   );
 }

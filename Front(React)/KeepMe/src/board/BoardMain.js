@@ -48,6 +48,7 @@ export default function BoardMain({ onClose }) {
           totalElements: response.totalElements,
           totalPages: response.totalPages,
         });
+        setSearchMode(false);
       } catch (error) {
         console.error('Error fetching posts:', error);
       }
@@ -83,16 +84,15 @@ export default function BoardMain({ onClose }) {
         }
       });
 
-      console.log('Response:', resp.data);  // 응답 데이터를 확인
       const results = resp.data.content;
-      const pageInfo = resp.data.page || {};  // page 객체가 없으면 빈 객체로 처리
-
+      console.log(resp.data.totalPages);
+      // const pageInfo = resp.data.page || {};  // page 객체가 없으면 빈 객체로 처리
       setDataBoard(results);
       setPage({
-        size: pageInfo.size || 10,  // page.size가 undefined일 경우 기본값 10
-        number: pageInfo.number || 0,
-        totalElements: pageInfo.totalElements || 0,
-        totalPages: pageInfo.totalPages || 0
+        size: resp.data.size || postsPerPage, 
+        number: resp.data.number,
+        totalElements: resp.data.totalElements,
+        totalPages: resp.data.totalPages,
       });
 
       setSearchMode(true);
@@ -104,12 +104,15 @@ export default function BoardMain({ onClose }) {
 
   const handleClose = () => {
     setCurrentPage(1); // 현재 페이지를 1로 초기화
+    sessionStorage.setItem('currentBoardPage', '1');
     onClose(); // 모달 닫기
   };
 
 
   const handleSearch = (e) => {
     e.preventDefault();
+    setCurrentPage(1);
+    sessionStorage.setItem('currentBoardPage', '1');
     searchBoard(currentPage - 1); // 현재 페이지 번호를 전달
   };
 
@@ -119,6 +122,10 @@ export default function BoardMain({ onClose }) {
   };
 
   const paginate = (pageNumber) => {
+    if (searchMode && pageNumber > page.totalPages) {
+      return;
+    }
+
     setCurrentPage(pageNumber);
     sessionStorage.setItem('currentBoardPage', pageNumber.toString());
     if (searchMode) {

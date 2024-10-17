@@ -107,7 +107,7 @@
 .infoConditionContainer h3 {
   margin-top: 10px;
   margin-left: 10px;
-  font-size: 15px;
+  font-size: 20px;
   margin-bottom: 0px;
   width: 30px;
   font-family:  "Nanum Gothic", sans-serif;
@@ -131,11 +131,13 @@
 .infoTemperature {
   display: flex;
   flex-direction: column;
-  
+  margin-right: 20px; /* 오른쪽 간격 추가 */
 }
 .infoAction{
   display: flex;
   flex-direction: column;
+  margin-left: 1px; /* 왼쪽 간격 추가 */
+
 }
 
 .infoHeartbeatContainer {
@@ -163,7 +165,7 @@
 .heartbeat {
   display: flex;
   flex-direction: row;
-  width: 100px;
+  width: 1px;
   height: 100px;
   margin-bottom: 10px;
   font-size: 15px;
@@ -171,8 +173,10 @@
  
 }
 .infoMaxHeartbeat{
+  width: 100px;
   display: flex;
   flex-direction: column;
+  margin-right: 20px;
 }
 .infoHeartbeat{
   display: flex;

@@ -47,7 +47,7 @@ export default function Pagination({ postsPerPage, totalPosts, paginate, current
         <li>
           <button 
             onClick={() => paginate(Math.min(totalPages, endPage + 1))} 
-            disabled={endPage === totalPages} 
+            disabled={endPage === totalPages || totalPosts === 0} 
             className={styles.paginationButton}
           >
             다음

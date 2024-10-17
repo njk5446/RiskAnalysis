@@ -137,7 +137,7 @@ public class WebSocketService {
 	private void setCurrentStoreProcedure(SensorData sd) {
 		SensorWorkDateProjection swp = sensorRepo.findWorkDateById(sd.getNo());
 		LocalDate workDate = swp.getWorkDate();
-		recentRepo.updateRecentWorkDate(workDate);
+		recentRepo.updateCurrentWorkDate(workDate);
 	}
 	
 	// risk_prediction 저장 프로시저 메서드
