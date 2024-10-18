@@ -9,7 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 
 import com.ai.domain.Board;
 import com.ai.domain.User;
-import com.ai.dto.GetBoardsProjection;
+import com.ai.projection.GetBoardsProjection;
 
 public interface BoardRepository extends JpaRepository<Board, Integer> {
 	Optional<Board> findByUser(User user); // Integer는 null값을 가질수있음

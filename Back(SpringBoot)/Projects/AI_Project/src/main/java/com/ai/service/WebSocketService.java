@@ -2,7 +2,6 @@ package com.ai.service;
 
 import java.io.IOException;
 
-import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.util.Map;
 import java.util.Set;
@@ -15,8 +14,8 @@ import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 
 import com.ai.config.WebSocketConfig;
+
 import com.ai.domain.LastNo;
-import com.ai.domain.Log;
 import com.ai.domain.RiskPrediction;
 import com.ai.domain.Role;
 import com.ai.domain.SensorData;
@@ -34,9 +33,8 @@ import jakarta.annotation.PreDestroy;
 
 import com.ai.dto.FlaskRequestDTO;
 import com.ai.dto.FlaskResponseDTO;
-import com.ai.dto.LogProjection;
-import com.ai.dto.LogResponseProjection;
-import com.ai.dto.SensorWorkDateProjection;
+import com.ai.projection.LogResponseProjection;
+import com.ai.projection.SensorWorkDateProjection;
 
 import lombok.RequiredArgsConstructor;
 
@@ -127,15 +125,6 @@ public class WebSocketService {
 				} else {
 					sendPushMessage(ld);
 				}
-				
-				sendPushMessage(ld);
-//				// 초기에 logRepo에는 값이 없으니까 null과 응답을 비교할수없으니까 바로 프론트로 전송
-//				if (ld == null) {
-//					sendPushMessage(frDTO);
-//				} else {
-//					// 응답과 최근 기록 비교 후 Front에 push
-//					compareAndPush(frDTO, ld);
-//				}
 			 }				
 		}).exceptionally(ex -> {
 			System.err.println("에러 발생: " + ex.getMessage());
@@ -190,26 +179,11 @@ public class WebSocketService {
 		return frDTO;
 	}
 	
-	// 프론트에 전송할 응답 데이터 log 테이블 마지막 데이터와 비교 후 다르면 sendPushMessage
-	private void compareAndPush(FlaskResponseDTO rp, Log ld) {
-		final double EPSILON = 1e-6; // 허용 오차 (예: 0.000001)
-		if (!rp.getWorkDate().isEqual(ld.getWorkDate())
-		        || rp.getHeartbeat() != ld.getHeartbeat()
-		        || Math.abs(rp.getLatitude() - ld.getLatitude()) > EPSILON
-		        || Math.abs(rp.getLongitude() - ld.getLongitude()) > EPSILON
-		        || rp.getTemperature().setScale(1, RoundingMode.HALF_UP).compareTo(ld.getTemperature().setScale(1, RoundingMode.HALF_UP)) != 0
-		        || rp.getOutsideTemperature().setScale(1, RoundingMode.HALF_UP).compareTo(ld.getOutsideTemperature().setScale(1, RoundingMode.HALF_UP)) != 0
-		        || !rp.getUserCode().equals(ld.getUser().getUserCode())
-		        || !rp.getActivity().equals(ld.getActivity())) {
-		    sendPushMessage(rp);
-		}
-	}
-	
 	// Flask와 API 연결
 	private CompletableFuture<RiskPrediction> sendDataToFlaskAsync(FlaskRequestDTO fqDTO) {
 		return webClient.post() // POST 요청 준비
-//				.uri("http://192.168.45.203:8000/api/data/") // 요청 보낼 flask 서버
-				.uri("http://192.168.0.131:8000/api/data/") // 요청 보낼 flask 서버
+				.uri("http://192.168.45.203:8000/api/data/") // 요청 보낼 flask 서버
+//				.uri("http://192.168.0.131:8000/api/data/") // 요청 보낼 flask 서버
 				.bodyValue(fqDTO) // Flask 서버에 보낼 데이터
 				.retrieve() // 응답을 받아오는 메서드
 				.bodyToMono(RiskPrediction.class) // 응답 받은 객체를 RiskPrediction 객체로 변환

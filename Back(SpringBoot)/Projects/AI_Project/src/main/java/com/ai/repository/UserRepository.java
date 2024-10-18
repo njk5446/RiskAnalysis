@@ -3,6 +3,7 @@ package com.ai.repository;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
 import com.ai.domain.User;
 
@@ -13,4 +14,10 @@ import com.ai.domain.User;
 public interface UserRepository extends JpaRepository<User, String>{
 	Optional<User> findByUserId(String userId);
 	Optional<User> findByUserCode(String userCode);
+	
+	@Query
+	(value = "SELECT user_name FROM user " 
+			+ "WHERE user_code = ?",
+	nativeQuery = true)
+	String searchUserName(String userCode);
 }

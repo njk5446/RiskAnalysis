@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.HttpClientErrorException.Unauthorized;
 
 import com.ai.domain.Board;
-import com.ai.dto.GetBoardsProjection;
 import com.ai.dto.WriteUserDTO;
+import com.ai.projection.GetBoardsProjection;
 import com.ai.service.BoardService;
 
 import lombok.RequiredArgsConstructor;

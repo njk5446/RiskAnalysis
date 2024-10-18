@@ -12,8 +12,8 @@ import org.springframework.stereotype.Service;
 
 import com.ai.domain.Board;
 import com.ai.domain.User;
-import com.ai.dto.GetBoardsProjection;
 import com.ai.dto.WriteUserDTO;
+import com.ai.projection.GetBoardsProjection;
 import com.ai.repository.BoardRepository;
 import com.ai.repository.UserRepository;
 

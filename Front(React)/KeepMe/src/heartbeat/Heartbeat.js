@@ -1,5 +1,5 @@
-import { useRecoilValue } from "recoil";
-import { socketDataState } from "../recoil/Atoms";
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import { socketDataState, userNameState } from "../recoil/Atoms";
 import { Line } from 'react-chartjs-2';
 import styles from './Heartbeat.module.css';
 import {
@@ -12,6 +12,10 @@ import {
     Tooltip,
     Legend,
 } from 'chart.js';
+import { useEffect } from "react";
+import axios from "axios";
+
+const url = process.env.REACT_APP_BACKEND_URL;
 
 // 필요한 컴포넌트와 스케일을 등록
 Chart.register(
@@ -25,7 +29,24 @@ Chart.register(
 );
 export default function HeartbeatGraph({ userCode, workDate, onClose }) {
     const socketData = useRecoilValue(socketDataState);
+    const userName = useRecoilValue(userNameState);
     const userData = socketData[userCode] || { heartbeat: [], temperature: [], activity: [], outsideTemperature: [] };
+    const setUserName = useSetRecoilState(userNameState);
+    
+
+    useEffect(() => {
+        async function fetchUserName() {
+            try {
+                const resp = await axios.get(`${url}userinfo/username?userCode=${userCode}`);
+                setUserName(resp.data);
+                console.log("내가 setUserName 밑에 찍은거 " + userName);
+            }  catch (error) {
+                console.error('사용자 이름을 요청하는데 실패했습니다.' + error);
+            }
+        }
+        fetchUserName();
+    }, [userCode]);
+
     // 최고 심박수와 최저 심박수 계산
     const maxHeartbeat = Math.max(...userData.heartbeat);
     console.log('userData', userData)
@@ -113,7 +134,7 @@ export default function HeartbeatGraph({ userCode, workDate, onClose }) {
         <div className={styles.modalOverlay} onClick={onClose}>
             <div className={styles.container1} onClick={e => e.stopPropagation()}>
                 <div className={styles.container2}>
-                    <div className={styles.infoTitleContainer}><p className={styles.infoTitle}>작업자 : {userCode}</p>
+                    <div className={styles.infoTitleContainer}><p className={styles.infoTitle}>작업자 : {userName}</p>
                     <p className={styles.infoCondition}>{riskLevelMap[userData.riskFlag] || '알 수 없음'}</p>
                     </div>
                     <div className={styles.container3}>

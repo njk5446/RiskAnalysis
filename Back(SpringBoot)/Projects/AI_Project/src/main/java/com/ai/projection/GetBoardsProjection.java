@@ -1,4 +1,4 @@
-package com.ai.dto;
+package com.ai.projection;
 
 import java.time.LocalDateTime;
 

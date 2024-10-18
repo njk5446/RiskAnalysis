@@ -12,7 +12,7 @@ export default function BoardWrite({ onClose }) {
     const navigate = useNavigate();
     const url = process.env.REACT_APP_BACKEND_URL;
     const token = sessionStorage.getItem('token');
-    
+
     useEffect(() => {
         getUserInfo();
     }, []);
@@ -20,21 +20,28 @@ export default function BoardWrite({ onClose }) {
     const headers = {
         'Content-Type': 'application/json',
         'Authorization': sessionStorage.getItem('token')
-      };
+    };
 
-      const getUserInfo = async () => {
+    const getUserInfo = async () => {
         try {
-          const response = (await axios.get(`${url}getUserInfo`,{headers:headers}
-          )).data;
-          console.log(response);
-          setUserName(response.userName)
-          setDept(response.dept)
+            const response = (await axios.get(`${url}getUserInfo`, { headers: headers }
+            )).data;
+            console.log(response);
+            setUserName(response.userName)
+            setDept(response.dept)
         } catch (error) {
-          console.log('Error fetching posts:', error);
+            console.log('Error fetching posts:', error);
         }
-      }
+    }
 
-    const handleSubmit = async(e) => {
+    const deptLabels = {
+        HR: '인사',
+        IT: '전산관리',
+        QM: '품질관리',
+    };
+
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
         // 여기에 게시글 제출 로직을 구현합니다.
         // 예: API 호출을 통해 서버에 데이터를 전송
@@ -42,16 +49,16 @@ export default function BoardWrite({ onClose }) {
             setError('제목과 내용을 모두 입력해주세요.');
             return;
         }
-        try{
-            await axios.post(`${url}board/write`, { title:title, content:content},{ headers: headers });
+        try {
+            await axios.post(`${url}board/write`, { title: title, content: content }, { headers: headers });
             alert("성공적으로 게시글을 등록하였습니다.");
             onClose();
-        }catch(error){
+        } catch (error) {
             setError("게시글 등록에 실패하였습니다.");
         }
         console.log({ title, userName, dept, content });
         // 제출 후 게시판 목록 페이지로 이동
-        
+
 
     };
 
@@ -62,7 +69,7 @@ export default function BoardWrite({ onClose }) {
                 <form onSubmit={handleSubmit}>
                     {/* {error && <p className={styles.error}>{error}</p>} */}
                     <div className={styles.postWriteContainer}>
-                        <label htmlFor="title"className={styles.title}>제목</label>
+                        <label htmlFor="title" className={styles.title}>제목</label>
                         <input className={styles.writeTitle}
                             type="text"
                             id="title"
@@ -71,7 +78,7 @@ export default function BoardWrite({ onClose }) {
                             required
                         />
                         <div className={styles.writeEtcContainer}>
-                            <label htmlFor="dept">부서: {dept}</label>
+                            <label htmlFor="dept">부서: {deptLabels[dept] || '미정'}</label>
                             <label htmlFor="userName">작성자: {userName}</label>
                         </div>
                     </div>

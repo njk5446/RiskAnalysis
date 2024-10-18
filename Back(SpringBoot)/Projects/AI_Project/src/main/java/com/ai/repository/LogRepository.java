@@ -8,10 +8,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import com.ai.domain.Log;
-
-import com.ai.dto.LogProjection;
-import com.ai.dto.LogResponseProjection;
-import com.ai.dto.UserCodeProjection;
+import com.ai.projection.LogProjection;
+import com.ai.projection.LogResponseProjection;
+import com.ai.projection.UserCodeProjection;
 
 // log 테이블
 public interface LogRepository extends JpaRepository<Log, Integer> {

@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import com.ai.domain.SensorData;
-import com.ai.dto.SensorWorkDateProjection;
+import com.ai.projection.SensorWorkDateProjection;
 
 // sensor_data 테이블
 public interface SensorDataRepository extends JpaRepository<SensorData, Integer> {

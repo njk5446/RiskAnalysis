@@ -1,7 +1,7 @@
 package com.ai.controller;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
+
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -11,9 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ai.dto.LogProjection;
-import com.ai.dto.UserCodeProjection;
-import com.ai.service.CurrentWorkDateService;
+import com.ai.projection.LogProjection;
 import com.ai.service.LogService;
 
 import lombok.RequiredArgsConstructor;

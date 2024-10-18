@@ -7,8 +7,8 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.ai.domain.Log;
-import com.ai.dto.LogProjection;
-import com.ai.dto.UserCodeProjection;
+import com.ai.projection.LogProjection;
+import com.ai.projection.UserCodeProjection;
 import com.ai.repository.CurrentWorkDateRepository;
 import com.ai.repository.LogRepository;
 
