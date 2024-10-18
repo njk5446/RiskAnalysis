@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useState } from 'react';
 import styles from './NaverMap.module.css';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { socketDataState } from '../recoil/Atoms';
 import HeartbeatGraph from '../heartbeat/Heartbeat';
 import axios from 'axios';
@@ -15,6 +15,8 @@ export default function NaverMap({ onLocationClick }) {
   const { naver } = window; // naver 객체는 Naver Maps API가 로드된 후 접근 가능
   const url = process.env.REACT_APP_BACKEND_URL;
 
+  const socketData = useRecoilValue(socketDataState);
+  
   // riskFlag에 따라 CSS 필터를 적용하는 함수
   const getIconStyle = (riskFlag) => {
     switch (riskFlag) {
@@ -29,135 +31,138 @@ export default function NaverMap({ onLocationClick }) {
     }
   };
 
-  // 네이버맵 렌더링시에 나타는 최근 로그 표시 
-  const fetchInitialData = async () => {
-    const token = sessionStorage.getItem('token');
-    if (!token) {
-      console.error("토큰이 없습니다.");
-      return;
-    }
+  // // 네이버맵 렌더링시에 나타는 최근 로그 표시 
+  // const fetchInitialData = async () => {
+  //   const token = sessionStorage.getItem('token');
+  //   if (!token) {
+  //     console.error("토큰이 없습니다.");
+  //     return;
+  //   }
 
-    try {
-      const response = await axios.get(`${url}alllog/workdate`, {
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': token,
-        }
-      });
+  //   try {
+  //     const response = await axios.get(`${url}alllog/workdate`, {
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //         'Authorization': token,
+  //       }
+  //     });
+  //     console.log("NaverMap 컴포넌트의 응답 " + response);
 
-      const userdata = response.data.map(item => ({
-        userCode: item.userCode,
-        heartbeat: item.heartbeat,
-        temperature: item.temperature,
-        latitude: item.latitude,
-        longitude: item.longitude,
-        timestamp: item.timestamp,
-        riskFlag: item.riskFlag,
-        vitalDate: item.vitalDate,
-        workDate: item.workDate,
-        activity: item.activity,
-        outsideTemperature: item.outsideTemperature,
-      }));
+  //     const userdata = response.data.map(item => ({
+  //       userCode: item.userCode,
+  //       heartbeat: item.heartbeat,
+  //       temperature: item.temperature,
+  //       latitude: item.latitude,
+  //       longitude: item.longitude,
+  //       timestamp: item.timestamp,
+  //       riskFlag: item.riskFlag,
+  //       vitalDate: item.vitalDate,
+  //       workDate: item.workDate,
+  //       activity: item.activity,
+  //       outsideTemperature: item.outsideTemperature,
+  //     }));
 
-      setMapsocketData(prevData => {
-        const newData = { ...prevData };
-        userdata.forEach(item => {
-          const existingData = newData[item.userCode] || {};
-          newData[item.userCode] = {
-            ...existingData,
-            heartbeat: [...(existingData.heartbeat || []), item.heartbeat].slice(-60),
-            temperature: [...(existingData.temperature || []), Number(item.temperature)].slice(-60),
-            latitude: item.latitude,
-            longitude: item.longitude,
-            timestamp: new Date().getTime(),
-            riskFlag: item.riskFlag,
-            vitalDate: item.vitalDate,
-            workDate: item.workDate,
-            activity: item.activity,
-            outsideTemperature: item.outsideTemperature,
-          };
-        });
-        return newData;
-      });
+  //     setMapsocketData(prevData => {
+  //       const newData = { ...prevData };
+  //       userdata.forEach(item => {
+  //         const existingData = newData[item.userCode] || {};
+  //         newData[item.userCode] = {
+  //           ...existingData,
+  //           heartbeat: [...(existingData.heartbeat || []), item.heartbeat].slice(-60),
+  //           temperature: [...(existingData.temperature || []), Number(item.temperature)].slice(-60),
+  //           latitude: item.latitude,
+  //           longitude: item.longitude,
+  //           timestamp: new Date().getTime(),
+  //           riskFlag: item.riskFlag,
+  //           vitalDate: item.vitalDate,
+  //           workDate: item.workDate,
+  //           activity: item.activity,
+  //           outsideTemperature: item.outsideTemperature,
+  //         };
+  //       });
+  //       return newData;
+  //     });
 
-    } catch (error) {
-      console.error('초기 데이터를 가져오는 중 오류 발생', error);
-    }
-  };
-  // NaverMap이 렌더링될 때 데이터 가져오기
-  useEffect(() => {
-    fetchInitialData();
-  }, []);
+  //   } catch (error) {
+  //     console.error('초기 데이터를 가져오는 중 오류 발생', error);
+  //   }
+  // };
+  // // NaverMap이 렌더링될 때 데이터 가져오기
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     await fetchInitialData();
+  //     setUpW
+  //   }
+  // }, []);
 
   // 특정 유저의 마커 클릭시 정보 확인
-  const fetchUserdata = async () => {
-    const token = sessionStorage.getItem('token');
-    if (!token) {
-      console.error('No token found');
-      return;
-    }
-    console.log('selectedUserCode: ' + selectedUserCode);
-    console.log("workdate: " + selectedWorkDate);
-    console.log(`${url}userlog?userCode=${selectedUserCode}&workDate=${selectedWorkDate}`);
+  // const fetchUserdata = async () => {
+  //   const token = sessionStorage.getItem('token');
+  //   if (!token) {
+  //     console.error('No token found');
+  //     return;
+  //   }
+  //   console.log('selectedUserCode: ' + selectedUserCode);
+  //   console.log("workdate: " + selectedWorkDate);
+  //   console.log(`${url}userlog?userCode=${selectedUserCode}&workDate=${selectedWorkDate}`);
 
-    try {
-      const response = await axios.get(`${url}userlog?`, {
-        params: {
-          userCode: selectedUserCode,
-          workDate: selectedWorkDate
-        },
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': token,
-        }
-      });
-      console.log('백엔드에서 받은거', response);
-      const userCodedata = response.data;
-      console.log('userCodedata', userCodedata);
-      if (!userCodedata) {
-        console.error('No data found for user');
-        return;
-      }
-      const userdata = userCodedata.map(item => ({
-        userCode: item.userCode,
-        heartbeat: item.heartbeat,
-        temperature: item.temperature,
-        latitude: item.latitude,
-        longitude: item.longitude,
-        timestamp: item.timestamp,
-        riskFlag: item.riskFlag,
-        vitalDate: item.vitalDate,
-        workDate: item.workDate,
-        activity: item.activity,
-        outsideTemperature: item.outsideTemperature,
-      }))
-      setMapsocketData(prevData => {
-        const newData = { ...prevData };
-        console.log('userCodedata', userCodedata);
-        userdata.forEach(item => {
-          const existingData = newData[item.userCode] || {};
-          newData[item.userCode] = {
-            ...existingData,
-            heartbeat: [...(existingData.heartbeat || []), item.heartbeat].slice(-60),
-            temperature: [...(existingData.temperature || []), Number(item.temperature)].slice(-60),
-            latitude: item.latitude,
-            longitude: item.longitude,
-            timestamp: new Date().getTime(),
-            riskFlag: item.riskFlag,
-            vitalDate: item.vitalDate,
-            workDate: item.workDate,
-            activity: item.activity,
-            outsideTemperature: item.outsideTemperature,
-          };
-        });
-        return newData;
-      });
+  //   try {
+  //     const response = await axios.get(`${url}userlog?`, {
+  //       params: {
+  //         userCode: selectedUserCode,
+  //         workDate: selectedWorkDate
+  //       },
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //         'Authorization': token,
+  //       }
+  //     });
+  //     console.log('백엔드에서 받은거', response);
+  //     const userCodedata = response.data;
+  //     console.log('userCodedata', userCodedata);
+  //     if (!userCodedata) {
+  //       console.error('No data found for user');
+  //       return;
+  //     }
+  //     const userdata = userCodedata.map(item => ({
+  //       userCode: item.userCode,
+  //       heartbeat: item.heartbeat,
+  //       temperature: item.temperature,
+  //       latitude: item.latitude,
+  //       longitude: item.longitude,
+  //       timestamp: item.timestamp,
+  //       riskFlag: item.riskFlag,
+  //       vitalDate: item.vitalDate,
+  //       workDate: item.workDate,
+  //       activity: item.activity,
+  //       outsideTemperature: item.outsideTemperature,
+  //     }))
+  //     setMapsocketData(prevData => {
+  //       const newData = { ...prevData };
+  //       userdata.forEach(item => {
+  //         const existingData = newData[item.userCode] || {};
+  //         newData[item.userCode] = {
+  //           ...existingData,
+  //           heartbeat: [...(existingData.heartbeat || []), item.heartbeat].slice(-60),
+  //           temperature: [...(existingData.temperature || []), Number(item.temperature)].slice(-60),
+  //           latitude: item.latitude,
+  //           longitude: item.longitude,
+  //           timestamp: new Date().getTime(),
+  //           riskFlag: item.riskFlag,
+  //           vitalDate: item.vitalDate,
+  //           workDate: item.workDate,
+  //           activity: item.activity,
+  //           outsideTemperature: item.outsideTemperature,
+  //         };
+  //       });
+  //       return newData;
+  //     });
 
-    } catch (error) {
-      console.error("에러 확인용: " + error.response);
-      console.error('Error fetching user data:', error);
-    }
-  };
+  //   } catch (error) {
+  //     console.error("에러 확인용: " + error.response);
+  //     console.error('Error fetching user data:', error);
+  //   }
+  // };
 
 
 
@@ -191,15 +196,23 @@ export default function NaverMap({ onLocationClick }) {
     }
 
     return marker;
-
-    return marker;
   };
 
   useEffect(() => {
     if (selectedUserCode && selectedWorkDate) {
-      fetchUserdata();
+      // selectedUserCode와 selectedWorkDate를 기준으로 socketData에서 데이터를 필터링
+      const userData = socketData[selectedUserCode];
+
+      if (userData && userData.workDate === selectedWorkDate) {
+        // 선택된 유저와 작업일에 맞는 데이터를 찾음
+        console.log('필터된 데이터: ', userData);
+
+        // 여기서 필터된 데이터를 기반으로 그래프나 상태 처리
+      } else {
+        console.log('해당 날짜와 유저에 대한 데이터가 없습니다.');
+      }
     }
-  }, [selectedUserCode, selectedWorkDate]);
+  }, [selectedUserCode, selectedWorkDate, socketData]);
 
   // 맵 초기화
   useEffect(() => {

@@ -34,6 +34,8 @@ import jakarta.annotation.PreDestroy;
 
 import com.ai.dto.FlaskRequestDTO;
 import com.ai.dto.FlaskResponseDTO;
+import com.ai.dto.LogProjection;
+import com.ai.dto.LogResponseProjection;
 import com.ai.dto.SensorWorkDateProjection;
 
 import lombok.RequiredArgsConstructor;
@@ -113,19 +115,27 @@ public class WebSocketService {
 				 
 				FlaskResponseDTO frDTO = getFrDTO(rp);
 				// 기록된 최근 위험 예측 데이터를 ld에 저장
-				Log ld = logRepo.findByLastNo().orElse(null);
 				
 				System.out.println(frDTO);
 				// 저장 프로시저 메서드
 				setRiskStoreProcedure(frDTO);
 
-				// 초기에 logRepo에는 값이 없으니까 null과 응답을 비교할수없으니까 바로 프론트로 전송
+				LogResponseProjection ld = logRepo.findByLastNo().orElse(null);
+				
 				if (ld == null) {
 					sendPushMessage(frDTO);
 				} else {
-					// 응답과 최근 기록 비교 후 Front에 push
-					compareAndPush(frDTO, ld);
+					sendPushMessage(ld);
 				}
+				
+				sendPushMessage(ld);
+//				// 초기에 logRepo에는 값이 없으니까 null과 응답을 비교할수없으니까 바로 프론트로 전송
+//				if (ld == null) {
+//					sendPushMessage(frDTO);
+//				} else {
+//					// 응답과 최근 기록 비교 후 Front에 push
+//					compareAndPush(frDTO, ld);
+//				}
 			 }				
 		}).exceptionally(ex -> {
 			System.err.println("에러 발생: " + ex.getMessage());
@@ -208,7 +218,7 @@ public class WebSocketService {
 	
 	
 	// FE에게 정보 전송 메소드 
-	public void sendPushMessage(Object frDTO) {
+	public void sendPushMessage(Object ld) {
 		Set<WebSocketSession> clients = wsConfig.getClients();
 		// 연결된 클라이언트가 없으면 그냥 리턴
 	    if (clients.size() == 0) {
@@ -219,11 +229,11 @@ public class WebSocketService {
 	    // PushDTO 객체를 JSON으로 변환
 	    ObjectMapper objectMapper = new ObjectMapper();
 	    String msg = null;
-	    FlaskResponseDTO frontData = null;
+	    LogResponseProjection logData = null;
 
 		try { 
-			frontData = (FlaskResponseDTO) frDTO;
-			msg = objectMapper.writeValueAsString(frDTO);
+			logData = (LogResponseProjection) ld;
+			msg = objectMapper.writeValueAsString(ld);
 		} catch (JsonProcessingException e) {
 			System.out.println("JSON Error:" + e.getMessage());
 			return;
@@ -241,8 +251,8 @@ public class WebSocketService {
 				Map<String, Object> map = sess.getAttributes();
 				String userCode = (String) map.get("userCode");
 				Role role = (Role) map.get("role");
-				if (frontData != null) {
-					if (Role.ROLE_ADMIN.equals(role) || userCode.equals(frontData.getUserCode())) {
+				if (logData != null) {
+					if (Role.ROLE_ADMIN.equals(role) || userCode.equals(logData.getUserCode())) {
 						sendMessageToClient(sess, message, userCode, msg);
 					} 
 				} 

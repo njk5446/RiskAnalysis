@@ -10,6 +10,7 @@ import org.springframework.data.jpa.repository.Query;
 import com.ai.domain.Log;
 
 import com.ai.dto.LogProjection;
+import com.ai.dto.LogResponseProjection;
 import com.ai.dto.UserCodeProjection;
 
 // log 테이블
@@ -42,10 +43,13 @@ public interface LogRepository extends JpaRepository<Log, Integer> {
 	
 			
 	@Query // Log 테이블의 마지막 행과 중복되는지 검사
-	(value = "SELECT * FROM log " +
-			 "ORDER BY no DESC LIMIT 1", // db에서 조회할 데이터  
+	(value = "SELECT user_code, work_date, risk_flag, heartbeat, "
+		    + "temperature, outside_temperature, latitude, longitude, "
+			+ "vital_date, activity "
+			+ "FROM log "
+			+ "ORDER BY no DESC LIMIT 1", // db에서 조회할 데이터  
     nativeQuery = true) // 해당 쿼리가 실제 SQL 쿼리임을 지정
-	Optional<Log> findByLastNo();
+	Optional<LogResponseProjection> findByLastNo();
 	
 	// 일자별 이전 데이터 조회
 	@Query

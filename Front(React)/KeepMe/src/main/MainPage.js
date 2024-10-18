@@ -5,6 +5,7 @@ import PCountBar from '../peopleCountBor/PCountBar'
 import HeaderForm from '../header/HeaderForm'
 import Footer from '../footer/Footer'
 import RiskAlert from '../riskAlert/RiskAlert'
+import axios from 'axios'
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { socketDataState, userIdState, authState, wsState } from '../recoil/Atoms'; // WebSocket에서 가져온 심박수 데이터
 import OutsideTemperature from '../outsideTemp/OutsideTemperature';
@@ -24,81 +25,78 @@ export default function MainPage() {
   const [riskUserActivity, setRiskUserActivity] = useState(null);
   const [ws, setWs] = useRecoilState(wsState); // WebSocket 상태
   const [isChart, setIsChart] = useState(false);
-
-
+  const [initialDataLoaded, setInitialDataLoaded] = useState(false);
 
   console.log('socketData', socketData);
   console.log("userId 확인: " + userId);
 
-  // useEffect(() => {
-  //   const fetchInitialData = async () => {
-  //     const url = process.env.REACT_APP_BACKEND_URL;
-  //     const token = sessionStorage.getItem('token');
-  //     if (!token) {
-  //       console.error("토큰이 없습니다.");
-  //       return;
-  //     }
-  //     try {
-  //       const response = await axios.get(`${url}alllog/workdate`, {
-  //         headers: {
-  //           'Content-Type': 'application/json',
-  //           'Authorization': token,
-  //         }
-  //       });
-  //       console.log(response);
+  const fetchInitialData = async () => {
+    const url = process.env.REACT_APP_BACKEND_URL;
+    const token = sessionStorage.getItem('token');
 
-  //       const userdata = response.data.map(item => ({
-  //         userCode: item.userCode,
-  //         heartbeat: item.heartbeat,
-  //         temperature: item.temperature,
-  //         latitude: item.latitude,
-  //         longitude: item.longitude,
-  //         timestamp: item.timestamp,
-  //         riskFlag: item.riskFlag,
-  //         vitalDate: item.vitalDate,
-  //         workDate: item.workDate,
-  //         activity: item.activity,
-  //         outsideTemperature: item.outsideTemperature,
-  //       }));
+    if (!token) {
+      console.error("토큰이 없습니다.");
+      return;
+    }
+    try {
+      const response = await axios.get(`${url}alllog/workdate`, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': token,
+        }
+      });
+      console.log(response);
 
-  //       setSocketData(prevData => {
-  //         const newData = { ...prevData };
-  //         userdata.forEach(item => {
-  //           const existingData = newData[item.userCode] || {};
-  //           newData[item.userCode] = {
-  //             ...existingData,
-  //             heartbeat: [...(existingData.heartbeat || []), item.heartbeat].slice(-60),
-  //             temperature: [...(existingData.temperature || []), Number(item.temperature)].slice(-60),
-  //             latitude: item.latitude,
-  //             longitude: item.longitude,
-  //             timestamp: new Date().getTime(),
-  //             riskFlag: item.riskFlag,
-  //             vitalDate: item.vitalDate,
-  //             workDate: item.workDate,
-  //             activity: item.activity,
-  //             outsideTemperature: item.outsideTemperature,
-  //           };
-  //         });
-  //         return newData;
-  //       });
+      const userdata = response.data.map(item => ({
+        userCode: item.userCode,
+        heartbeat: item.heartbeat,
+        temperature: item.temperature,
+        latitude: item.latitude,
+        longitude: item.longitude,
+        timestamp: item.timestamp,
+        riskFlag: item.riskFlag,
+        vitalDate: item.vitalDate,
+        workDate: item.workDate,
+        activity: item.activity,
+        outsideTemperature: item.outsideTemperature,
+      }));
 
-  //     } catch (error) {
-  //       console.error("요청 실패: " + error);
-  //       // console.error('초기 데이터를 가져오는 중 오류 발생', error);
-  //       if(error.response) {
-  //         console.error("응답 상태 코드: " + error.response.status);
-  //         console.error("응답 데이터: " + error.response.data);
-  //       } else {
-  //         console.error("요청이 서버에 도달하지 않았습니다." + error.message);
-  //       }
-  //     }
-  //   };
-  //   fetchInitialData();
-  // }, [setSocketData, userId])
+      setSocketData(prevData => {
+        const newData = { ...prevData };
+        userdata.forEach(item => {
+          const existingData = newData[item.userCode] || {};
+          newData[item.userCode] = {
+            ...existingData,
+            heartbeat: [...(existingData.heartbeat || []), item.heartbeat].slice(-60),
+            temperature: [...(existingData.temperature || []), Number(item.temperature)].slice(-60),
+            latitude: item.latitude,
+            longitude: item.longitude,
+            timestamp: new Date().getTime(),
+            riskFlag: item.riskFlag,
+            vitalDate: item.vitalDate,
+            workDate: item.workDate,
+            activity: item.activity,
+            outsideTemperature: item.outsideTemperature,
+          };
+        });
+        return newData;
+      });
+      setInitialDataLoaded(true);
+      console.log("데이터 로딩 완료");
+      console.log("확인용 " + initialDataLoaded);
+    } catch (error) {
+      console.error("요청 실패: " + error);
 
+    }
+  };
 
   useEffect(() => {
-    if (!ws && userId) {
+    fetchInitialData();
+  }, []);
+
+  useEffect(() => {
+    if (initialDataLoaded && !ws && userId) {
+      console.log("initialDataLoaded 상태가 true로 변경됨, WebSocket 연결 시작");
       const url = process.env.REACT_APP_BACKEND_URL;
 
       const newWs = new WebSocket(`${url}pushservice?userId=${userId}`);
@@ -109,11 +107,12 @@ export default function MainPage() {
       newWs.onmessage = (e) => {
         const newData = JSON.parse(e.data);
         console.log('소켓에서 받아옴', newData);
+
         setSocketData((prevData) => ({
           ...prevData,
           [newData.userCode]: {
             heartbeat: [...(prevData[newData.userCode]?.heartbeat || []), newData.heartbeat].slice(-60),
-            temperature: [...(prevData[newData.userCode]?.temperature || []), Number(newData.temperature)].slice(-0),
+            temperature: [...(prevData[newData.userCode]?.temperature || []), Number(newData.temperature)].slice(-60),
             latitude: newData.latitude,
             longitude: newData.longitude,
             timestamp: new Date().getTime(),
@@ -124,7 +123,7 @@ export default function MainPage() {
             outsideTemperature: newData.outsideTemperature,
           }
         }));
-        console.log('newData.riskFlag', newData.riskFlag);
+
         if (newData.riskFlag === 2) {
           setRiskUserCode(newData.userCode);
           setRiskUserHeartbeat(newData.heartbeat);
@@ -135,15 +134,22 @@ export default function MainPage() {
           setRiskUserActivity(newData.activity);
         }
       };
-    }
-    return () => {
-      if (ws) {
-        ws.onclose = () => {
-          console.log('WebSocket 연결 종료');
-        };
+
+      return () => {
+        if (ws) {
+          newWs.close();
+          console.log("WebSocket 연결 종료");
+        }
       }
-    };
-  }, [setSocketData, userId, setAuth, ws]);
+    }
+  }, [initialDataLoaded, userId, ws]);
+
+
+
+  // // 로딩 상태에 따라 조건부 렌더링 처리
+  // if (loading) {
+  //   return <div>데이터 로드 중...</div>; // 로딩 중일 때 표시할 UI
+  // };
 
   useEffect(() => {
     if (riskUserCode && riskUserHeartbeat && riskUserTemperature && riskUserLatitude && riskUserLongitude && riskUserWorkDate && riskUserActivity) {

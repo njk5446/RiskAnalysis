@@ -38,6 +38,7 @@ export default function HeartbeatGraph({ userCode, workDate, onClose }) {
             tension: 0.1
         }]
     };
+
     const temperatureData = {
         labels: userData.temperature.map((_, index) => index + 1),
         datasets: [{
@@ -131,7 +132,7 @@ export default function HeartbeatGraph({ userCode, workDate, onClose }) {
 
                             </div>
                             <div className={styles.temperatureAction}>
-                                <p className={styles.infoTemperature}><h2>체온</h2><span>{userData.temperature[userData.temperature.length - 1].toFixed(0)}°C</span></p>
+                                <p className={styles.infoTemperature}><h2>체온</h2><span>{userData.temperature[userData.temperature.length - 1].toFixed(1)}°C</span></p>
                                 <p className={styles.infoAction}><h2>활동</h2><h3 className={styles.infoActionText}>{activity(userData.activity) || '알 수 없음'}</h3></p>
                             </div>
                         </div>
