@@ -24,7 +24,7 @@ public class LogService {
     public List<LogProjection> getUserLogs(String userCode, LocalDate workDate) {
         return logRepo.findLogsByUserCodeAndWorkDate(userCode, workDate);
     }
-    
+      
     // 모든 유저 코드에 대한 로그를 한 번에 가져오는 메서드 추가
     public List<LogProjection> getAllUserLogs(int workDateId) {
         // 1. 현재 작업일자 가져오기

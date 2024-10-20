@@ -9,7 +9,7 @@ import axios from 'axios'
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { socketDataState, userIdState, authState, wsState } from '../recoil/Atoms'; // WebSocket에서 가져온 심박수 데이터
 import OutsideTemperature from '../outsideTemp/OutsideTemperature';
-import AllWorker from '../allWorker/AllWorker';
+import ShowGraph from '../showgraph/ShowGraph'
 
 export default function MainPage() {
   const [socketData, setSocketData] = useRecoilState(socketDataState);
@@ -193,7 +193,7 @@ export default function MainPage() {
       {isRisk && <RiskAlert onClose={onClose} riskUserCode={riskUserCode} riskUserHeartbeat={riskUserHeartbeat} riskUserTemperature={riskUserTemperature} riskUserLatitude={riskUserLatitude} riskUserLongitude={riskUserLongitude} riskUserWorkDate={riskUserWorkDate} riskUserActivity={riskUserActivity} />}
       <OutsideTemperature outsideTemperature={outsideTemperature} />
       <div className={styles.chart} onClick={openchart}>일별 위험 빈도<svg xmlns="http://www.w3.org/2000/svg" height="50px" viewBox="0 -960 960 960" width="30px" fill="#FFFFFF"><path d="M49.7-83.65v-113.18h860.6v113.18H49.7Zm34.95-175.09v-296.61h153.18v296.61H84.65Zm211.76 0v-496.61h153.18v496.61H296.41Zm212.76 0v-376.61h153.18v376.61H509.17Zm213 0v-616.61h153.18v616.61H722.17Z" /></svg></div>
-      {isChart && <AllWorker onClose={CloseChart} />}
+      {isChart && <ShowGraph onClose={CloseChart} />}
       <div className={styles.fourcontainer}>
         <PCountBar userCount={userCount} normalCount={normalCount} cautionCount={cautionCount} dangerCount={dangerCount} />
       </div>

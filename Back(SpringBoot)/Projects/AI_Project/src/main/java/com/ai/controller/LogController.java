@@ -48,20 +48,7 @@ public class LogController {
 					.body("Error retrieving logs: " + e.getMessage());
 		}
 	}
-	
-//	@GetMapping("/alllog/workdate")
-//	public ResponseEntity<?> getAllLogWorkdate(@RequestParam LocalDate workDate) {
-//		try {
-//			return ResponseEntity.ok(logService.getLogsByDate(workDate));
-//		} catch (NoSuchElementException e) {
-//			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Logs not found for work date: " + workDate);
-//		} catch (Exception e) {
-//			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-//					.body("Error retrieving logs: " + e.getMessage());
-//		}
-//	}
-	
-	
+
 	@GetMapping("/alllog")
 	public ResponseEntity<?> getAllLog() {
 		try {

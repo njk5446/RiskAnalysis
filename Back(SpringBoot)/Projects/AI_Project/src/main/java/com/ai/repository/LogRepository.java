@@ -10,24 +10,21 @@ import org.springframework.data.jpa.repository.Query;
 import com.ai.domain.Log;
 import com.ai.projection.LogProjection;
 import com.ai.projection.LogResponseProjection;
+import com.ai.projection.RiskFlagProjection;
 import com.ai.projection.UserCodeProjection;
 
 // log 테이블
 public interface LogRepository extends JpaRepository<Log, Integer> {
 	
-//	// 일자별, userCode별 이전 데이터 조회
-//	@Query
-//	(value = "SELECT l.no, l.work_date, l.risk_flag, " +
-//             "l.heartbeat, l.temperature, l.outside_temperature, " +
-//             "l.latitude, l.longitude, l.activity, l.vital_date, u.user_code " +
-//             "FROM log l " +
-//             "JOIN user u ON l.user_code = u.user_code " +
-//             "WHERE u.user_code = ? AND l.work_date = ? " +
-//             "ORDER BY l.no DESC LIMIT 60",
-//    nativeQuery = true) // 이건 최근 기록 60개만 받는게 맞는듯?
-//	List<LogProjection> findLogsByUserCodeAndWorkDate(String userCode, LocalDate workDate);
-	
-	// 일자별, userCode별 이전 데이터 조회
+	// 해당 일자의 사용자별 위험빈도 관련 데이터 가져오기(그래프 그리기용)
+	@Query
+	(value = "SELECT vital_date, risk_flag "
+			+ "FROM log "
+			+ "WHERE user_code = ? AND work_date = ? AND risk_flag >= 1",
+	nativeQuery = true)
+	List<RiskFlagProjection> findRiskFlag(String user_code, LocalDate workDate);
+
+	// 일자별, userCode별 이전 데이터 조회 (최근 60개 데이터)
 	@Query
 	(value = "SELECT l.no, l.work_date, l.risk_flag, " +
              "l.heartbeat, l.temperature, l.outside_temperature, " +
@@ -36,7 +33,7 @@ public interface LogRepository extends JpaRepository<Log, Integer> {
              "JOIN user u ON l.user_code = u.user_code " +
              "WHERE u.user_code = ? AND l.work_date = ? " +
              "ORDER BY l.no DESC LIMIT 60",
-    nativeQuery = true) // 이건 최근 기록 60개만 받는게 맞는듯?
+    nativeQuery = true) 
 	List<LogProjection> findLogsByUserCodeAndWorkDate(String userCode, LocalDate workDate);
 	
 	
@@ -70,14 +67,4 @@ public interface LogRepository extends JpaRepository<Log, Integer> {
 	nativeQuery = true)
 	List<UserCodeProjection> findUserCodeByWorkDate(LocalDate workDate);
 	
-//	@Query
-//	(value = "SELECT l.no, l.work_date, l.risk_flag, "
-//             + "l.heartbeat, l.temperature, l.outside_temperature, "
-//             + "l.latitude, l.longitude, l.activity, l.vital_date, u.user_code " 
-//             + "FROM log l "
-//             + "JOIN user u ON l.user_code = u.user_code "
-//             + "WHERE l.work_date = ? "
-//             + "ORDER BY l.no DESC LIMIT 60",
-//    nativeQuery = true) 
-//	List<LogProjection> findLogsByWorkDateLimit(LocalDate workDate);
 }
