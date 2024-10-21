@@ -1,13 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import styles from './ShowGraph.module.css';
-import { ResponsiveScatterPlot } from '@nivo/scatterplot';
 import { ResponsiveHeatMap } from '@nivo/heatmap';
 
-
 export default function ShowGraph({ onClose }) {
-  const [sortedTimes, setSortedTimes] = useState([]);
-  const [riskData, setRiskData] = useState([]);
   const [heatmapData, setHeatmapData] = useState([]);
   const [userCodes, setUserCodes] = useState([]);
   const [selectedWorkDate, setSelectedWorkDate] = useState('');
@@ -36,7 +32,6 @@ export default function ShowGraph({ onClose }) {
         }
       });
       const riskData = resp.data;
-      setRiskData(riskData);
       processRiskData(riskData);
     } catch (error) {
       console.error("데이터를 불러오는 중 오류 발생:", error);
@@ -49,35 +44,25 @@ export default function ShowGraph({ onClose }) {
     data.forEach(item => {
       const timeKey = item.vitalDate.split(' ')[1].split(':').slice(0, 2).join(':');
       if (!timeSlots[timeKey]) {
-        timeSlots[timeKey] = { flag1: 0, flag2: 0 };
+        timeSlots[timeKey] = { 주의: 0, 위험: 0 };
       }
       if (item.riskFlag === 1) {
-        timeSlots[timeKey].flag1 += 1;
+        timeSlots[timeKey].주의 += 1;
       } else if (item.riskFlag === 2) {
-        timeSlots[timeKey].flag2 += 1;
+        timeSlots[timeKey].위험 += 1;
       }
     });
 
     // 시간대 정렬
     const sortedTimes = Object.keys(timeSlots).sort();
-    setSortedTimes(sortedTimes);
+    
     // Nivo 히트맵 형식에 맞게 데이터 변환
-    const formattedData = [
-      {
-        id: "위험", // "위험"을 먼저 배치
-        data: sortedTimes.map(time => ({
-          x: time,
-          y: timeSlots[time].flag2 // "위험" 데이터를 먼저 표시
-        }))
-      },
-      {
-        id: "주의", // "주의"를 그 다음에 배치
-        data: sortedTimes.map(time => ({
-          x: time,
-          y: timeSlots[time].flag1 // "주의" 데이터를 다음에 표시
-        }))
-      }
-    ];
+    const formattedData = sortedTimes.map(time => ({
+      id: time,
+      주의: timeSlots[time].주의,
+      위험: timeSlots[time].위험
+    }));
+
     console.log(JSON.stringify(formattedData, null, 2));
     setHeatmapData(formattedData);
   };
@@ -140,25 +125,11 @@ export default function ShowGraph({ onClose }) {
             data={heatmapData}
             margin={{ top: 60, right: 60, bottom: 60, left: 60 }}
             valueFormat={value => Math.round(value)} //소수점 제거
-            indexBy="x"
-            keys={['주의', '위험']}
-            colors={{
-              type: 'sequential',
-              scheme: 'blues',
-              minValue: 0,
-              maxValue: Math.max(...heatmapData.flatMap(d => d.data.map(item => item.y)))
-            }}
-            axisTop={null}
+            axisTop={{ orient: 'top', tickSize: 5, tickPadding: 5, tickRotation: -45, legend: '시간', legendOffset: 36 }}
             axisRight={null}
-            axisBottom={{
-              tickSize: 5,
-              tickPadding: 5,
-              tickRotation: -45,
-              legend: '시간',
-              legendPosition: 'middle',
-              legendOffset: 40
-            }}
+            axisBottom={null}
             axisLeft={{
+              orient: 'left',
               tickSize: 5,
               tickPadding: 5,
               tickRotation: 0,
@@ -166,28 +137,46 @@ export default function ShowGraph({ onClose }) {
               legendPosition: 'middle',
               legendOffset: -40
             }}
+            colors={{
+              type: 'sequential',
+              scheme: 'blues',
+              minValue: 0,
+              maxValue: Math.max(...heatmapData.flatMap(d => [d.주의, d.위험]))
+            }}
+            emptyColor="#555555"
             hoverTarget="cell"
             cellOpacity={1}
             cellBorderWidth={1}
             cellBorderColor={{ from: 'color', modifiers: [['darker', 0.4]] }}
             labelTextColor={{ from: 'color', modifiers: [['darker', 1.8]] }}
-            annotations={[]}
-            tooltip={({ value, indexValue, key }) => {
-              console.log({ value, indexValue, key });
-              return (
-                <div style={{
-                  background: 'white',
-                  padding: '9px 12px',
-                  border: '1px solid #ccc',
-                }}>
-                  <strong></strong>{value} 건
-                </div>
-              )
-            }
-
-            }
+            legends={[
+              {
+                anchor: 'bottom',
+                translateX: 0,
+                translateY: 30,
+                length: 400,
+                thickness: 8,
+                direction: 'row',
+                tickPosition: 'after',
+                tickSize: 3,
+                tickSpacing: 4,
+                tickOverlap: false,
+                tickFormat: '>-.2s',
+                title: '위험 빈도',
+                titleAlign: 'start',
+                titleOffset: 4
+              }
+            ]}
+            tooltip={({ xKey, yKey, value }) => (
+              <div style={{
+                background: 'white',
+                padding: '9px 12px',
+                border: '1px solid #ccc',
+              }}>
+                <strong>{yKey}</strong>: {value} 건 ({xKey})
+              </div>
+            )}
           />
-
         </div>
       </div>
     </div>

@@ -53,7 +53,7 @@ public class WebSocketService {
 	private final WebClient webClient = WebClient.create();
 	
 	// 위험 분석 응답 데이터 전송
-	@Scheduled(fixedRate = 20)
+	@Scheduled(fixedRate = 20000)
 	public void pushData() throws IOException {
 		// DB의 user_vital_sign 테이블에서 no를 1씩 증가시키며 해당 행 조회 후 vitalSign 인스턴스에 저장
 		// 현재 lastNo값 추출
@@ -182,8 +182,8 @@ public class WebSocketService {
 	// Flask와 API 연결
 	private CompletableFuture<RiskPrediction> sendDataToFlaskAsync(FlaskRequestDTO fqDTO) {
 		return webClient.post() // POST 요청 준비
-//				.uri("http://192.168.45.203:8000/api/data/") // 요청 보낼 flask 서버
-				.uri("http://192.168.0.131:8000/api/data/") // 요청 보낼 flask 서버
+				.uri("http://192.168.45.203:8000/api/data/") // 요청 보낼 flask 서버
+//				.uri("http://192.168.0.131:8000/api/data/") // 요청 보낼 flask 서버
 				.bodyValue(fqDTO) // Flask 서버에 보낼 데이터
 				.retrieve() // 응답을 받아오는 메서드
 				.bodyToMono(RiskPrediction.class) // 응답 받은 객체를 RiskPrediction 객체로 변환
