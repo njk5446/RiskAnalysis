@@ -1,6 +1,8 @@
 package com.ai.controller;
 
 import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.TimeZone;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,6 +25,8 @@ public class GraphController {
 	@GetMapping("/showgraph/risk")
 	public ResponseEntity<?> getRiskGraph(@RequestParam String userCode, @RequestParam LocalDate workDate) {
 		try {
+			System.out.println(TimeZone.getDefault().getID());
+			System.out.println(ZoneId.systemDefault());
 			return ResponseEntity.ok(graphService.getRiskData(userCode, workDate));
 		} catch (IllegalArgumentException e) {
 	        // 잘못된 파라미터 값 등으로 발생하는 예외 처리

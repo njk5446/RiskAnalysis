@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import styles from './ShowGraph.module.css';
-import { ResponsiveHeatMap } from '@nivo/heatmap';
+import { ResponsiveScatterPlot } from '@nivo/scatterplot';
+
 
 export default function ShowGraph({ onClose }) {
   const [riskData, setRiskData] = useState([]);
-  const [heatmapData, setHeatmapData] = useState([]); // heatmapData 상태 추가
+  const [scatterData, setScatterData] = useState([]); // heatmapData 상태 추가
   const [userCodes, setUserCodes] = useState([]);
   const [selectedWorkDate, setSelectedWorkDate] = useState('');
   const [selectedUserCode, setSelectedUserCode] = useState('');
@@ -37,43 +38,40 @@ export default function ShowGraph({ onClose }) {
       console.log("riskData 확인: " + riskData);
       const processedData = processRiskData(riskData);
       console.log("processedData 확인: " + processedData);
-      setHeatmapData(processedData);  // heatmapData 업데이트
+      setScatterData(processedData);  // heatmapData 업데이트
     } catch (error) {
       console.error("데이터를 불러오는 중 오류 발생:", error);
     }
   };
 
-  useEffect(() => {
-    console.log("heatmapData가 업데이트되었습니다:", heatmapData);
-  }, [heatmapData]);
-
   const processRiskData = (data = []) => {
-    const timeMap = {};
-
-    data.forEach(({ vitalDate, riskFlag }) => {
-      if (riskFlag === 0) return; // riskFlag 0이면 무시
-      const formattedDate = vitalDate.replace(' ', 'T');
-
-      const dateObj = new Date(formattedDate + 'Z');
-      dateObj.setHours(dateObj.getHours() + 5);
-      const hour = dateObj.getHours().toString().padStart(2, '0');
-      // const minutes = dateObj.getMinutes().toString().padStart(2, '0');
-      const timeKey = `${hour}:00`;
-
-      if (!timeMap[timeKey]) {
-        timeMap[timeKey] = { time: timeKey, risk1: 0, risk2: 0 };
+    const scatterData = [
+      {
+        id: 'RiskFlag 1',
+        data: [],
+      },
+      {
+        id: 'RiskFlag 2',
+        data: [],
       }
+    ];
 
-      if (riskFlag === 1) {
-        timeMap[timeKey].risk1 += 1;
-      } else if (riskFlag === 2) {
-        timeMap[timeKey].risk2 += 1;
+    data.forEach(item => {
+      const date = new Date(item.vitalDate);
+      const minutes = date.getMinutes(); // 분 단위로 추출
+      const hour = date.getHours(); // 시간 단위로 추출
+      const time = `${hour}:${minutes < 10 ? '0' : ''}${minutes}`; // HH:mm 형식으로 시간 변환
+
+      // 해당 riskFlag의 데이터 배열에 추가
+      if (item.riskFlag === 1) {
+        scatterData[0].data.push({ x: time, y: 1 });
+      } else if (item.riskFlag === 2) {
+        scatterData[1].data.push({ x: time, y: 2 });
       }
     });
 
-    console.log("최종확인까지도 오면?");
-    return Object.values(timeMap);
-  };
+    return scatterData;
+  }
 
   // 작업일자 변경 시 작업자 코드 불러오기
   useEffect(() => {
@@ -128,40 +126,36 @@ export default function ShowGraph({ onClose }) {
         </div>
 
         <div style={{ height: '400px' }}>
-          <ResponsiveHeatMap
-            data={heatmapData}
-            keys={['risk1', 'risk2']} // riskFlag 1, 2에 대한 데이터 키
-            indexBy="time" // 시간대를 인덱스로 사용
-            margin={{ top: 50, right: 60, bottom: 50, left: 60 }}
-            colors={{ type: 'sequential', scheme: 'reds' }} // 연속적인 색상 스케일 사용
-            axisTop={null}
-            axisRight={null}
+          <ResponsiveScatterPlot
+            data={scatterData} // 가공된 데이터를 전달
+            margin={{ top: 50, right: 130, bottom: 50, left: 60 }}
+            xScale={{ type: 'point' }} // x축을 점 단위로 표시 (시간대별)
+            yScale={{ type: 'linear', min: 0, max: 2 }} // y축은 riskFlag 1과 2를 표현
             axisBottom={{
               orient: 'bottom',
-              legend: '시간대',
+              legend: 'Time',
               legendPosition: 'middle',
-              legendOffset: 32
+              legendOffset: 40,
+              tickSize: 5,
+              tickPadding: 5,
+              tickRotation: 45,
             }}
             axisLeft={{
               orient: 'left',
-              legend: '리스크 수준',
+              legend: 'Risk Flag',
               legendPosition: 'middle',
-              legendOffset: -40
+              legendOffset: -40,
+              tickSize: 5,
+              tickPadding: 5,
             }}
-            cellOpacity={1}
-            cellBorderColor={{ from: 'color', modifiers: [['darker', 0.4]] }}
-            labelTextColor={{ from: 'color', modifiers: [['darker', 1.8]] }}
-            defs={[
-              {
-                id: 'dots',
-                type: 'patternDots',
-                background: 'inherit',
-                color: '#2c998f',
-                size: 4,
-                padding: 1,
-                stagger: true
-              },
-            ]}
+            colors={{ scheme: 'nivo' }} // 색상 스킴
+            pointSize={10} // 점 크기
+            pointColor={{ from: 'serieColor' }}
+            pointBorderWidth={2}
+            pointBorderColor={{ from: 'serieColor' }}
+            enableGridX={false} // x축 그리드 비활성화
+            enableGridY={true} // y축 그리드 활성화
+            animate={true}
           />
         </div>
       </div>
