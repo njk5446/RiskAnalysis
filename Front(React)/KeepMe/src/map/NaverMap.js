@@ -7,7 +7,6 @@ import axios from 'axios';
 
 export default function NaverMap({ onLocationClick }) {
   const [mapsocketData, setMapsocketData] = useRecoilState(socketDataState); // WebSocket 데이터를 가져옴
-  console.log('지도에서 받아온 데이터', mapsocketData);
   const mapRef = useRef(null); // 맵 인스턴스를 저장할 참조 변수
   const markersRef = useRef({}); // 마커 인스턴스를 저장할 객체
   const [selectedUserCode, setSelectedUserCode] = useState(null); // 선택된 사용자 코드 상태
@@ -31,141 +30,6 @@ export default function NaverMap({ onLocationClick }) {
     }
   };
 
-  // // 네이버맵 렌더링시에 나타는 최근 로그 표시 
-  // const fetchInitialData = async () => {
-  //   const token = sessionStorage.getItem('token');
-  //   if (!token) {
-  //     console.error("토큰이 없습니다.");
-  //     return;
-  //   }
-
-  //   try {
-  //     const response = await axios.get(`${url}alllog/workdate`, {
-  //       headers: {
-  //         'Content-Type': 'application/json',
-  //         'Authorization': token,
-  //       }
-  //     });
-  //     console.log("NaverMap 컴포넌트의 응답 " + response);
-
-  //     const userdata = response.data.map(item => ({
-  //       userCode: item.userCode,
-  //       heartbeat: item.heartbeat,
-  //       temperature: item.temperature,
-  //       latitude: item.latitude,
-  //       longitude: item.longitude,
-  //       timestamp: item.timestamp,
-  //       riskFlag: item.riskFlag,
-  //       vitalDate: item.vitalDate,
-  //       workDate: item.workDate,
-  //       activity: item.activity,
-  //       outsideTemperature: item.outsideTemperature,
-  //     }));
-
-  //     setMapsocketData(prevData => {
-  //       const newData = { ...prevData };
-  //       userdata.forEach(item => {
-  //         const existingData = newData[item.userCode] || {};
-  //         newData[item.userCode] = {
-  //           ...existingData,
-  //           heartbeat: [...(existingData.heartbeat || []), item.heartbeat].slice(-60),
-  //           temperature: [...(existingData.temperature || []), Number(item.temperature)].slice(-60),
-  //           latitude: item.latitude,
-  //           longitude: item.longitude,
-  //           timestamp: new Date().getTime(),
-  //           riskFlag: item.riskFlag,
-  //           vitalDate: item.vitalDate,
-  //           workDate: item.workDate,
-  //           activity: item.activity,
-  //           outsideTemperature: item.outsideTemperature,
-  //         };
-  //       });
-  //       return newData;
-  //     });
-
-  //   } catch (error) {
-  //     console.error('초기 데이터를 가져오는 중 오류 발생', error);
-  //   }
-  // };
-  // // NaverMap이 렌더링될 때 데이터 가져오기
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     await fetchInitialData();
-  //     setUpW
-  //   }
-  // }, []);
-
-  // 특정 유저의 마커 클릭시 정보 확인
-  // const fetchUserdata = async () => {
-  //   const token = sessionStorage.getItem('token');
-  //   if (!token) {
-  //     console.error('No token found');
-  //     return;
-  //   }
-  //   console.log('selectedUserCode: ' + selectedUserCode);
-  //   console.log("workdate: " + selectedWorkDate);
-  //   console.log(`${url}userlog?userCode=${selectedUserCode}&workDate=${selectedWorkDate}`);
-
-  //   try {
-  //     const response = await axios.get(`${url}userlog?`, {
-  //       params: {
-  //         userCode: selectedUserCode,
-  //         workDate: selectedWorkDate
-  //       },
-  //       headers: {
-  //         'Content-Type': 'application/json',
-  //         'Authorization': token,
-  //       }
-  //     });
-  //     console.log('백엔드에서 받은거', response);
-  //     const userCodedata = response.data;
-  //     console.log('userCodedata', userCodedata);
-  //     if (!userCodedata) {
-  //       console.error('No data found for user');
-  //       return;
-  //     }
-  //     const userdata = userCodedata.map(item => ({
-  //       userCode: item.userCode,
-  //       heartbeat: item.heartbeat,
-  //       temperature: item.temperature,
-  //       latitude: item.latitude,
-  //       longitude: item.longitude,
-  //       timestamp: item.timestamp,
-  //       riskFlag: item.riskFlag,
-  //       vitalDate: item.vitalDate,
-  //       workDate: item.workDate,
-  //       activity: item.activity,
-  //       outsideTemperature: item.outsideTemperature,
-  //     }))
-  //     setMapsocketData(prevData => {
-  //       const newData = { ...prevData };
-  //       userdata.forEach(item => {
-  //         const existingData = newData[item.userCode] || {};
-  //         newData[item.userCode] = {
-  //           ...existingData,
-  //           heartbeat: [...(existingData.heartbeat || []), item.heartbeat].slice(-60),
-  //           temperature: [...(existingData.temperature || []), Number(item.temperature)].slice(-60),
-  //           latitude: item.latitude,
-  //           longitude: item.longitude,
-  //           timestamp: new Date().getTime(),
-  //           riskFlag: item.riskFlag,
-  //           vitalDate: item.vitalDate,
-  //           workDate: item.workDate,
-  //           activity: item.activity,
-  //           outsideTemperature: item.outsideTemperature,
-  //         };
-  //       });
-  //       return newData;
-  //     });
-
-  //   } catch (error) {
-  //     console.error("에러 확인용: " + error.response);
-  //     console.error('Error fetching user data:', error);
-  //   }
-  // };
-
-
-
   // 마커를 생성하는 함수
   const createMarker = (userCode, position, riskFlag, workDate) => {
     // 마커 생성
@@ -177,7 +41,6 @@ export default function NaverMap({ onLocationClick }) {
       title: `User ${userCode}`,
       workDate: workDate,
     });
-    console.log('marker', marker);
     // 마커 클릭 이벤트 등록
     naver.maps.Event.addListener(marker, 'click', (e) => {
       e.domEvent.stopPropagation();
@@ -198,21 +61,21 @@ export default function NaverMap({ onLocationClick }) {
     return marker;
   };
 
-  useEffect(() => {
-    if (selectedUserCode && selectedWorkDate) {
-      // selectedUserCode와 selectedWorkDate를 기준으로 socketData에서 데이터를 필터링
-      const userData = socketData[selectedUserCode];
+  // useEffect(() => {
+  //   if (selectedUserCode && selectedWorkDate) {
+  //     // selectedUserCode와 selectedWorkDate를 기준으로 socketData에서 데이터를 필터링
+  //     const userData = socketData[selectedUserCode];
 
-      if (userData && userData.workDate === selectedWorkDate) {
-        // 선택된 유저와 작업일에 맞는 데이터를 찾음
-        console.log('필터된 데이터: ', userData);
+  //     if (userData && userData.workDate === selectedWorkDate) {
+  //       // 선택된 유저와 작업일에 맞는 데이터를 찾음
+  //       console.log('필터된 데이터: ', userData);
 
-        // 여기서 필터된 데이터를 기반으로 그래프나 상태 처리
-      } else {
-        console.log('해당 날짜와 유저에 대한 데이터가 없습니다.');
-      }
-    }
-  }, [selectedUserCode, selectedWorkDate, socketData]);
+  //       // 여기서 필터된 데이터를 기반으로 그래프나 상태 처리
+  //     } else {
+  //       console.log('해당 날짜와 유저에 대한 데이터가 없습니다.');
+  //     }
+  //   }
+  // }, [selectedUserCode, selectedWorkDate, socketData]);
 
   // 맵 초기화
   useEffect(() => {
@@ -233,7 +96,6 @@ export default function NaverMap({ onLocationClick }) {
   }, []);
 
   useEffect(() => {
-    console.log('mapsocketData가 변했을때', mapsocketData); // 데이터 확인용 로그
   }, [mapsocketData]);
   useEffect(() => {
     let animationFrameId;

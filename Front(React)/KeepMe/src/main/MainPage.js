@@ -82,11 +82,8 @@ export default function MainPage() {
         return newData;
       });
       setInitialDataLoaded(true);
-      console.log("데이터 로딩 완료");
-      console.log("확인용 " + initialDataLoaded);
     } catch (error) {
       console.error("요청 실패: " + error);
-
     }
   };
 
@@ -106,7 +103,6 @@ export default function MainPage() {
       };
       newWs.onmessage = (e) => {
         const newData = JSON.parse(e.data);
-        console.log('소켓에서 받아옴', newData);
 
         setSocketData((prevData) => ({
           ...prevData,

@@ -2,11 +2,13 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import styles from './ShowGraph.module.css';
 import { ResponsiveScatterPlot } from '@nivo/scatterplot';
+import { ResponsiveHeatMap } from '@nivo/heatmap';
 
 
 export default function ShowGraph({ onClose }) {
+  const [sortedTimes, setSortedTimes] = useState([]);
   const [riskData, setRiskData] = useState([]);
-  const [scatterData, setScatterData] = useState([]); // heatmapData 상태 추가
+  const [heatmapData, setHeatmapData] = useState([]);
   const [userCodes, setUserCodes] = useState([]);
   const [selectedWorkDate, setSelectedWorkDate] = useState('');
   const [selectedUserCode, setSelectedUserCode] = useState('');
@@ -33,45 +35,52 @@ export default function ShowGraph({ onClose }) {
           'Authorization': token,
         }
       });
-
       const riskData = resp.data;
-      console.log("riskData 확인: " + riskData);
-      const processedData = processRiskData(riskData);
-      console.log("processedData 확인: " + processedData);
-      setScatterData(processedData);  // heatmapData 업데이트
+      setRiskData(riskData);
+      processRiskData(riskData);
     } catch (error) {
       console.error("데이터를 불러오는 중 오류 발생:", error);
     }
   };
 
   const processRiskData = (data = []) => {
-    const scatterData = [
-      {
-        id: 'RiskFlag 1',
-        data: [],
-      },
-      {
-        id: 'RiskFlag 2',
-        data: [],
-      }
-    ];
-
+    // 시간대별로 데이터 정리
+    const timeSlots = {};
     data.forEach(item => {
-      const date = new Date(item.vitalDate);
-      const minutes = date.getMinutes(); // 분 단위로 추출
-      const hour = date.getHours(); // 시간 단위로 추출
-      const time = `${hour}:${minutes < 10 ? '0' : ''}${minutes}`; // HH:mm 형식으로 시간 변환
-
-      // 해당 riskFlag의 데이터 배열에 추가
+      const timeKey = item.vitalDate.split(' ')[1].split(':').slice(0, 2).join(':');
+      if (!timeSlots[timeKey]) {
+        timeSlots[timeKey] = { flag1: 0, flag2: 0 };
+      }
       if (item.riskFlag === 1) {
-        scatterData[0].data.push({ x: time, y: 1 });
+        timeSlots[timeKey].flag1 += 1;
       } else if (item.riskFlag === 2) {
-        scatterData[1].data.push({ x: time, y: 2 });
+        timeSlots[timeKey].flag2 += 1;
       }
     });
 
-    return scatterData;
-  }
+    // 시간대 정렬
+    const sortedTimes = Object.keys(timeSlots).sort();
+    setSortedTimes(sortedTimes);
+    // Nivo 히트맵 형식에 맞게 데이터 변환
+    const formattedData = [
+      {
+        id: "위험", // "위험"을 먼저 배치
+        data: sortedTimes.map(time => ({
+          x: time,
+          y: timeSlots[time].flag2 // "위험" 데이터를 먼저 표시
+        }))
+      },
+      {
+        id: "주의", // "주의"를 그 다음에 배치
+        data: sortedTimes.map(time => ({
+          x: time,
+          y: timeSlots[time].flag1 // "주의" 데이터를 다음에 표시
+        }))
+      }
+    ];
+    console.log(JSON.stringify(formattedData, null, 2));
+    setHeatmapData(formattedData);
+  };
 
   // 작업일자 변경 시 작업자 코드 불러오기
   useEffect(() => {
@@ -95,7 +104,7 @@ export default function ShowGraph({ onClose }) {
   return (
     <div className={styles.modalOverlay} onClick={onClose}>
       <div className={styles.container} onClick={(e) => e.stopPropagation()}>
-        <div className={styles.title}>일별 위험 히트맵</div>
+        <div className={styles.title}>일별 조회</div>
         <div>
           {/* 작업일자 슬롯 박스 */}
           <select
@@ -125,38 +134,60 @@ export default function ShowGraph({ onClose }) {
           <button onClick={handleFetchData}>확인</button>
         </div>
 
-        <div style={{ height: '400px' }}>
-          <ResponsiveScatterPlot
-            data={scatterData} // 가공된 데이터를 전달
-            margin={{ top: 50, right: 130, bottom: 50, left: 60 }}
-            xScale={{ type: 'point' }} // x축을 점 단위로 표시 (시간대별)
-            yScale={{ type: 'linear', min: 0, max: 2 }} // y축은 riskFlag 1과 2를 표현
+        <div style={{ height: '300px' }}>
+          <h1>일별 위험 빈도</h1>
+          <ResponsiveHeatMap
+            data={heatmapData}
+            margin={{ top: 60, right: 60, bottom: 60, left: 60 }}
+            valueFormat={value => Math.round(value)} //소수점 제거
+            indexBy="x"
+            keys={['주의', '위험']}
+            colors={{
+              type: 'sequential',
+              scheme: 'blues',
+              minValue: 0,
+              maxValue: Math.max(...heatmapData.flatMap(d => d.data.map(item => item.y)))
+            }}
+            axisTop={null}
+            axisRight={null}
             axisBottom={{
-              orient: 'bottom',
-              legend: 'Time',
-              legendPosition: 'middle',
-              legendOffset: 40,
               tickSize: 5,
               tickPadding: 5,
-              tickRotation: 45,
+              tickRotation: -45,
+              legend: '시간',
+              legendPosition: 'middle',
+              legendOffset: 40
             }}
             axisLeft={{
-              orient: 'left',
-              legend: 'Risk Flag',
-              legendPosition: 'middle',
-              legendOffset: -40,
               tickSize: 5,
               tickPadding: 5,
+              tickRotation: 0,
+              legend: '위험단계',
+              legendPosition: 'middle',
+              legendOffset: -40
             }}
-            colors={{ scheme: 'nivo' }} // 색상 스킴
-            pointSize={10} // 점 크기
-            pointColor={{ from: 'serieColor' }}
-            pointBorderWidth={2}
-            pointBorderColor={{ from: 'serieColor' }}
-            enableGridX={false} // x축 그리드 비활성화
-            enableGridY={true} // y축 그리드 활성화
-            animate={true}
+            hoverTarget="cell"
+            cellOpacity={1}
+            cellBorderWidth={1}
+            cellBorderColor={{ from: 'color', modifiers: [['darker', 0.4]] }}
+            labelTextColor={{ from: 'color', modifiers: [['darker', 1.8]] }}
+            annotations={[]}
+            tooltip={({ value, indexValue, key }) => {
+              console.log({ value, indexValue, key });
+              return (
+                <div style={{
+                  background: 'white',
+                  padding: '9px 12px',
+                  border: '1px solid #ccc',
+                }}>
+                  <strong></strong>{value} 건
+                </div>
+              )
+            }
+
+            }
           />
+
         </div>
       </div>
     </div>
