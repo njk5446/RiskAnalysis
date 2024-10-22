@@ -1,0 +1,18 @@
+.footer {
+    position: fixed;
+    bottom: 0;
+    width: 100vw;
+    height: 2vh;
+    background: #ECF2F4;
+    text-align: center;
+    font-size: 14px;
+    display: flex;
+    justify-content: center; /* 텍스트를 수평 중앙 정렬 */
+    align-items: center; /* 텍스트를 수직 중앙 정렬 */
+  }
+  
+  .text {
+    color: #00000098;
+    margin: 0; /* margin 제거 */
+    padding: 0; /* padding 제거 */
+  }

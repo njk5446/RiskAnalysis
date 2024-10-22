@@ -1,0 +1,21 @@
+.logout{
+    position: absolute;
+    width: 90px;
+    height: 30px;
+    left: 1540px;
+    top: 8px;
+    
+    background: #FFFFFF;
+    border : none;
+
+    font-style: normal;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 10px;
+    /* identical to box height */
+    
+    color: #00000081;
+}
+.logout:hover{
+    color: black;
+}

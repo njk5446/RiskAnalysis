@@ -1,0 +1,63 @@
+.paginationContainer {
+  display: flex;
+  justify-content: center;
+  
+}
+
+.pagination {
+  list-style-type: none;
+  padding: 0;
+  display: flex;
+  gap: 5px;
+}
+
+.pagination li {
+  display: inline;
+}
+
+.pagelink {
+  width: 30px;
+  height: 30px;
+  padding: 5px; /* Tailwind의 py-2 px-3 */
+  margin-left: 0;
+  font-size: 1rem;
+  
+  color: #6b7280; /* Tailwind의 text-gray-500 */
+  background-color: white; /* Tailwind의 bg-white */
+  border: 1px solid #d1d5db; /* Tailwind의 border-gray-300 */
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+/* Hover 상태 스타일 */
+.pagelink:hover {
+  background-color: #CDE3EB; /* Tailwind의 hover:bg-gray-100 */
+  color: white; /* Tailwind의 hover:text-gray-700 */
+}
+
+/* 활성화된 페이지 스타일 */
+.active {
+  background-color: #CDE3EB; /* Tailwind의 bg-blue-500 */
+  color: white; /* Tailwind의 text-white */
+}
+
+.paginationButton {
+  width: 50px;
+  height: 30px;
+  padding: 5px;
+  border: 1px solid #ddd;
+  color: #333;
+  border-radius: 5px;
+  cursor: pointer;
+  background-color: #f9f9f9;
+}
+.paginationButton:hover {
+  background-color: #CDE3EB;
+  color: white;
+}
+.paginationButton:disabled {
+  cursor: not-allowed;
+  background-color: #eaeaea;
+  color: #999;
+}
+

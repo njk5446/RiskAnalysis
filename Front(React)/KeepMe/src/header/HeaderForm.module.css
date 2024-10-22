@@ -1,0 +1,104 @@
+/* Rectangle 4 */
+.headerbar{
+    display: flex;
+    flex-grow: 1;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    position: absolute;
+    width: 100vw;
+    height: 4vh;
+    top: 0;
+    background: #ffffffce;
+    
+}
+.title{
+    position: absolute;
+    left: 2.5vw;
+    font-family: 'Jura', sans-serif;
+    font-size: 30px;
+    font-weight: 500;
+    color: #000000be;
+}
+.board{
+    display: flex;
+    flex-wrap: wrap;
+    flex-grow: 1;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    width: 5vw;
+    height: 2.5vh;
+    left: 83vw;
+   
+    background: #ffffff;
+    border: none;
+    cursor: pointer;
+    color: #000000b4;
+    font-size: 15px;
+    font-weight: 600;
+}
+.board:hover{
+    color: #000000;
+}
+.logout{
+    display: flex;
+    flex-wrap: wrap;
+    flex-grow: 1;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    width: 5vw;
+    height: 2.5vh;
+    left: 93vw;
+   
+    background: #ffffff;
+    border: none;
+    cursor: pointer;
+    color: #000000b4;
+    font-size: 15px;
+    font-weight: 600;
+}
+.logout:hover{
+    color: #000000;
+}
+.mypage{
+    display: flex;
+    flex-wrap: wrap;
+    flex-grow: 1;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    width: 5vw;
+    height: 2.5vh;
+    left: 88vw;
+    
+    background: #ffffff;
+    color: #000000b4;
+    border: none;
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: 600;
+}
+.mypage:hover{
+    color: #000000;
+}
+@media (max-width: 1920px) {
+    .icon{
+        display: none;
+    }
+}
+@media (max-width: 1919px) {
+    .buttonText {
+        display: none; /* 텍스트 숨기기 */
+      }
+      .icon {
+        display: inline-block;
+        font-size:30px; /* 아이콘 크기 조정 */
+      }
+    
+}

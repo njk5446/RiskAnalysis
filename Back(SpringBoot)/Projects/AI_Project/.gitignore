@@ -1,0 +1,35 @@
+# Maven build directory
+target/
+*.log
+
+# Eclipse IDE
+.metadata/
+.classpath
+.project
+.settings/
+
+# IntelliJ IDEA
+.idea/
+*.iml
+*.iws
+
+# VS Code
+.vscode/
+
+# Gradle build directory (if using Gradle)
+build/
+
+# Operating System files
+.DS_Store
+Thumbs.db
+
+# Other build files
+*.jar
+*.war
+*.ear
+
+# Other files to ignore
+*.hprof
+*.tmp
+*.bak
+*.swp
