@@ -8,7 +8,7 @@ export default function Heat({ heatmapData }) {
 
     return (
         <div className={styles.container}>
-            <h1 className={styles.title}>일별 위험 빈도</h1>
+            <h1 className={styles.title}>일별 위험 주의 빈도</h1>
             <div style={{ height: '300px' }}>
                 <ResponsiveHeatMap
                     data={heatmapData}

@@ -45,7 +45,7 @@ export default function MainPage() {
           'Authorization': token,
         }
       });
-      console.log(response);
+      console.log("왜 다 안나와 새로고침했는데 "+ response);
 
       const userdata = response.data.map(item => ({
         userCode: item.userCode,

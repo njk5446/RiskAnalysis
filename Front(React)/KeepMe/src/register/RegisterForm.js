@@ -1,7 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios'
-import styles from './RegisterForm.module.css'
+import styles from './RegisterForm.module.css';;
+import constructionImage from './construction1.jpg';
 
 export default function RegisterForm() {
     const [userName, setUserName] = useState('');
@@ -62,8 +63,8 @@ export default function RegisterForm() {
     };
 
     const region = {
-        HQ: '강남건설 본사',
-        BOS: '강남건설 서울지사',
+        HQ: '본사',
+        BOS: '지사',
     }
 
     const dept = {
@@ -75,27 +76,6 @@ export default function RegisterForm() {
     const register = async (e) => {
         e.preventDefault();//기본 동작(페이지 새로고침)을 막음
 
-        if (!userId.trim()) {
-            alert("아이디를 입력하세요.");
-            return;
-        }
-        if (!password.trim()) {
-            alert("비밀번호를 입력하세요");
-            return;
-        }
-
-        if (!department) {
-            alert('부서를 선택해주세요.');
-            return;
-        }
-        if (!password.trim()) {
-            alert("비밀번호를 입력하세요.");
-            return;
-        }
-        if (!confirmPassword.trim()) {
-            alert("비밀번호 확인을 입력하세요.");
-            return;
-        }
         if (!userName) {
             alert('이름을 입력하세요.');
             return;
@@ -106,6 +86,27 @@ export default function RegisterForm() {
         }
         if (!Region) {
             alert('지역을 선택하세요.');
+            return;
+        }
+        if (!department) {
+            alert('부서를 선택해주세요.');
+            return;
+        }
+        if (!userId.trim()) {
+            alert("아이디를 입력하세요.");
+            return;
+        }
+        if (!password.trim()) {
+            alert("비밀번호를 입력하세요");
+            return;
+        }
+
+        if (!password.trim()) {
+            alert("비밀번호를 입력하세요.");
+            return;
+        }
+        if (!confirmPassword.trim()) {
+            alert("비밀번호 확인을 입력하세요.");
             return;
         }
         if (!idChecked) {
@@ -151,82 +152,118 @@ export default function RegisterForm() {
 
 
     return (
-        <div className={styles.bg}>
-
-            <div className={styles.RegisterForm}>
-                <h1 className={styles.name}>Join</h1>
-                <form onSubmit={register}>
-                    <div>
-                        <input type='username' className={styles.username} placeholder='이름' value={userName} onChange={(e) => setUserName(e.target.value)} />
+        <div className="bg-cover bg-center w-screen h-screen" style={{ backgroundImage: `url(${constructionImage})` }}>
+        <h1 className="absolute top-12 left-1/2 transform -translate-x-1/2 font-inter font-bold text-4xl text-black text-center">
+            작업자 위험 예측
+        </h1>
+        <div className="fixed w-[90%] max-w-[400px] h-[50vh] min-h-[520px] top-[55%] left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-[#ecf2f4c7] rounded-lg shadow-lg z-10 flex flex-col items-center p-4">
+                <h1 className="text-white text-4xl font-bold mb-10 text-center">Join</h1>
+                <form onSubmit={register} className="flex flex-col items-center">
+                    <div className="flex items-center mb-4 w-full max-w-[300px]">
+                        <input
+                            type="username"
+                            className="flex-grow-0 w-[160px] h-12 p-2 bg-white rounded-md text-lg mr-4"
+                            placeholder="이름"
+                            value={userName}
+                            onChange={(e) => setUserName(e.target.value)}
+                        />
+                        <div className="flex items-center">
+                            <label className="flex items-center mr-4">
+                                <input
+                                    type="radio"
+                                    value="M"
+                                    checked={selectedGender === 'M'}
+                                    onChange={handleChange}
+                                    className="mr-2 h-6 w-6"
+                                />
+                                남
+                            </label>
+                            <label className="flex items-center">
+                                <input
+                                    type="radio"
+                                    value="F"
+                                    checked={selectedGender === 'F'}
+                                    onChange={handleChange}
+                                    className="mr-2 h-6 w-6"
+                                />
+                                여
+                            </label>
+                        </div>
                     </div>
-                    <div className={styles.gender}>
-                        <label>
-                            <input
-                                type="checkbox"
-                                name='남'
-                                value="M"
-                                checked={selectedGender === 'M'}
-                                onChange={handleChange}
-                            />
-                            남
-                        </label>
-                        <label>
-                            <input
-                                type="checkbox"
-                                name='여'
-                                value="F"
-                                checked={selectedGender === 'F'}
-                                onChange={handleChange}
-                            />
-                            여
-                        </label>
-                    </div>
-                    <div>
-                        <input type='userid' className={styles.userid} placeholder='아이디' value={userId} onChange={(e) => { setUserId(e.target.value); }} />
-                        <button type="button" className={styles.Idcheckbutton} onClick={checkUserid}>
-                            중복확인
-                            {/* {idChecked ? (
-                                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed"><path d="M268-240 42-466l57-56 170 170 56 56-57 56Zm226 0L268-466l56-57 170 170 368-368 56 57-424 424Zm0-226-57-56 198-198 57 56-198 198Z" /></svg>
-                            ) : (
-                                <svg xmlns="http://www.w3.org/2000/svg" height="26px" viewBox="0 -960 960 960" width="26px" fill="#e8eaed"><path d="M382-240 154-468l57-57 171 171 367-367 57 57-424 424Z" /></svg>
-                            )} */}
-
-
-                        </button>
-                    </div>
-                    <div>
-                        <select className={styles.region} value={Region} onChange={(e) => setRegion(e.target.value)}>
-                            <option value="" disabled>지역</option>
+                    <div className="flex justify-between w-full max-w-[300px] mb-4">
+                        <select
+                            className="w-full h-12 p-2 rounded-md bg-white text-lg mr-2"
+                            value={Region}
+                            onChange={(e) => setRegion(e.target.value)}
+                        >
+                            <option value="" disabled>
+                                지역
+                            </option>
                             <option value="HQ">{region.HQ}</option>
                             <option value="BOS">{region.BOS}</option>
                         </select>
-                    </div>
-                    <div>
-                        <select value={department} onChange={(e) => setDepartment(e.target.value)} className={styles.department}>
-                            <option value="" disabled>부서</option>
+                        <select
+                            value={department}
+                            onChange={(e) => setDepartment(e.target.value)}
+                            className="w-full h-12 p-2 rounded-md bg-white text-lg"
+                        >
+                            <option value="" disabled>
+                                부서
+                            </option>
                             <option value="HR">{dept.HR}</option>
                             <option value="IT">{dept.IT}</option>
                             <option value="QM">{dept.QM}</option>
                         </select>
                     </div>
-                    <div>
-                        <input type='password' className={styles.password} placeholder='비밀번호' value={password} onChange={(e) => setPassword(e.target.value)} />
-                    </div>
-                    <div>
-                        <input type='password' className={styles.passwordcheck} placeholder='비밀번호 확인' value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} />
-                    </div>
-                    <div>
-                        <button className={styles.join} type="submit">
-                            확인
+                    <div className="w-full max-w-[300px] flex mb-4">
+                        <input
+                            type="userid"
+                            className="w-full h-12 p-2 bg-white rounded-md text-lg"
+                            placeholder="아이디"
+                            value={userId}
+                            onChange={(e) => setUserId(e.target.value)}
+                        />
+                        <button
+                            type="button"
+                            className="ml-2 h-12 w-20 bg-[#143A52] text-white rounded-md"
+                            onClick={checkUserid}
+                        >
+                            중복확인
                         </button>
                     </div>
-                    <div>
-                        <button className={styles.cancel} onClick={() => navigate('/')}>
+                    <input
+                        type="password"
+                        className="w-full max-w-[300px] h-12 mb-4 p-2 bg-white rounded-md text-lg"
+                        placeholder="비밀번호"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                    />
+                    <input
+                        type="password"
+                        className="w-full max-w-[300px] h-12 mb-4 p-2 bg-white rounded-md text-lg"
+                        placeholder="비밀번호 확인"
+                        value={confirmPassword}
+                        onChange={(e) => setConfirmPassword(e.target.value)}
+                    />
+                    <div className="flex justify-between w-full max-w-[300px]">
+                        <button
+                            className="w-[140px] h-12 bg-[#143A52] text-white rounded-md"
+                            type="submit"
+                        >
+                            확인
+                        </button>
+                        <button
+                            className="w-[140px] h-12 bg-[#143A52] text-white rounded-md"
+                            onClick={() => navigate('/')}
+                        >
                             취소
                         </button>
                     </div>
                 </form>
             </div>
         </div>
-    )
-}
+    );
+
+
+
+};

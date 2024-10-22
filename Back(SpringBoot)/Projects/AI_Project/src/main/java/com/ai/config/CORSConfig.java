@@ -95,8 +95,7 @@ public class CORSConfig implements WebMvcConfigurer {
                 .allowedHeaders(HttpHeaders.AUTHORIZATION)
                 .allowedMethods(HttpMethod.GET.name(), HttpMethod.POST.name())
                 .allowedOrigins(
-                        "http://192.168.0.143:3000", // 특정 IP로 변경
-                        "http://192.168.0.131:3000"  // 추가적인 특정 IP
+                		"*"
                 );
 		
 		

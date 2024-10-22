@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom'
 import styles from './LoginForm.module.css'
 import { useRecoilState } from 'recoil';
+import constructionImage from './construction1.jpg'
 
 import { userIdState, authState, userRoleState, wsState} from '../recoil/Atoms';
 export default function LoginForm() {
@@ -73,28 +74,43 @@ export default function LoginForm() {
     }
 
     return (
-        <div className={styles.bg}>
-            <div className={styles.LoginForm}>
-                <h1 className={styles.name}>Login</h1>
-                <form onSubmit={login}>
-                    <div>
-                        <input type='userId' className={styles.id} placeholder='아이디' value={userId} onChange={(e) => setUserId(e.target.value)} />
-                    </div>
-                    <div>
-                        <input type='password' className={styles.password} placeholder='비밀번호' value={password} onChange={(e) => setPassword(e.target.value)} />
-                    </div>
-                    <div>
-                        <button className={styles.login} type="submit">
-                            로그인 
-                        </button>
-                    </div>
-                    <div>
-                        <button className={styles.join} onClick={joinclick} >
-                            회원가입
-                        </button>
-                    </div>
-                </form>
-            </div>
+        <div className="bg-cover bg-center w-screen h-screen" style={{ backgroundImage: `url(${constructionImage})` }}>
+        <h1 className="absolute top-12 left-1/2 transform -translate-x-1/2 font-inter font-bold text-4xl text-black text-center">
+            위험 예측 분석
+        </h1>
+        <div className="fixed w-[90%] max-w-[400px] h-[50vh] min-h-[500px] top-[55%] left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-[#ecf2f4c7] rounded-lg shadow-lg z-10 flex flex-col items-center p-4">
+            <h1 className="text-white text-4xl font-bold mb-6 text-center mt-10">
+                Login
+            </h1>
+            <form onSubmit={login} className="flex flex-col items-center">
+                <div className="mt-4">
+                    <input
+                        type="text"
+                        className="w-[300px] h-[50px] rounded-lg border-none bg-white px-2 text-black text-lg placeholder:text-black/60"
+                        placeholder="아이디"
+                        value={userId}
+                        onChange={(e) => setUserId(e.target.value)}
+                    />
+                </div>
+                <div className="mt-4 mb-4">
+                    <input
+                        type="password"
+                        className="w-[300px] h-[50px] rounded-lg border-none bg-white px-2 text-black text-lg placeholder:text-black/60"
+                        placeholder="비밀번호"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                    />
+                </div>
+                <div className="mt-8">
+                    <button className="w-[140px] h-[50px] bg-[#143A52] rounded-lg border-none text-white text-lg hover:text-white hover:bg-[#0d2a3a] transition-all duration-300 mr-2" type="submit">
+                        로그인
+                    </button>
+                    <button className="w-[140px] h-[50px] bg-[#143A52] rounded-lg border-none text-white text-lg hover:text-white hover:bg-[#0d2a3a] transition-all duration-300 ml-2" onClick={joinclick}>
+                        회원가입
+                    </button>
+                </div>
+            </form>
         </div>
-    )
+    </div>
+);
 }

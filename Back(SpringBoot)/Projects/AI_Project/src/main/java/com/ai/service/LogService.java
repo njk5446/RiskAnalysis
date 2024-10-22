@@ -43,7 +43,6 @@ public class LogService {
             // 6. 가져온 로그를 allLogs 리스트에 추가
             allLogs.addAll(logs); // 여러 로그를 리스트에 추가
         }
-        
         // 7. 모든 로그 반환
         return allLogs;
     }
