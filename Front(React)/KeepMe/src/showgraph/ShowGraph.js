@@ -141,12 +141,13 @@ export default function ShowGraph({ onClose }) {
 
 
   return (
-    <div className={styles.modalOverlay} onClick={onClose}>
-      <div className={styles.container} onClick={(e) => e.stopPropagation()}>
-        <div className={styles.title}>위험 분석 조회</div>
-        <div>
+    <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex justify-center items-center z-50" onClick={onClose}>
+      <div className="flex flex-col rounded-lg w-4/5 max-h-full bg-white overflow-hidden" onClick={(e) => e.stopPropagation()}>
+        <div className="text-2xl font-bold text-gray-700 text-center mt-5">위험 분석 조회</div>
+        <div className="my-5 flex justify-center items-center gap-2">
           {/* 작업일자 슬롯 박스 */}
-          <select className={styles.select}
+          <select
+            className="p-3 border border-gray-300 rounded-lg bg-gray-50 focus:ring-2 focus:ring-[#c7722c] focus:border-[#c7722c] transition duration-200"
             value={selectedWorkDate}
             onChange={(e) => setSelectedWorkDate(e.target.value)}
           >
@@ -158,8 +159,8 @@ export default function ShowGraph({ onClose }) {
             })}
           </select>
 
-          {/* 사용자 코드 슬롯박스 */}
-          <select className={styles.select}
+          <select
+            className="p-3 border border-gray-300 rounded-lg bg-gray-50 focus:ring-2 focus:ring-[#c7722c] focus:border-[#c7722c] transition duration-200"
             value={selectedUserCode}
             onChange={(e) => setSelectedUserCode(e.target.value)}
           >
@@ -170,10 +171,12 @@ export default function ShowGraph({ onClose }) {
               </option>
             ))}
           </select>
-          <button className={styles.button} onClick={handleFetchData}>확인</button>
+          <button className="px-4 py-2 bg-[#c7722c] text-white rounded-md hover:bg-[#7e4211] transition duration-300" onClick={handleFetchData}>확인</button>
         </div>
-        <Heat heatmapData={heatmapData} />
-        <RiskActivityBar barData={barData} />
+        <div className="flex flex-col flex-grow overflow-y-auto px-4">
+          <Heat heatmapData={heatmapData} />
+          <RiskActivityBar barData={barData} />
+        </div>
       </div>
     </div>
   );

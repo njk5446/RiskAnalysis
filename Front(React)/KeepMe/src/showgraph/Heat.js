@@ -1,15 +1,14 @@
 import React, { useEffect, useState } from 'react';
 
 import { ResponsiveHeatMap } from '@nivo/heatmap';
-import styles from './Heat.module.css'
 
 export default function Heat({ heatmapData }) {
 
 
     return (
-        <div className={styles.container}>
-            <h1 className={styles.title}>일별 위험 주의 빈도</h1>
-            <div style={{ height: '300px' }}>
+        <div className="p-5">
+            <h1 className="text-xl font-extrabold text-gray-800 tracking-wide leading-snug">일별 위험 주의 빈도</h1>
+            <div className="h-[300px]">
                 <ResponsiveHeatMap
                     data={heatmapData}
                     margin={{ top: 15, right: 40, bottom: 100, left: 40 }}

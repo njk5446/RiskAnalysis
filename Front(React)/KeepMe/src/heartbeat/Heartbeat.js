@@ -1,7 +1,6 @@
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { socketDataState, userNameState } from "../recoil/Atoms";
 import { Line } from 'react-chartjs-2';
-import styles from './Heartbeat.module.css';
 import {
     Chart,
     CategoryScale, // 여기에 'category' 스케일 추가

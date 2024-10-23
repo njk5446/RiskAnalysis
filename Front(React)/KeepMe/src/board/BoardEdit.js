@@ -85,9 +85,20 @@ export default function BoardEdit({ onClose, postId }) {
   return (
     <div className="fixed inset-0 flex items-center justify-center z-50" onClick={handleClose}>
       <div
-        className="relative w-full max-w-[90vw] md:max-w-[600px] bg-white shadow-2xl rounded-lg overflow-hidden"
+        className="relative w-full max-w-[90vw] md:max-w-[600px] h-[55vh] bg-white shadow-2xl rounded-lg overflow-hidden"
         onClick={(e) => e.stopPropagation()}
       >
+        <div className="p-4 bg-slate-400">
+          <h3 className="text-lg font-semibold text-center">게시물 수정</h3> {/* 제목 추가 */}
+        </div>
+        <div className="flex text-base text-gray-900 mb-4 mt-2">
+          <label htmlFor="dept" className='ml-4 mr-10 font-semibold text-gray-800'>
+            부서: <span className="font-normal text-gray-600">{dept}</span>
+          </label>
+          <label htmlFor="userName" className='font-semibold text-gray-800'>
+            작성자: <span className="font-normal text-gray-600">{userName}</span>
+          </label>
+        </div>
         <form onSubmit={handleEdit} className="p-4">
           {/* 에러 메시지 */}
           {/* {error && <p className="text-red-500 mb-2">{error}</p>} */}
@@ -106,12 +117,12 @@ export default function BoardEdit({ onClose, postId }) {
             />
           </div>
 
-          <div className="flex justify-between text-sm text-gray-600 mb-4">
+          {/* <div className="flex justify-between text-sm text-gray-600 mb-4">
             <label htmlFor="dept">부서: {dept}</label>
             <label htmlFor="userName">작성자: {userName}</label>
-          </div>
+          </div> */}
 
-          <div className="mb-4">
+          <div className="mb-4 min-h-[150px]">
             <textarea
               id="content"
               className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-500"

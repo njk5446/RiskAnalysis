@@ -37,69 +37,67 @@ export default function BoardMain({ onClose }) {
   const selectRef = useRef();
 
   const url = process.env.REACT_APP_BACKEND_URL;
+  const loadBoard = async () => {
+    try {
+      const response = (await axios.get(`${url}boards`, {
+        params: {
+          page: currentPage - 1,
+          size: postsPerPage,
+        },
+        headers: { 'Authorization': sessionStorage.getItem('token') }
+      })).data;
+      console.log(response.content);
+      setDataBoard(response.content);
+      setPage({
+        size: response.pagesize,
+        number: response.pageNumber,
+        totalElements: response.totalElements,
+        totalPages: response.totalPages,
+      });
+      setSearchMode(false);
+    } catch (error) {
+      console.error('Error fetching posts:', error);
+    }
+  };
 
   useEffect(() => {
-    const loadBoard = async () => {
-      try {
-        const response = (await axios.get(`${url}boards`, {
-          params: {
-            page: currentPage - 1,
-            size: postsPerPage,
-          },
-          headers: { 'Authorization': sessionStorage.getItem('token') }
-        })).data;
-        console.log(response.content);
-        setDataBoard(response.content);
-        setPage({
-          size: response.pagesize,
-          number: response.pageNumber,
-          totalElements: response.totalElements,
-          totalPages: response.totalPages,
-        });
-        setSearchMode(false);
-      } catch (error) {
-        console.error('Error fetching posts:', error);
-      }
-    };
-
     if (searchMode) {
       return; // 검색 모드일 경우, 게시물 로드하지 않음
     }
-
     loadBoard();
     sessionStorage.setItem('currentBoardPage', currentPage.toString());
   }, [currentPage, url, postsPerPage, searchMode]);
 
-  // 새로고침시
+  // 새로고침
   useEffect(() => {
     if (refresh) {
-      refreshBoardData();
-      setRefresh();
+      loadBoard();
+      setRefresh(false);
     }
 
   }, [refresh]);
 
-  const refreshBoardData = async () => {
-    try {
-        const response = await axios.get(`${url}boards`, {
-            params: {
-                page: currentPage - 1,
-                size: postsPerPage,
-            },
-            headers: { 'Authorization': sessionStorage.getItem('token') }
-        });
+//   const refreshBoardData = async () => {
+//     try {
+//         const response = await axios.get(`${url}boards`, {
+//             params: {
+//                 page: currentPage - 1,
+//                 size: postsPerPage,
+//             },
+//             headers: { 'Authorization': sessionStorage.getItem('token') }
+//         });
 
-        setDataBoard(response.data.content);
-        setPage({
-            size: response.data.pagesize,
-            number: response.data.pageNumber,
-            totalElements: response.data.totalElements,
-            totalPages: response.data.totalPages,
-        });
-    } catch (error) {
-        console.error('Error refreshing posts:', error);
-    }
-};
+//         setDataBoard(response.data.content);
+//         setPage({
+//             size: response.data.pagesize,
+//             number: response.data.pageNumber,
+//             totalElements: response.data.totalElements,
+//             totalPages: response.data.totalPages,
+//         });
+//     } catch (error) {
+//         console.error('Error refreshing posts:', error);
+//     }
+// };
 
   const searchBoard = async (pageNumber = 0) => {
     let keyword = inputRef.current.value.trim();

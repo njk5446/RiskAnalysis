@@ -10,13 +10,15 @@ import { useRecoilState, useRecoilValue } from 'recoil';
 import { socketDataState, userIdState, authState, wsState } from '../recoil/Atoms'; // WebSocket에서 가져온 심박수 데이터
 import OutsideTemperature from '../outsideTemp/OutsideTemperature';
 import ShowGraph from '../showgraph/ShowGraph'
+import { riskUserCodeState } from '../Atoms'
 
 export default function MainPage() {
   const [socketData, setSocketData] = useRecoilState(socketDataState);
   const userId = useRecoilValue(userIdState) || sessionStorage.getItem('userId');
   const setAuth = useRecoilValue(authState);
   const [isRisk, setIsRisk] = useState(false);
-  const [riskUserCode, setRiskUserCode] = useState(null);
+  const [riskUserCode, setRiskUserCode] = useRecoilState(riskUserCodeState);
+  // const [riskUserCode, setRiskUserCode] = useState(null);
   const [riskUserHeartbeat, setRiskUserHeartbeat] = useState(null);
   const [riskUserTemperature, setRiskUserTemperature] = useState(null);
   const [riskUserLatitude, setRiskUserLatitude] = useState(null);

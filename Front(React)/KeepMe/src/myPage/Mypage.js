@@ -56,10 +56,12 @@ function MyPage({ onClose }) {
   const handleDeleteAccount = async () => {
     if (window.confirm('정말로 탈퇴하시겠습니까?')) {
       try {
-        const response = await axios.post(`${url}mypage/deleteacc`,{},{headers: {
-          'authorization': sessionStorage.getItem('token'),
-          'Content-Type': 'application/json',
-        }});
+        const response = await axios.post(`${url}mypage/deleteacc`, {}, {
+          headers: {
+            'authorization': sessionStorage.getItem('token'),
+            'Content-Type': 'application/json',
+          }
+        });
         console.log('회원 탈퇴 처리:', response);
         alert('회원 탈퇴가 완료되었습니다.');
         sessionStorage.removeItem('token');
@@ -67,43 +69,60 @@ function MyPage({ onClose }) {
       } catch (error) {
         console.log('회원 탈퇴 중 오류가 발생했습니다.');
       }
-    }else{
+    } else {
       console.log('회원 탈퇴가 취소되었습니다.');
     }
   };
 
   return (
-    <div className={styles.modalOverlay} onClick={onClose}>
-      <div className={styles.mypage} onClick={e => e.stopPropagation()}>
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50" onClick={onClose}>
+      <div className="relative bg-[#ffffff] rounded-lg w-[450px] h-[600px] p-6 flex flex-col items-center" onClick={(e) => e.stopPropagation()}>
         <div className={styles.passwordContainer}>
-          <button className={styles.closeButton} onClick={onClose}><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#143A52"><path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z" /></svg></button>
-          <h3>비밀번호 변경</h3>
+          <button className="absolute top-3 right-3 text-[#143A52]" onClick={onClose}>
+            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#143A52">
+              <path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z" />
+            </svg>
+          </button>
+          <h3 className="text-lg font-semibold mb-5 text-left ml-2">비밀번호 변경</h3>
           <input
             type="password"
             value={newPassword}
             onChange={(e) => setNewPassword(e.target.value)}
             placeholder="새 비밀번호"
+            className="w-[250px] h-8 rounded border px-2 mb-2 mx-6"
           />
           <input
             type="password"
             value={checkNewPassword}
             onChange={(e) => setCheckNewPassword(e.target.value)}
             placeholder="새 비밀번호 확인"
+            className="w-[250px] h-8 rounded border px-2 mb-4 mx-6"
           />
-          <button onClick={handlePasswordChange} className={styles.passwordChangebutton}>변경</button>
+          <button onClick={handlePasswordChange} className="ml-6 absolute left-[310px] top-[120px] w-[70px] h-[35px] bg-[#4DA6D1] text-white rounded hover:bg-[#143A52] font-bold transition duration-300">
+            변경
+          </button>
         </div>
-        <div className={styles.departmentContainer}>
-          <h3>부서 변경</h3>
-          <select value={newDepartment} onChange={(e) => setNewDepartment(e.target.value)}>
+        <div className="w-full border-b border-black border-opacity-30 mb-4">
+          <h3 className="text-lg font-semibold mb-5 text-left">부서 변경</h3>
+          <select value={newDepartment} onChange={(e) => setNewDepartment(e.target.value)} className="w-[265px] h-8 rounded border px-2 mb-2 mx-6">
             <option value="HR">{dept.HR}</option>
             <option value="IT">{dept.IT}</option>
             <option value="QM">{dept.QM}</option>
           </select>
-          <button onClick={handleDepartmentChange}>변경</button>
+          <button
+            onClick={handleDepartmentChange}
+            className="w-[70px] h-[35px] bg-[#4DA6D1] text-white rounded hover:bg-[#143A52] font-bold transition duration-300">
+            변경
+          </button>
         </div>
-        <div className={styles.deleteidContainer}>
-          <h3>회원 탈퇴</h3>
-          <button onClick={handleDeleteAccount}>탈퇴하기</button>
+        <div className="w-full">
+          <h3 className="text-lg font-semibold mb-5 text-left">회원 탈퇴</h3>
+          <div className="w-full flex justify-center items-center">
+            <button onClick={handleDeleteAccount} className="text-white w-[100px] h-[33px] border bg-red-500 rounded hover:bg-red-600 hover:text-white text-opacity-80 font-bold transition duration-300">
+              탈퇴하기
+            </button>
+          </div>
+
         </div>
       </div>
     </div>

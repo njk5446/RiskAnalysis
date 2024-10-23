@@ -4,7 +4,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import styles from './BoardDetail.module.css';
 import axios from 'axios';
 import BoardEdit from './BoardEdit';
-import { isBoardDetailOpenState, isBoardEditOpenState } from '../ModalAtom';
+import { isBoardDetailOpenState, isBoardEditOpenState, refreshState } from '../ModalAtom';
 import { useRecoilState } from 'recoil';
 
 export default function BoardDetail({ onClose, postId }) {
@@ -21,6 +21,7 @@ export default function BoardDetail({ onClose, postId }) {
   const [isEdit, setIsEdit] = useState(false);
   const [isBoardDetailOpen, setIsBoardDetailOpen] = useRecoilState(isBoardDetailOpenState);
   const [isBoardEditOpen, setIsBoardEditOpen] = useRecoilState(isBoardEditOpenState);
+  const [refresh, setRefresh] = useRecoilState(refreshState);
 
   const handleClose = () => {
     setIsBoardDetailOpen(false);
@@ -66,12 +67,15 @@ export default function BoardDetail({ onClose, postId }) {
           const response = await axios.post(`${url}board/delete?idx=${postId}`, '', { headers: headers });
           if (response.status === 200) {
             alert('게시글이 삭제되었습니다.');
-            onClose()
+            setIsBoardDetailOpen(false);
+            setRefresh(true);
           } else {
             alert('알 수 없는 오류가 발생했습니다.');
+            setIsBoardDetailOpen(false);
           }
         } else {
           alert('게시글 삭제가 취소되었습니다.');
+          setIsBoardDetailOpen(false);
         }
       }
       else {
@@ -96,45 +100,46 @@ export default function BoardDetail({ onClose, postId }) {
   };
   return (
     <div className="fixed inset-0 flex items-center justify-center z-50" onClick={handleClose}>
-      <div
-        className="relative w-full max-w-[90vw] md:max-w-[600px] bg-white shadow-2xl rounded-lg overflow-hidden"
-        onClick={(e) => e.stopPropagation()}
-      >
-        <div className="p-4 bg-gray-100">
-          <h3 className="text-lg font-semibold mb-2">제목: {post.title}</h3>
-          <div className="flex justify-between text-sm text-gray-600">
-            <span>부서: {dept[post.dept]}</span>
-            <span>작성자: {post.userName}</span>
-          </div>
-        </div>
-
-        <div className="p-4">
-          <p className="text-gray-800">{post.content}</p>
-        </div>
-
-        <div className="flex justify-end space-x-2 p-4 border-t">
-
-          <button
-            className="bg-slate-600 text-white rounded-lg px-4 py-2 hover:bg-slate-500 transition duration-300"
-            onClick={handleEditButton}
-          >
-            수정
-          </button>
-          <button
-            className="bg-red-600 text-white rounded-lg px-4 py-2 hover:bg-red-500 transition duration-300"
-            onClick={handleDeleteButton}
-          >
-            삭제
-          </button>
-          <button
-            className="bg-slate-700 text-white rounded-lg px-4 py-2 hover:bg-slate-600 transition duration-300"
-            onClick={handleClose}
-          >
-            닫기
-          </button>
-        </div>
-        {isBoardEditOpen && <BoardEdit onClose={onClose} postId={postId} />}
+    <div
+      className="relative w-full max-w-[90vw] md:max-w-[600px] h-[55vh] bg-white shadow-lg rounded-lg overflow-hidden" // shadow-lg로 변경
+      onClick={(e) => e.stopPropagation()}
+    >
+      <div className="p-4 bg-slate-300">
+        <h3 className="text-lg font-semibold text-center">게시물 상세</h3>
       </div>
+      <div className="flex text-base text-gray-900 mb-4 mt-2">
+        <label htmlFor='dept' className='ml-4 mr-10 font-semibold text-gray-800'>부서: <span className='font-normal text-gray-600'>{dept[post.dept]}</span></label>
+        <label htmlFor='userName' className='ml-4 mr-10 font-semibold text-gray-800'>작성자: <span className='font-normal text-gray-600'>{post.userName}</span></label>
+      </div>
+      <h3 className="text-lg font-semibold mb-2 ml-4">제목: {post.title}</h3>
+      <div className="flex text-base text-gray-900 mb-4 mt-2"></div>
+  
+      <div className="ml-1 p-4 min-h-[150px]">
+        <p className="text-gray-800">{post.content}</p>
+      </div>
+  
+      <div className="flex justify-end space-x-2 p-4 border-t">
+        <button
+          className="bg-slate-600 text-white rounded-lg px-4 py-2 hover:bg-slate-500 transition duration-300"
+          onClick={handleEditButton}
+        >
+          수정
+        </button>
+        <button
+          className="bg-red-600 text-white rounded-lg px-4 py-2 hover:bg-red-500 transition duration-300"
+          onClick={handleDeleteButton}
+        >
+          삭제
+        </button>
+        <button
+          className="bg-slate-700 text-white rounded-lg px-4 py-2 hover:bg-slate-600 transition duration-300"
+          onClick={handleClose}
+        >
+          닫기
+        </button>
+      </div>
+      {isBoardEditOpen && <BoardEdit onClose={onClose} postId={postId} />}
     </div>
+  </div>
   )
 }

@@ -21,15 +21,14 @@ export default function RiskActivityBar({ barData }) {
     }));
 
     return (
-        <div style={{ height: 400 }}>
-            <h3 className={styles.title}>활동별 위험 빈도</h3>
+        <div style={{ height: 400 }} className="p-4">
+            <h1 className="text-xl font-extrabold text-gray-800 tracking-wide leading-snug mb-2">활동별 위험 빈도</h1>
             <ResponsiveBar
                 data={enhancedBarData}
                 keys={['count']}
                 indexBy="activity"
                 margin={{ top: 20, right: 30, bottom: 50, left: 60 }}
                 padding={0.6}
-                // 색상 매핑을 위해 바 데이터에서 color 속성을 사용
                 colors={d => d.data.color}
                 axisBottom={{
                     tickSize: 5,

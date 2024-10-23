@@ -70,17 +70,27 @@ export default function BoardWrite({ onClose }) {
     return (
         <div className="fixed inset-0 flex items-center justify-center z-50" onClick={onClose}>
             <div
-                className="relative w-full max-w-[90vw] md:max-w-[600px] bg-white shadow-2xl rounded-lg overflow-hidden"
+                className="relative w-full max-w-[90vw] md:max-w-[600px] h-[55vh] bg-white shadow-2xl rounded-lg overflow-hidden"
                 onClick={(e) => e.stopPropagation()}
             >
+                <div className="p-4 bg-slate-500">
+                    <h3 className="text-lg font-semibold text-center">게시물 작성</h3> {/* 제목 추가 */}
+                </div>
                 <form onSubmit={handleSubmit} className="p-4">
                     {/* 에러 메시지 */}
                     {/* {error && <p className="text-red-500 mb-2">{error}</p>} */}
 
                     <div className="mb-4">
-                        <label htmlFor="title" className="block text-sm font-semibold mb-1">
-                            제목
-                        </label>
+                        <div className="flex items-center text-sm text-gray-600 mb-4">
+                            <label htmlFor="dept" className="mr-6">부서: {deptLabels[dept] || '미정'}</label>
+                            <label htmlFor="userName">작성자: {userName}</label>
+                        </div>
+                        <div className="flex flex-col mb-1 mt-6">
+                            <label htmlFor="title" className="text-sm font-semibold mb-1">
+                                제목
+                            </label>
+
+                        </div>
                         <input
                             className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-500"
                             type="text"
@@ -91,11 +101,10 @@ export default function BoardWrite({ onClose }) {
                         />
                     </div>
 
-                    <div className="flex justify-between text-sm text-gray-600 mb-4">
-                        <label htmlFor="dept">부서: {deptLabels[dept] || '미정'}</label>
-                        <label htmlFor="userName">작성자: {userName}</label>
-                    </div>
 
+                    <label htmlFor="title" className="text-sm font-semibold mb-1">
+                        내용
+                    </label>
                     <div className="mb-4">
                         <textarea
                             id="content"
