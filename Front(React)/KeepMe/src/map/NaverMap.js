@@ -15,7 +15,7 @@ export default function NaverMap({ onLocationClick }) {
   const url = process.env.REACT_APP_BACKEND_URL;
 
   const socketData = useRecoilValue(socketDataState);
-  
+
   // riskFlag에 따라 CSS 필터를 적용하는 함수
   const getIconStyle = (riskFlag) => {
     switch (riskFlag) {
@@ -150,9 +150,11 @@ export default function NaverMap({ onLocationClick }) {
   };
 
   return (
-    <div>
-      <div id="map" className={styles.map} />
-      {selectedUserCode && selectedWorkDate && <HeartbeatGraph userCode={selectedUserCode} workDate={selectedWorkDate} onClose={handleClose} />}
+    <div className="flex flex-col flex-wrap flex-grow items-center justify-center absolute w-full h-[94vh] top-[3vw] bg-[#D9D9D9] rounded-md">
+      <div id="map" className="w-full h-full" />
+      {selectedUserCode && selectedWorkDate && (
+        <HeartbeatGraph userCode={selectedUserCode} workDate={selectedWorkDate} onClose={handleClose} />
+      )}
     </div>
   );
 }

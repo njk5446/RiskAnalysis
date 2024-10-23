@@ -45,7 +45,7 @@ export default function MainPage() {
           'Authorization': token,
         }
       });
-      console.log("왜 다 안나와 새로고침했는데 "+ response);
+      console.log("왜 다 안나와 새로고침했는데 " + response);
 
       const userdata = response.data.map(item => ({
         userCode: item.userCode,
@@ -177,19 +177,50 @@ export default function MainPage() {
     setIsChart(false);
   };
   return (
-    <div className={styles.bg}>
+    <div className="flex fixed w-full h-full bg-[#ECF2F4] overflow-hidden">
       <HeaderForm />
-      {isRisk && <RiskAlert onClose={onClose} riskUserCode={riskUserCode} riskUserHeartbeat={riskUserHeartbeat} riskUserTemperature={riskUserTemperature} riskUserLatitude={riskUserLatitude} riskUserLongitude={riskUserLongitude} riskUserWorkDate={riskUserWorkDate} riskUserActivity={riskUserActivity} />}
+      {isRisk && (
+        <RiskAlert
+          onClose={onClose}
+          riskUserCode={riskUserCode}
+          riskUserHeartbeat={riskUserHeartbeat}
+          riskUserTemperature={riskUserTemperature}
+          riskUserLatitude={riskUserLatitude}
+          riskUserLongitude={riskUserLongitude}
+          riskUserWorkDate={riskUserWorkDate}
+          riskUserActivity={riskUserActivity}
+        />
+      )}
       <OutsideTemperature outsideTemperature={outsideTemperature} />
-      <div className={styles.chart} onClick={openchart}>위험 분석 조회<svg xmlns="http://www.w3.org/2000/svg" height="50px" viewBox="0 -960 960 960" width="30px" fill="#FFFFFF"><path d="M49.7-83.65v-113.18h860.6v113.18H49.7Zm34.95-175.09v-296.61h153.18v296.61H84.65Zm211.76 0v-496.61h153.18v496.61H296.41Zm212.76 0v-376.61h153.18v376.61H509.17Zm213 0v-616.61h153.18v616.61H722.17Z" /></svg></div>
+      <div
+        className="flex flex-wrap items-center justify-around absolute w-[22vw] h-[10.5vh] sm:w-[20vw] sm:h-[9.5vh] lg:w-[18vw] lg:h-[8.5vh] left-[79.5vw] top-[3vw] bg-[#abe7dfdc] rounded-[15px] font-bold text-white text-[20px] sm:text-[18px] lg:text-[16px] leading-tight z-10 hover:scale-105 transition-transform"
+        onClick={openchart}
+      >
+        위험 분석 조회
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          height="auto"
+          viewBox="0 -960 960 960"
+          width="auto"
+          className="w-[30px] h-[50px] sm:w-[25px] sm:h-[45px] lg:w-[20px] lg:h-[40px]"
+          fill="#FFFFFF"
+        >
+          <path d="M49.7-83.65v-113.18h860.6v113.18H49.7Zm34.95-175.09v-296.61h153.18v296.61H84.65Zm211.76 0v-496.61h153.18v496.61H296.41Zm212.76 0v-376.61h153.18v376.61H509.17Zm213 0v-616.61h153.18v616.61H722.17Z" />
+        </svg>
+      </div>
       {isChart && <ShowGraph onClose={CloseChart} />}
-      <div className={styles.fourcontainer}>
-        <PCountBar userCount={userCount} normalCount={normalCount} cautionCount={cautionCount} dangerCount={dangerCount} />
+      <div className="fourcontainer">
+        <PCountBar
+          userCount={userCount}
+          normalCount={normalCount}
+          cautionCount={cautionCount}
+          dangerCount={dangerCount}
+        />
       </div>
       <div>
         <NaverMap />
       </div>
       <Footer />
     </div>
-  )
+  );
 }

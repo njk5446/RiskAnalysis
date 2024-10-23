@@ -1,33 +1,35 @@
-HELP.md
+# Maven build directory
 target/
-!.mvn/wrapper/maven-wrapper.jar
-!**/src/main/**/target/
-!**/src/test/**/target/
+*.log
 
-### STS ###
-.apt_generated
+# Eclipse IDE
+.metadata/
 .classpath
-.factorypath
 .project
-.settings
-.springBeans
-.sts4-cache
+.settings/
 
-### IntelliJ IDEA ###
-.idea
-*.iws
+# IntelliJ IDEA
+.idea/
 *.iml
-*.ipr
+*.iws
 
-### NetBeans ###
-/nbproject/private/
-/nbbuild/
-/dist/
-/nbdist/
-/.nb-gradle/
-build/
-!**/src/main/**/build/
-!**/src/test/**/build/
-
-### VS Code ###
+# VS Code
 .vscode/
+
+# Gradle build directory (if using Gradle)
+build/
+
+# Operating System files
+.DS_Store
+Thumbs.db
+
+# Other build files
+*.jar
+*.war
+*.ear
+
+# Other files to ignore
+*.hprof
+*.tmp
+*.bak
+*.swp

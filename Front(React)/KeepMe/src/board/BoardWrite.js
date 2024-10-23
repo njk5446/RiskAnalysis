@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './BoardWrite.module.css';
 import axios from 'axios';
+import { useRecoilState } from 'recoil';
+import { refreshState } from '../ModalAtom';
 
 export default function BoardWrite({ onClose }) {
     const [title, setTitle] = useState('');
@@ -12,6 +14,7 @@ export default function BoardWrite({ onClose }) {
     const navigate = useNavigate();
     const url = process.env.REACT_APP_BACKEND_URL;
     const token = sessionStorage.getItem('token');
+    const [refresh, setRefresh] = useRecoilState(refreshState);
 
     useEffect(() => {
         getUserInfo();
@@ -51,6 +54,7 @@ export default function BoardWrite({ onClose }) {
         }
         try {
             await axios.post(`${url}board/write`, { title: title, content: content }, { headers: headers });
+            setRefresh(true);
             alert("성공적으로 게시글을 등록하였습니다.");
             onClose();
         } catch (error) {
@@ -64,36 +68,58 @@ export default function BoardWrite({ onClose }) {
 
 
     return (
-        <div className={styles.modalOverlay} onClick={onClose}>
-            <div className={styles.boardWriteContainer} onClick={e => e.stopPropagation()}>
-                <form onSubmit={handleSubmit}>
-                    {/* {error && <p className={styles.error}>{error}</p>} */}
-                    <div className={styles.postWriteContainer}>
-                        <label htmlFor="title" className={styles.title}>제목</label>
-                        <input className={styles.writeTitle}
+        <div className="fixed inset-0 flex items-center justify-center z-50" onClick={onClose}>
+            <div
+                className="relative w-full max-w-[90vw] md:max-w-[600px] bg-white shadow-2xl rounded-lg overflow-hidden"
+                onClick={(e) => e.stopPropagation()}
+            >
+                <form onSubmit={handleSubmit} className="p-4">
+                    {/* 에러 메시지 */}
+                    {/* {error && <p className="text-red-500 mb-2">{error}</p>} */}
+
+                    <div className="mb-4">
+                        <label htmlFor="title" className="block text-sm font-semibold mb-1">
+                            제목
+                        </label>
+                        <input
+                            className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-500"
                             type="text"
                             id="title"
                             value={title}
                             onChange={(e) => setTitle(e.target.value)}
                             required
                         />
-                        <div className={styles.writeEtcContainer}>
-                            <label htmlFor="dept">부서: {deptLabels[dept] || '미정'}</label>
-                            <label htmlFor="userName">작성자: {userName}</label>
-                        </div>
                     </div>
-                    <div>
+
+                    <div className="flex justify-between text-sm text-gray-600 mb-4">
+                        <label htmlFor="dept">부서: {deptLabels[dept] || '미정'}</label>
+                        <label htmlFor="userName">작성자: {userName}</label>
+                    </div>
+
+                    <div className="mb-4">
                         <textarea
                             id="content"
-                            className={styles.writeContent}
+                            className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-500"
                             value={content}
                             onChange={(e) => setContent(e.target.value)}
                             required
                         />
                     </div>
-                    <div className={styles.buttonContainer}>
-                        <button type="submit" className={styles.submitButton} >확인</button>
-                        <button type="button" onClick={onClose} className={styles.cancelButton}>취소</button>
+
+                    <div className="flex justify-end space-x-2">
+                        <button
+                            type="submit"
+                            className="bg-slate-600 text-white rounded-lg px-4 py-2 hover:bg-slate-500 transition duration-300"
+                        >
+                            확인
+                        </button>
+                        <button
+                            type="button"
+                            onClick={onClose}
+                            className="bg-slate-400 text-white rounded-lg px-4 py-2 hover:bg-slate-300 transition duration-300"
+                        >
+                            취소
+                        </button>
                     </div>
                 </form>
             </div>

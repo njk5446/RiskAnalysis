@@ -6,8 +6,13 @@ import BoardWrite from './BoardWrite';
 import BoardDetail from './BoardDetail';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
+import { isBoardDetailOpenState, isBoardEditOpenState, isBoardWriteOpenState, refreshState, selectedPostIdState } from '../ModalAtom';
 
 export default function BoardMain({ onClose }) {
+
+  const [refresh, setRefresh] = useRecoilState(refreshState); // setRefresh 추가
+
   const [currentPage, setCurrentPage] = useState(() => {
     const savedPage = sessionStorage.getItem('currentBoardPage');
     return savedPage ? parseInt(savedPage, 10) : 1;
@@ -21,10 +26,13 @@ export default function BoardMain({ onClose }) {
     totalPages: 0,
   });
 
-  const [selectedPostId, setSelectedPostId] = useState(null);
+  // const [selectedPostId, setSelectedPostId] = useState(null);
   const [isDetail, setIsDetail] = useState(false);
   const [isWrite, setIsWrite] = useState(false);
   const [searchMode, setSearchMode] = useState(false);
+  const [isBoardDetailOpen, setIsBoardDetailOpen] = useRecoilState(isBoardDetailOpenState);
+  const [isBoardWriteOpen, setIsBoardWriteOpen] = useRecoilState(isBoardWriteOpenState);
+  const [selectedPostId, setSelectedPostId] = useRecoilState(selectedPostIdState);
   const inputRef = useRef();
   const selectRef = useRef();
 
@@ -62,6 +70,37 @@ export default function BoardMain({ onClose }) {
     sessionStorage.setItem('currentBoardPage', currentPage.toString());
   }, [currentPage, url, postsPerPage, searchMode]);
 
+  // 새로고침시
+  useEffect(() => {
+    if (refresh) {
+      refreshBoardData();
+      setRefresh();
+    }
+
+  }, [refresh]);
+
+  const refreshBoardData = async () => {
+    try {
+        const response = await axios.get(`${url}boards`, {
+            params: {
+                page: currentPage - 1,
+                size: postsPerPage,
+            },
+            headers: { 'Authorization': sessionStorage.getItem('token') }
+        });
+
+        setDataBoard(response.data.content);
+        setPage({
+            size: response.data.pagesize,
+            number: response.data.pageNumber,
+            totalElements: response.data.totalElements,
+            totalPages: response.data.totalPages,
+        });
+    } catch (error) {
+        console.error('Error refreshing posts:', error);
+    }
+};
+
   const searchBoard = async (pageNumber = 0) => {
     let keyword = inputRef.current.value.trim();
     const selectedType = selectRef.current.value; // 선택한 타입
@@ -89,7 +128,7 @@ export default function BoardMain({ onClose }) {
       // const pageInfo = resp.data.page || {};  // page 객체가 없으면 빈 객체로 처리
       setDataBoard(results);
       setPage({
-        size: resp.data.size || postsPerPage, 
+        size: resp.data.size || postsPerPage,
         number: resp.data.number,
         totalElements: resp.data.totalElements,
         totalPages: resp.data.totalPages,
@@ -105,7 +144,8 @@ export default function BoardMain({ onClose }) {
   const handleClose = () => {
     setCurrentPage(1); // 현재 페이지를 1로 초기화
     sessionStorage.setItem('currentBoardPage', '1');
-    onClose(); // 모달 닫기
+    setIsBoardWriteOpen(false);
+    // onClose();
   };
 
 
@@ -118,8 +158,10 @@ export default function BoardMain({ onClose }) {
 
   const handleWrite = (e) => {
     e.preventDefault();
-    setIsWrite(true);
+    setIsBoardWriteOpen(true);
   };
+
+
 
   const paginate = (pageNumber) => {
     if (searchMode && pageNumber > page.totalPages) {
@@ -152,78 +194,114 @@ export default function BoardMain({ onClose }) {
 
   const handleRowClick = (idx) => {
     setSelectedPostId(idx);
-    setIsDetail(true);
+    setIsBoardDetailOpen(true);
   };
 
+
   return (
-    <div className={styles.modalOverlay} onClick={handleClose}>
-      <div className={styles.boardMain} onClick={e => e.stopPropagation()}>
-        {/* 검색 기능을 좌측 상단에 배치 */}
-        <form onSubmit={handleSearch} className={`${styles.searchForm} flex items-center space-x-3`}>
-          <select ref={selectRef} className="p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
-            <option value="title">제목</option>
-            <option value="content">내용</option>
-            <option value="userName">이름</option>
-          </select>
-          <input
-            type="text"
-            ref={inputRef}
-            placeholder="검색어 입력"
-            className="w-64 p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
-          <button type="submit" className="flex items-center p-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600">
-            <FontAwesomeIcon icon={faMagnifyingGlass} />
-          </button>
-        </form>
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50" onClick={onClose}>
+      <div
+        className="relative w-full max-w-[90vw] md:max-w-[900px] h-full max-h-[80vh] md:max-h-[550px] bg-white shadow-2xl rounded-lg overflow-hidden"
+        onClick={(e) => e.stopPropagation()}
+      >
+        {/* 모달 상단 제목 및 검색 기능 */}
+        <div className="flex items-center justify-between p-4 bg-gray-100">
+          <h2 className="text-lg font-semibold ml-10">공지사항</h2>
+          {/* 검색 기능 */}
+          <form onSubmit={handleSearch} className="flex items-center space-x-3">
+            <select
+              ref={selectRef}
+              className="p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-500 shadow-sm"
+            >
+              <option value="title">제목</option>
+              <option value="content">내용</option>
+              <option value="userName">이름</option>
+            </select>
+            <input
+              type="text"
+              ref={inputRef}
+              placeholder="검색어 입력"
+              className="w-64 p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-500 shadow-sm"
+            />
+            <button
+              type="submit"
+              className="flex items-center p-2 bg-slate-600 text-white rounded-lg hover:bg-slate-500 transition duration-300"
+            >
+              <FontAwesomeIcon icon={faMagnifyingGlass} />
+            </button>
+          </form>
+        </div>
 
-        <table className={styles.boardTable}>
-          <thead>
-            <tr>
-              <th>번호</th>
-              <th>제목</th>
-              <th>부서</th>
-              <th>작성자</th>
-              <th>작성일</th>
-            </tr>
-          </thead>
-          <tbody className={styles.body}>
-            {dataBoard.length > 0 ? (
-              dataBoard.map((post) => (
-                <tr key={post.idx} onClick={() => handleRowClick(post.idx)}>
-                  <td>{post.idx}</td>
-                  <td>{post.title}</td>
-                  <td>{dept[post.dept]}</td>
-                  <td>{post.userName}</td>
-                  <td className={styles.createDate}>{formatDate(post.createDate)}</td>
-                </tr>
-              ))
-            ) : (
+        {/* 테이블 고정 */}
+        <div className="flex-1 p-4">
+          <table className="table-fixed min-w-full border-collapse">
+            <thead className="bg-blue-100 text-gray-700">
               <tr>
-                <td colSpan="5" className={styles.noDataMessage}>
-                  해당하는 결과를 찾을 수 없습니다.
-                </td>
+                <th className="border px-4 py-2 text-center font-semibold text-sm w-[10%]">번호</th>
+                <th className="border px-4 py-2 text-center font-semibold text-sm w-[40%]">제목</th>
+                <th className="border px-4 py-2 text-center font-semibold text-sm w-[15%]">부서</th>
+                <th className="border px-4 py-2 text-center font-semibold text-sm w-[15%]">작성자</th>
+                <th className="border px-4 py-2 text-center font-semibold text-sm w-[20%]">작성일</th>
               </tr>
-            )}
-          </tbody>
-        </table>
+            </thead>
+            <tbody className="bg-white">
+              {dataBoard.length > 0 ? (
+                dataBoard.map((post) => (
+                  <tr key={post.idx} onClick={() => handleRowClick(post.idx)} className="hover:bg-gray-100 cursor-pointer transition duration-200">
+                    <td className='text-center'>{post.idx}</td>
+                    <td className='text-center'>{post.title}</td>
+                    <td className='text-center'>{dept[post.dept]}</td>
+                    <td className='text-center'>{post.userName}</td>
+                    <td className='text-center'>{formatDate(post.createDate)}</td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan="5" className="text-center text-gray-500 py-4">
+                    해당하는 결과를 찾을 수 없습니다.
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
 
-        {isDetail && selectedPostId && <BoardDetail postId={selectedPostId} onClose={handleClose} />}
+        {isBoardDetailOpen && selectedPostId && <BoardDetail postId={selectedPostId} onClose={handleClose} />}
 
-        <button onClick={handleWrite} className={styles.writeButton}>작성</button>
-        {isWrite && <BoardWrite onClose={handleClose} />}
-        <button onClick={handleClose} className={styles.homeButton}>닫기</button>
+        {/* 페이지네이션 및 버튼들 레이아웃 수정 */}
+        <div className="flex-shrink-0 flex items-center p-4 bg-white border-t">
+          {/* 왼쪽 여백 */}
+          <div className="w-[150px]"></div>
 
-        {/* 페이지네이션 컴포넌트 */}
-        <div className={styles.paginationContainer}>
-          <Pagination
-            postsPerPage={postsPerPage}
-            totalPosts={page.totalElements}
-            paginate={paginate}
-            currentPage={currentPage}
-            totalPages={page.totalPages}
-          />
+          {/* 페이지네이션 */}
+          <div className="flex-1 flex justify-center">
+            <Pagination
+              postsPerPage={postsPerPage}
+              totalPosts={page.totalElements}
+              paginate={paginate}
+              currentPage={currentPage}
+              totalPages={page.totalPages}
+            />
+          </div>
+          {isBoardWriteOpen && <BoardWrite onClose={handleClose} />}
+          {/* 버튼 그룹 */}
+          <div className="w-[150px] flex justify-end space-x-2">
+            <button
+              onClick={handleWrite}
+              className="bg-slate-800 text-white rounded-lg px-4 py-2 hover:bg-slate-900 transition duration-300"
+            >
+              작성
+            </button>
+            <button
+              onClick={onClose}
+              className="bg-slate-700 text-white rounded-lg px-4 py-2 hover:bg-slate-800 transition duration-300"
+            >
+              닫기
+            </button>
+          </div>
         </div>
       </div>
     </div>
+
   );
 }

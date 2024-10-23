@@ -153,10 +153,10 @@ export default function RegisterForm() {
 
     return (
         <div className="bg-cover bg-center w-screen h-screen" style={{ backgroundImage: `url(${constructionImage})` }}>
-        <h1 className="absolute top-12 left-1/2 transform -translate-x-1/2 font-inter font-bold text-4xl text-black text-center">
-            작업자 위험 예측
-        </h1>
-        <div className="fixed w-[90%] max-w-[400px] h-[50vh] min-h-[520px] top-[55%] left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-[#ecf2f4c7] rounded-lg shadow-lg z-10 flex flex-col items-center p-4">
+            <h1 className="absolute top-12 left-1/2 transform -translate-x-1/2 font-inter font-bold text-4xl text-black text-center">
+                작업자 위험 예측
+            </h1>
+            <div className="fixed w-[90%] max-w-[400px] h-[50vh] min-h-[520px] top-[55%] left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-[#ecf2f4c7] rounded-lg shadow-lg z-10 flex flex-col items-center p-4">
                 <h1 className="text-white text-4xl font-bold mb-10 text-center">Join</h1>
                 <form onSubmit={register} className="flex flex-col items-center">
                     <div className="flex items-center mb-4 w-full max-w-[300px]">
@@ -225,7 +225,7 @@ export default function RegisterForm() {
                         />
                         <button
                             type="button"
-                            className="ml-2 h-12 w-20 bg-[#143A52] text-white rounded-md"
+                            className="ml-1 h-12 w-[100px] bg-[#143A52] text-white rounded-md" // 버튼 너비를 100px로 설정
                             onClick={checkUserid}
                         >
                             중복확인

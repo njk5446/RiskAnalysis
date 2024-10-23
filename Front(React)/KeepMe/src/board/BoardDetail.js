@@ -4,6 +4,9 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import styles from './BoardDetail.module.css';
 import axios from 'axios';
 import BoardEdit from './BoardEdit';
+import { isBoardDetailOpenState, isBoardEditOpenState } from '../ModalAtom';
+import { useRecoilState } from 'recoil';
+
 export default function BoardDetail({ onClose, postId }) {
   const navigate = useNavigate();
   const [post, setPost] = useState(null);
@@ -16,6 +19,13 @@ export default function BoardDetail({ onClose, postId }) {
   const query = new URLSearchParams(location.search);
   const idx = query.get('idx');
   const [isEdit, setIsEdit] = useState(false);
+  const [isBoardDetailOpen, setIsBoardDetailOpen] = useRecoilState(isBoardDetailOpenState);
+  const [isBoardEditOpen, setIsBoardEditOpen] = useRecoilState(isBoardEditOpenState);
+
+  const handleClose = () => {
+    setIsBoardDetailOpen(false);
+  }
+
   useEffect(() => {
     const fetchPost = async () => {
       try {
@@ -37,7 +47,7 @@ export default function BoardDetail({ onClose, postId }) {
         headers: headers
       });
       if (resp.status === 200) {
-        setIsEdit(true);
+        setIsBoardEditOpen(true);
       }
     } catch (error) {
       if (error.response.status === 401) {
@@ -85,24 +95,46 @@ export default function BoardDetail({ onClose, postId }) {
     QM: '품질관리',
   };
   return (
-    <div className={styles.modalOverlay} onClick={onClose}>
-      <div className={styles.boardContainer} onClick={e => e.stopPropagation()}>
-        <div className={styles.postContainer}>
-          <h3 className={styles.title}>제목: {post.title}</h3><br />
-          <div className={styles.etcContainer}>
+    <div className="fixed inset-0 flex items-center justify-center z-50" onClick={handleClose}>
+      <div
+        className="relative w-full max-w-[90vw] md:max-w-[600px] bg-white shadow-2xl rounded-lg overflow-hidden"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div className="p-4 bg-gray-100">
+          <h3 className="text-lg font-semibold mb-2">제목: {post.title}</h3>
+          <div className="flex justify-between text-sm text-gray-600">
             <span>부서: {dept[post.dept]}</span>
             <span>작성자: {post.userName}</span>
           </div>
         </div>
-        <div className={styles.contentContainer}>
-          <p>{post.content}</p>
-        </div>
-        <button className={styles.BackbuttonContainer} onClick={onClose}>닫기</button>
-        <button className={styles.EditbuttonContainer} onClick={handleEditButton}>수정</button>
-        {isEdit && <BoardEdit onClose={onClose} postId={postId} />}
-        <button className={styles.DeletebuttonContainer} onClick={handleDeleteButton}>삭제</button>
-      </div>
 
+        <div className="p-4">
+          <p className="text-gray-800">{post.content}</p>
+        </div>
+
+        <div className="flex justify-end space-x-2 p-4 border-t">
+
+          <button
+            className="bg-slate-600 text-white rounded-lg px-4 py-2 hover:bg-slate-500 transition duration-300"
+            onClick={handleEditButton}
+          >
+            수정
+          </button>
+          <button
+            className="bg-red-600 text-white rounded-lg px-4 py-2 hover:bg-red-500 transition duration-300"
+            onClick={handleDeleteButton}
+          >
+            삭제
+          </button>
+          <button
+            className="bg-slate-700 text-white rounded-lg px-4 py-2 hover:bg-slate-600 transition duration-300"
+            onClick={handleClose}
+          >
+            닫기
+          </button>
+        </div>
+        {isBoardEditOpen && <BoardEdit onClose={onClose} postId={postId} />}
+      </div>
     </div>
   )
 }

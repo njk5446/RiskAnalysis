@@ -1,9 +1,32 @@
-import { atom } from "recoil";
 
-export const modalAtom = atom({
-  key: 'modalAtom',
-  default: {
-    isOpen: false, // 모달이 열려 있는지 여부
-    duplicate: false  // 모달 중첩 여부 (true, false)
-  },
+import { atom } from 'recoil';
+
+export const refreshState = atom({
+  key: 'refreshState',
+  default: false,
+})
+
+export const isBoardMainOpenState = atom({
+  key: 'isBoardMainOpen',
+  default: false,
+});
+
+export const isBoardDetailOpenState = atom({
+  key: 'isBoardDetailOpen',
+  default: false,
+});
+
+export const isBoardEditOpenState = atom({
+  key: 'isBoardEditOpen',
+  default: false,
+});
+
+export const isBoardWriteOpenState = atom({
+  key: 'isBoardWriteOpen',
+  default: false,
+});
+
+export const selectedPostIdState = atom({
+  key: 'selectedPostId',
+  default: null,
 });

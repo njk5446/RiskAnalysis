@@ -6,6 +6,10 @@ import MainPage from './main/MainPage';
 import LoginForm from './login/LoginForm';
 import RegisterForm from './register/RegisterForm';
 import UserMainPage from './user/UserMainPage';
+import BoardMain from './board/BoardMain';
+import BoardDetail from './board/BoardDetail';
+import BoardWrite from './board/BoardWrite';
+import BoardEdit from './board/BoardEdit';
 
 function App() {
   const setAuth = useRecoilValue(authState);
@@ -20,6 +24,10 @@ function App() {
           <Route path="/signup" element={<RegisterForm />} />
           <Route path="/user" element={<UserMainPage />} />
           <Route path="/main" element={<MainPage/>} />
+          <Route path="/boards" element={<BoardMain />} />
+          <Route path="/board/detail" element={<BoardDetail />} />
+          <Route path="/board/write" element={<BoardWrite />} />
+          <Route path="/board/edit" element={<BoardEdit />} />
         </Routes>
       </Router>
     </RecoilRoot>
