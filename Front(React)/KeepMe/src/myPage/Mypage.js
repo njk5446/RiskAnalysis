@@ -77,6 +77,8 @@ function MyPage({ onClose }) {
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50" onClick={onClose}>
       <div className="relative bg-[#ffffff] rounded-lg w-[450px] h-[600px] p-6 flex flex-col items-center" onClick={(e) => e.stopPropagation()}>
+        {/* 타이틀 추가 */}
+        <h2 className="text-xl font-bold mb-4 text-left font-sans">마이페이지</h2>
         <div className={styles.passwordContainer}>
           <button className="absolute top-3 right-3 text-[#143A52]" onClick={onClose}>
             <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#143A52">

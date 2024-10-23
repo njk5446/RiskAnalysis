@@ -195,20 +195,22 @@ export default function MainPage() {
       )}
       <OutsideTemperature outsideTemperature={outsideTemperature} />
       <div
-        className="flex flex-wrap items-center justify-around absolute w-[22vw] h-[10.5vh] sm:w-[20vw] sm:h-[9.5vh] lg:w-[18vw] lg:h-[8.5vh] left-[79.5vw] top-[3vw] bg-[#abe7dfdc] rounded-[15px] font-bold text-white text-[20px] sm:text-[18px] lg:text-[16px] leading-tight z-10 hover:scale-105 transition-transform"
+        className="flex flex-wrap items-center justify-center absolute w-[22vw] h-[10.5vh] sm:w-[20vw] sm:h-[9.5vh] lg:w-[18vw] lg:h-[8.5vh] left-[79.5vw] top-[3vw] bg-blue-500 bg-opacity-75 rounded-[15px] font-bold text-white text-[24px] sm:text-[20px] lg:text-[18px] leading-tight z-10 hover:scale-105 transition-transform"
         onClick={openchart}
       >
-        위험 분석 조회
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          height="auto"
-          viewBox="0 -960 960 960"
-          width="auto"
-          className="w-[30px] h-[50px] sm:w-[25px] sm:h-[45px] lg:w-[20px] lg:h-[40px]"
-          fill="#FFFFFF"
-        >
-          <path d="M49.7-83.65v-113.18h860.6v113.18H49.7Zm34.95-175.09v-296.61h153.18v296.61H84.65Zm211.76 0v-496.61h153.18v496.61H296.41Zm212.76 0v-376.61h153.18v376.61H509.17Zm213 0v-616.61h153.18v616.61H722.17Z" />
-        </svg>
+        <span className="flex items-center">
+          위험 분석 조회
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            height="50"
+            viewBox="0 -960 960 960"
+            width="30"
+            className="w-[30px] h-[50px] sm:w-[25px] sm:h-[45px] lg:w-[20px] lg:h-[40px] ml-2" // ml-2로 아이콘과 텍스트 간격 추가
+            fill="#FFFFFF"
+          >
+            <path d="M49.7-83.65v-113.18h860.6v113.18H49.7Zm34.95-175.09v-296.61h153.18v296.61H84.65Zm211.76 0v-496.61h153.18v496.61H296.41Zm212.76 0v-376.61h153.18v376.61H509.17Zm213 0v-616.61h153.18v616.61H722.17Z" />
+          </svg>
+        </span>
       </div>
       {isChart && <ShowGraph onClose={CloseChart} />}
       <div className="fourcontainer">

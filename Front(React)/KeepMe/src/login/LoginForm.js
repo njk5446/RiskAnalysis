@@ -76,7 +76,7 @@ export default function LoginForm() {
     return (
         <div className="bg-cover bg-center w-screen h-screen" style={{ backgroundImage: `url(${constructionImage})` }}>
         <h1 className="absolute top-12 left-1/2 transform -translate-x-1/2 font-inter font-bold text-4xl text-black text-center">
-            위험 예측 분석
+            작업자 위험 예측 분석
         </h1>
         <div className="fixed w-[90%] max-w-[400px] h-[50vh] min-h-[500px] top-[55%] left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-[#ecf2f4c7] rounded-lg shadow-lg z-10 flex flex-col items-center p-4">
             <h1 className="text-white text-4xl font-bold mb-6 text-center mt-10">
