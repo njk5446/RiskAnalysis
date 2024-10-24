@@ -142,7 +142,7 @@ export default function ShowGraph({ onClose }) {
   return (
     <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex justify-center items-center z-40" onClick={onClose}>
       <div className="flex flex-col rounded-lg w-4/5 max-h-full bg-white overflow-hidden" onClick={(e) => e.stopPropagation()}>
-        <div className="text-2xl font-bold text-gray-700 text-center mt-5">위험 분석 조회</div>
+        <div className="text-2xl font-bold text-gray-700 text-center mt-5">위험 분석</div>
         <div className="my-5 flex justify-center items-center gap-2">
           {/* 작업일자 슬롯 박스 */}
           <select
@@ -172,9 +172,24 @@ export default function ShowGraph({ onClose }) {
           </select>
           <button className="px-4 py-2 bg-[#c7722c] text-white rounded-md hover:bg-[#7e4211] transition duration-300" onClick={handleFetchData}>확인</button>
         </div>
-        <div className="flex flex-col flex-grow overflow-y-auto px-4">
-          <Heat heatmapData={heatmapData} />
-          <RiskActivityBar barData={barData} />
+        <div className="flex flex-col flex-grow overflow-y-auto px-4" style={{ maxHeight: 'calc(100% - 180px)' }}>
+          <style>
+            {`
+          /* 스크롤바 숨기기 */
+          .hidden-scrollbar::-webkit-scrollbar {
+            display: none; /* Chrome, Safari 및 Opera에서 스크롤바 숨김 */
+          }
+
+          .hidden-scrollbar {
+            -ms-overflow-style: none;  /* IE 및 Edge에서 스크롤바 숨김 */
+            scrollbar-width: none;  /* Firefox에서 스크롤바 숨김 */
+          }
+        `}
+          </style>
+          <div className="hidden-scrollbar overflow-y-auto" style={{ maxHeight: '100%' }}>
+            <Heat heatmapData={heatmapData} />
+            <RiskActivityBar barData={barData} />
+          </div>
         </div>
       </div>
     </div>

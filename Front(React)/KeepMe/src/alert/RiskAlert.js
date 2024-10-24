@@ -43,7 +43,7 @@ export default function RiskAlert({ onClose, riskUserHeartbeat, riskUserTemperat
         }
     };
     return (
-        <div className="fixed top-0 left-0 w-full h-full bg-red bg-opacity-30 flex justify-center items-center z-50" onClick={onClose}>
+        <div className="fixed top-0 left-0 w-full h-full bg-red-500 bg-opacity-30 flex justify-center items-center z-50" onClick={onClose}>
             <div className="bg-white w-full sm:w-3/4 md:w-1/3 lg:w-1/4 p-6 rounded-lg shadow-xl overflow-y-auto relative" onClick={(e) => e.stopPropagation()}>
                 <div className="flex flex-col items-center">
                     {/* 헤더 아이콘과 타이틀 */}

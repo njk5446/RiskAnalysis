@@ -199,7 +199,7 @@ export default function MainPage() {
         onClick={openchart}
       >
         <span className="flex items-center">
-          위험 분석 조회
+          위험 분석
           <svg
             xmlns="http://www.w3.org/2000/svg"
             height="50"
