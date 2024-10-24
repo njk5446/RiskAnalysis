@@ -14,7 +14,6 @@ export default function LoginForm() {
     const [ws, setWs] = useRecoilState(wsState);
     const [loggedIn, setLoggedIn] = useState(false);
     const navigate = useNavigate();
-    // const [ws, setWs] = useRecoilState(wsState); // WebSocket 상태 추가
     const [auth, setAuth] = useRecoilState(authState);
     const url = process.env.REACT_APP_BACKEND_URL;
     console.log(url)
@@ -23,6 +22,7 @@ export default function LoginForm() {
     const login = async (e) => {
         e.preventDefault();//폼 제출 시 기본 동작을 막음
         try {
+            console.log("요청 시작: " + url);
             const response = await axios.post(`${url}login`, 
                 {
                   userId,
@@ -39,14 +39,6 @@ export default function LoginForm() {
                 sessionStorage.setItem("userId", userId);
                 sessionStorage.setItem("token", token);
                 setAuth(true);
-
-                // // WebSocket 연결 설정
-                // const newWs = new WebSocket(`${url}pushservice?userId=${userId}`);
-                // newWs.onopen = () => {
-                //     console.log('로그인에서 WebSocket 연결 성공');
-                //     setWs(newWs);
-                // };
-
                 console.log(response.data.role);
                 const role = response.data.role;
                 if (role.includes('ROLE_ADMIN')){

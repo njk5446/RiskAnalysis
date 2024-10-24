@@ -96,9 +96,10 @@ export default function MainPage() {
   useEffect(() => {
     if (initialDataLoaded && !ws && userId) {
       console.log("initialDataLoaded 상태가 true로 변경됨, WebSocket 연결 시작");
+      console.log("url 찍기전");
       const url = process.env.REACT_APP_BACKEND_URL;
-
-      const newWs = new WebSocket(`${url}pushservice?userId=${userId}`);
+      console.log("웹소켓 연결전")
+      const newWs = new WebSocket(`${url.replace(/^http/, 'ws')}pushservice?userId=${userId}`);
       setWs(newWs);
       newWs.onopen = () => {
         console.log('WebSocket 연결 성공');

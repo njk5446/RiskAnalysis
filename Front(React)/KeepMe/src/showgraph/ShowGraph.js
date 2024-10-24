@@ -141,7 +141,7 @@ export default function ShowGraph({ onClose }) {
 
 
   return (
-    <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex justify-center items-center z-50" onClick={onClose}>
+    <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex justify-center items-center z-40" onClick={onClose}>
       <div className="flex flex-col rounded-lg w-4/5 max-h-full bg-white overflow-hidden" onClick={(e) => e.stopPropagation()}>
         <div className="text-2xl font-bold text-gray-700 text-center mt-5">위험 분석 조회</div>
         <div className="my-5 flex justify-center items-center gap-2">
