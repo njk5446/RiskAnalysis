@@ -1,5 +1,4 @@
 import React from 'react'
-import styles from './BoardEdit.module.css';
 import axios from 'axios';
 import { useState, useEffect } from 'react';
 import { useNavigate, useParams, useLocation, useSearchParams } from 'react-router-dom';
@@ -83,7 +82,7 @@ export default function BoardEdit({ onClose, postId }) {
 
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center z-50" onClick={handleClose}>
+    <div className="fixed inset-0 flex items-center justify-center z-40" onClick={handleClose}>
       <div
         className="relative w-full max-w-[90vw] md:max-w-[600px] h-[55vh] bg-white shadow-2xl rounded-lg overflow-hidden"
         onClick={(e) => e.stopPropagation()}

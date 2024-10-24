@@ -1,6 +1,5 @@
 // Pagination.js
 import React from 'react';
-import styles from './Pagination.module.css';
 
 export default function Pagination({ postsPerPage, totalPosts, paginate, currentPage }) {
   const pageNumbers = [];

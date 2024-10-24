@@ -1,15 +1,14 @@
 import React, { useEffect, useState } from 'react'
-import styles from './MainPage.module.css'
-import NaverMap from '../map/NaverMap'
-import PCountBar from '../peopleCountBor/PCountBar'
-import HeaderForm from '../header/HeaderForm'
-import Footer from '../footer/Footer'
-import RiskAlert from '../riskAlert/RiskAlert'
+import NaverMap from './NaverMap'
+import PCountBar from '../layouts/CountPerson'
+import HeaderForm from '../layouts/Header'
+import Footer from '../layouts/Footer'
+import RiskAlert from '../alert/RiskAlert'
 import axios from 'axios'
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { socketDataState, userIdState, authState, wsState } from '../recoil/Atoms'; // WebSocket에서 가져온 심박수 데이터
-import OutsideTemperature from '../outsideTemp/OutsideTemperature';
-import ShowGraph from '../showgraph/ShowGraph'
+import OutsideTemperature from '../layouts/OutsideTemperature';
+import ShowGraph from '../workerinfo/AllWorker'
 import { riskUserCodeState } from '../Atoms'
 
 export default function MainPage() {

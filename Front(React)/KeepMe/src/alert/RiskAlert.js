@@ -43,7 +43,7 @@ export default function RiskAlert({ onClose, riskUserHeartbeat, riskUserTemperat
         }
     };
     return (
-        <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex justify-center items-center z-50" onClick={onClose}>
+        <div className="fixed top-0 left-0 w-full h-full bg-red bg-opacity-30 flex justify-center items-center z-50" onClick={onClose}>
             <div className="bg-white w-full sm:w-3/4 md:w-1/3 lg:w-1/4 p-6 rounded-lg shadow-xl overflow-y-auto relative" onClick={(e) => e.stopPropagation()}>
                 <div className="flex flex-col items-center">
                     {/* 헤더 아이콘과 타이틀 */}
@@ -55,7 +55,7 @@ export default function RiskAlert({ onClose, riskUserHeartbeat, riskUserTemperat
                     </div>
 
                     {/* 내용 */}
-                    <span className="text-lg font-semibold text-red-600 border-b border-red-300 w-full pb-2 mb-4 text-center">작업자 {userName} ({riskUserCode}) 위험 상태입니다</span>
+                    <span className="text-lg font-semibold text-red-600 border-b border-red-300 w-full pb-2 mb-4 text-center">작업자 {userName} ({riskUserCode}) 위험 상태입니다.</span>
 
                     <div className="w-full text-gray-700 space-y-2 mb-6">
                         <p className="text-base"><span className="font-semibold">심박수:</span> {riskUserHeartbeat} bpm</p>

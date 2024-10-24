@@ -1,5 +1,4 @@
 import React from 'react'
-import styles from './OutsideTemperature.module.css';
 
 export default function OutsideTemperature({ outsideTemperature }) {
   console.log('outsideTemperature', outsideTemperature);

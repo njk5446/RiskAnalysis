@@ -1,7 +1,6 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import styles from './BoardDetail.module.css';
 import axios from 'axios';
 import BoardEdit from './BoardEdit';
 import { isBoardDetailOpenState, isBoardEditOpenState, refreshState } from '../ModalAtom';
@@ -40,7 +39,9 @@ export default function BoardDetail({ onClose, postId }) {
     fetchPost();
   }, [postId, url]);
 
-  if (!post) return <div>로딩 중...</div>;
+
+  // 로딩중
+  if (!post) return <div></div>;
 
   const handleEditButton = async () => {
     try {
@@ -99,7 +100,7 @@ export default function BoardDetail({ onClose, postId }) {
     QM: '품질관리',
   };
   return (
-    <div className="fixed inset-0 flex items-center justify-center z-50" onClick={handleClose}>
+    <div className="fixed inset-0 flex items-center justify-center z-40" onClick={handleClose}>
     <div
       className="relative w-full max-w-[90vw] md:max-w-[600px] h-[55vh] bg-white shadow-lg rounded-lg overflow-hidden" // shadow-lg로 변경
       onClick={(e) => e.stopPropagation()}

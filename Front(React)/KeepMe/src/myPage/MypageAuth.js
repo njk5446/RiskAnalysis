@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import styles from './MypageAuth.module.css';
-
 
 // 마이페이지 접근 시 비밀 번호 검증
 function MyPageAuth({ onSuccess, onClose }) {
@@ -33,7 +31,7 @@ function MyPageAuth({ onSuccess, onClose }) {
   };
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50" onClick={onClose}>
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-40" onClick={onClose}>
       <div className="flex flex-col items-center fixed w-full max-w-md h-[250px] top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-[#ffffff] rounded-lg shadow-lg z-40 p-5" onClick={(e) => e.stopPropagation()}>
         <h3 className="text-lg font-semibold mb-5 mt-8 ml-2 text-center">비밀번호 확인</h3>
         <form onSubmit={handleSubmit} className="flex flex-row items-center w-full">

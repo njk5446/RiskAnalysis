@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-import styles from './HeaderForm.module.css';
-import Mypage from '../myPage/Mypage';
-import MyPageAuth from '../myPage/MypageAuth';
+import Mypage from '../mypage/Mypage';
+import MyPageAuth from '../mypage/MypageAuth';
 import BoardMain from '../board/BoardMain';
 export default function HeaderForm() {
   const [isMypageOpen, setIsMypageOpen] = useState(false);
@@ -38,8 +37,8 @@ export default function HeaderForm() {
   };
   return (
     <div className="flex flex-col items-center justify-center flex-grow absolute w-screen h-[4vh] top-0 bg-white bg-opacity-80">
-      <h1 className="absolute left-[2.5vw] font-jura text-[30px] font-bold text-slate-600 ">
-        작업자 위험 예측 분석 웹서비스
+      <h1 className="absolute left-[2.5vw] font-jura text-[30px] font-bold text-black">
+        작업자 위험 예측 분석
       </h1>
       <button
         className="flex flex-col items-center justify-center w-[12vw] h-[2.5vh] absolute left-[45vw] bg-white border-none cursor-pointer text-[#000000b4] font-semibold hover:text-black transition duration-200 ease-in-out"

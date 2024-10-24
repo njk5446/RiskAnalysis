@@ -1,5 +1,5 @@
 import React from 'react'
-import styles from './PCountBar.module.css'
+
 export default function PCountBar({ userCount, normalCount, cautionCount, dangerCount }) {
 
 

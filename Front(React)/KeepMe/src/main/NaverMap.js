@@ -1,9 +1,7 @@
 import React, { useRef, useEffect, useState } from 'react';
-import styles from './NaverMap.module.css';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { socketDataState } from '../recoil/Atoms';
-import HeartbeatGraph from '../heartbeat/Heartbeat';
-import axios from 'axios';
+import RiskDataGraph from '../workerinfo/Worker';
 
 export default function NaverMap({ onLocationClick }) {
   const [mapsocketData, setMapsocketData] = useRecoilState(socketDataState); // WebSocket 데이터를 가져옴
@@ -12,9 +10,6 @@ export default function NaverMap({ onLocationClick }) {
   const [selectedUserCode, setSelectedUserCode] = useState(null); // 선택된 사용자 코드 상태
   const [selectedWorkDate, setSelectedWorkDate] = useState(null); // 선택된 사용자 코드 상태
   const { naver } = window; // naver 객체는 Naver Maps API가 로드된 후 접근 가능
-  const url = process.env.REACT_APP_BACKEND_URL;
-
-  const socketData = useRecoilValue(socketDataState);
 
   // riskFlag에 따라 CSS 필터를 적용하는 함수
   const getIconStyle = (riskFlag) => {
@@ -60,22 +55,6 @@ export default function NaverMap({ onLocationClick }) {
 
     return marker;
   };
-
-  // useEffect(() => {
-  //   if (selectedUserCode && selectedWorkDate) {
-  //     // selectedUserCode와 selectedWorkDate를 기준으로 socketData에서 데이터를 필터링
-  //     const userData = socketData[selectedUserCode];
-
-  //     if (userData && userData.workDate === selectedWorkDate) {
-  //       // 선택된 유저와 작업일에 맞는 데이터를 찾음
-  //       console.log('필터된 데이터: ', userData);
-
-  //       // 여기서 필터된 데이터를 기반으로 그래프나 상태 처리
-  //     } else {
-  //       console.log('해당 날짜와 유저에 대한 데이터가 없습니다.');
-  //     }
-  //   }
-  // }, [selectedUserCode, selectedWorkDate, socketData]);
 
   // 맵 초기화
   useEffect(() => {
@@ -153,7 +132,7 @@ export default function NaverMap({ onLocationClick }) {
     <div className="flex flex-col flex-wrap flex-grow items-center justify-center absolute w-full h-[94vh] top-[3vw] bg-[#D9D9D9] rounded-md">
       <div id="map" className="w-full h-full" />
       {selectedUserCode && selectedWorkDate && (
-        <HeartbeatGraph userCode={selectedUserCode} workDate={selectedWorkDate} onClose={handleClose} />
+        <RiskDataGraph userCode={selectedUserCode} workDate={selectedWorkDate} onClose={handleClose} />
       )}
     </div>
   );

@@ -1,8 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios'
-import styles from './RegisterForm.module.css';;
-import constructionImage from './construction1.jpg';
 
 export default function RegisterForm() {
     const [userName, setUserName] = useState('');
@@ -152,7 +150,7 @@ export default function RegisterForm() {
 
 
     return (
-        <div className="bg-cover bg-center w-screen h-screen" style={{ backgroundImage: `url(${constructionImage})` }}>
+        <div className="bg-cover bg-center w-screen h-screen" style={{ backgroundImage: `url(/img/construction1.jpg)` }}>
             <h1 className="absolute top-12 left-1/2 transform -translate-x-1/2 font-inter font-bold text-4xl text-black text-center">
                 작업자 위험 예측
             </h1>

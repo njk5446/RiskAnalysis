@@ -1,5 +1,5 @@
 import React from 'react'
-import styles from './Footer.module.css';
+
 export default function Footer() {
   return (
     <footer className="fixed bottom-0 w-screen h-[2vh] bg-[#ECF2F4] text-center text-sm flex justify-center items-center">

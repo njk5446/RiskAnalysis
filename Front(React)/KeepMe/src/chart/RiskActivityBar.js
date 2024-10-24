@@ -1,6 +1,5 @@
 import React from 'react';
 import { ResponsiveBar } from '@nivo/bar';
-import styles from './RiskActivity.module.css'
 
 export default function RiskActivityBar({ barData }) {
     // 색상 배열 정의 (빨주노초파남보)

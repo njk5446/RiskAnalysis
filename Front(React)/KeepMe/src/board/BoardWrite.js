@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import styles from './BoardWrite.module.css';
 import axios from 'axios';
 import { useRecoilState } from 'recoil';
 import { refreshState } from '../ModalAtom';
@@ -68,7 +67,7 @@ export default function BoardWrite({ onClose }) {
 
 
     return (
-        <div className="fixed inset-0 flex items-center justify-center z-50" onClick={onClose}>
+        <div className="fixed inset-0 flex items-center justify-center z-40" onClick={onClose}>
             <div
                 className="relative w-full max-w-[90vw] md:max-w-[600px] h-[55vh] bg-white shadow-2xl rounded-lg overflow-hidden"
                 onClick={(e) => e.stopPropagation()}

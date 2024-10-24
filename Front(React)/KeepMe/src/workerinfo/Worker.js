@@ -52,7 +52,7 @@ export default function HeartbeatGraph({ userCode, workDate, onClose }) {
     const heartbeatData = {
         labels: userData.heartbeat.map((_, index) => index + 1),
         datasets: [{
-            label: 'Heartbeat',
+            label: ' 심박수',
             data: userData.heartbeat,
             borderColor: 'rgba(100, 149, 237, 1)',
             backgroundColor: 'rgba(100, 149, 237, 0.2)', 
@@ -63,7 +63,7 @@ export default function HeartbeatGraph({ userCode, workDate, onClose }) {
     const temperatureData = {
         labels: userData.temperature.map((_, index) => index + 1),
         datasets: [{
-            label: 'Temperature',
+            label: ' 체온',
             data: userData.temperature,
             borderColor: 'rgb(255, 102, 102)',
             tension: 0.1
@@ -113,9 +113,9 @@ export default function HeartbeatGraph({ userCode, workDate, onClose }) {
     };
 
     const riskLevelClass = {
-        0: 'bg-green-400 text-white',  // 밝은 초록색
-        1: 'bg-orange-400 text-white', // 밝은 오렌지색
-        2: 'bg-red-600 text-white',     // 진한 빨간색
+        0: 'bg-green-400 text-white',  
+        1: 'bg-yellow-400 text-white', 
+        2: 'bg-red-600 text-white', 
     };
 
     const activity = (activity) => {
@@ -141,7 +141,7 @@ export default function HeartbeatGraph({ userCode, workDate, onClose }) {
 
     console.log('workDate', workDate);
     return (
-        <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex justify-center items-center z-50" onClick={onClose}>
+        <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex justify-center items-center z-40" onClick={onClose}>
             <div className="rounded-lg w-full max-w-xl min-h-[600px] h-3/5 max-h-[500px] overflow-hidden flex flex-col bg-white" onClick={e => e.stopPropagation()}>
                 <div className="bg-white p-4 rounded-lg h-full flex flex-col">
                     <div className="flex flex-col mb-2">

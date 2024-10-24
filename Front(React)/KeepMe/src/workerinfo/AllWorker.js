@@ -1,8 +1,7 @@
 import React, { act, useEffect, useState } from 'react';
 import axios from 'axios';
-import styles from './ShowGraph.module.css';
-import Heat from './Heat';
-import RiskActivityBar from './RiskActivityBar';
+import Heat from '../chart/Heat';
+import RiskActivityBar from '../chart/RiskActivityBar';
 
 
 export default function ShowGraph({ onClose }) {

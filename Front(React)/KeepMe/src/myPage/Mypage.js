@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import styles from './Mypage.module.css';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 function MyPage({ onClose }) {
@@ -75,11 +74,11 @@ function MyPage({ onClose }) {
   };
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50" onClick={onClose}>
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-40" onClick={onClose}>
       <div className="relative bg-[#ffffff] rounded-lg w-[450px] h-[600px] p-6 flex flex-col items-center" onClick={(e) => e.stopPropagation()}>
         {/* 타이틀 추가 */}
         <h2 className="text-xl font-bold mb-4 text-left font-sans">마이페이지</h2>
-        <div className={styles.passwordContainer}>
+        <div className="justify-center items-center border-b border-black border-opacity-30 w-full h-[210px] mb-4">
           <button className="absolute top-3 right-3 text-[#143A52]" onClick={onClose}>
             <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#143A52">
               <path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z" />
@@ -100,7 +99,7 @@ function MyPage({ onClose }) {
             placeholder="새 비밀번호 확인"
             className="w-[250px] h-8 rounded border px-2 mb-4 mx-6"
           />
-          <button onClick={handlePasswordChange} className="ml-6 absolute left-[310px] top-[120px] w-[70px] h-[35px] bg-[#4DA6D1] text-white rounded hover:bg-[#143A52] font-bold transition duration-300">
+          <button onClick={handlePasswordChange} className="ml-6 absolute left-[310px] top-[155px] w-[70px] h-[35px] bg-[#4DA6D1] text-white rounded hover:bg-[#143A52] font-bold transition duration-300">
             변경
           </button>
         </div>

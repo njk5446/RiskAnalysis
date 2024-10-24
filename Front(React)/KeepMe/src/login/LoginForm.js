@@ -1,10 +1,8 @@
 import axios from 'axios';
 import React from 'react'
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom'
-import styles from './LoginForm.module.css'
 import { useRecoilState } from 'recoil';
-import constructionImage from './construction1.jpg'
 
 import { userIdState, authState, userRoleState, wsState} from '../recoil/Atoms';
 export default function LoginForm() {
@@ -66,7 +64,7 @@ export default function LoginForm() {
     }
 
     return (
-        <div className="bg-cover bg-center w-screen h-screen" style={{ backgroundImage: `url(${constructionImage})` }}>
+        <div className="bg-cover bg-center w-screen h-screen" style={{ backgroundImage: `url(/img/construction1.jpg)` }}>
         <h1 className="absolute top-12 left-1/2 transform -translate-x-1/2 font-inter font-bold text-4xl text-black text-center">
             작업자 위험 예측 분석
         </h1>

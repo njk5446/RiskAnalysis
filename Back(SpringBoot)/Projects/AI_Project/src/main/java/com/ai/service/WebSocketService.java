@@ -53,7 +53,7 @@ public class WebSocketService {
 	private final WebClient webClient = WebClient.create();
 	
 	// 위험 분석 응답 데이터 전송
-	@Scheduled(fixedRate = 200000000)
+	@Scheduled(fixedRate = 20)
 	public void pushData() throws IOException {
 		// DB의 user_vital_sign 테이블에서 no를 1씩 증가시키며 해당 행 조회 후 vitalSign 인스턴스에 저장
 		// 현재 lastNo값 추출
