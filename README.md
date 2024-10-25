@@ -20,7 +20,7 @@
 ## 💁🏻‍♂ 웹 서비스 소개
 
 &nbsp;&nbsp;웨어러블 디바이스를 통해 작업자의 생체 신호 및 환경 데이터를  
-&nbsp;&nbsp;실시간으로 분석해 위험을 예측하는 웹서비스 구현
+&nbsp;&nbsp;실시간으로 분석해 위험을 예측하는 SPA 웹서비스 구현
 
 
 <br />
@@ -101,28 +101,61 @@
     <td style="vertical-align: top; padding-left: 20px;">
       <ul>
         <li>일자별, 작업자별 위험 예측 데이터 시각화</li>
-        <li></li>
-        <li></li>
+        <li>셀렉트 박스로 작업일자와 작업자 선택</li>
+        <li>nivo의 Heatmap, Bar 차트 활용</li>
+        <li>특정 작업자의 해당일자의 시간대별 위험 주의 빈도</li>
+        <li>활동별 위험 빈도</li>
+      </ul>
+    </td>
+  </tr>
+  <tr>
+    <td align="center">
+      <a href="https://youtu.be/ZXVSq8vKsf8?feature=shared">
+        <img src="./images/공지사항.png" alt="공지사항" width="300">
+      </a>
+      <br />
+    <strong style="display: block;">공지사항</strong>
+    </td>
+    <td style="vertical-align: top; padding-left: 20px;">
+      <ul>
+        <li>페이지네이션 기능</li>
+        <li>제목, 내용, 이름으로 검색 필터링 제공</li>
+        <li>사용자는 자신의 게시물만 수정 및 삭제 가능</li>
+      </ul>
+    </td>
+  </tr>
+  <tr>
+    <td align="center">
+      <a href="https://youtu.be/CI-VMvWaQaY?feature=shared">
+        <img src="./images/마이페이지.png" alt="마이페이지" width="300">
+      </a>
+      <br />
+    <strong style="display: block;">마이페이지</strong>
+    </td>
+    <td style="vertical-align: top; padding-left: 20px;">
+      <ul>
+        <li>마이페이지 접속 시 비밀번호 검증</li>
+        <li>비밀번호 및 부서 변경 기능</li>
+        <li>회원탈퇴 기능</li>
+      </ul>
+    </td>
+  </tr>
+  
+  <tr>
+    <td align="center">
+      <a href="https://youtu.be/CI-VMvWaQaY?feature=shared">
+        <img src="./images/위험알림.png" alt="위험 알림" width="300">
+      </a>
+      <br />
+    <strong style="display: block;">위험 알림</strong>
+    </td>
+    <td style="vertical-align: top; padding-left: 20px;">
+      <ul>
+        <li>웹소켓 수신 위험 예측 데이터 기반으로 위험 알림 시각화</li>
       </ul>
     </td>
   </tr>
 </table>
 
 <br />
-
-
-
-
-
-- **위험 예측 분석 대시보드**:  
-  수집된 데이터를 기반으로 위험 예측 분석 결과를 시각적으로 표현하며, 사용자가 쉽게 이해할 수 있도록 다양한 지표를 제공합니다.
-
-- **공지사항**:  
-  사용자가 중요한 공지사항을 확인할 수 있는 섹션으로, 최신 정보와 업데이트를 제공하여 작업 환경의 안전성을 높입니다.
-
-- **로그인/회원가입**:  
-  
-
-- **마이페이지**:  
-  사용자 개인의 정보를 관리할 수 있는 공간으로, 작업 기록 및 경고 이력 등 개인화된 데이터를 확인할 수 있습니다.
 
