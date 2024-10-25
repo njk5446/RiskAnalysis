@@ -60,11 +60,11 @@
 <table>
   <tr>
     <td align="center">
-      <a href="https://youtu.be/CcyLQtlwfi8?feature=shared">
-        <img src="./images/작업자실시간모니터링.png" alt="작업자 실시간 모니터링" width="300">
+      <a href="https://youtu.be/dsc7zG2_40g?feature=shared">
+        <img src="./images/로그인.png" alt="로그인/회원가입" width="300">
       </a>
       <br />
-      작업자 실시간 모니터링
+      로그인/회원가입
     </td>
     <td align="center">
       <a href="https://youtu.be/Ni84VvYxORA?feature=shared">
@@ -83,11 +83,11 @@
       공지사항
     </td>
     <td align="center">
-      <a href="https://youtu.be/dsc7zG2_40g?feature=shared">
-        <img src="./images/로그인.png" alt="로그인/회원가입" width="300">
+      <a href="https://youtu.be/CcyLQtlwfi8?feature=shared">
+        <img src="./images/작업자실시간모니터링.png" alt="작업자 실시간 모니터링" width="300">
       </a>
       <br />
-      로그인/회원가입
+      작업자 실시간 모니터링
     </td>
   </tr>
   <tr>
@@ -102,4 +102,23 @@
 </table>
 
 <br />
+
+- **작업자 실시간 모니터링**:  
+  - 웹소켓으로 위험 예측 데이터, 생체 데이터, 위치 데이터를 실시간 수신
+  - 작업자 상태에 따라 위험도를 시각화
+  - 외부 온도 업데이트
+  - 
+  - 네이버맵 API 활용한 작업자 위치 표시 
+
+- **위험 예측 분석 대시보드**:  
+  수집된 데이터를 기반으로 위험 예측 분석 결과를 시각적으로 표현하며, 사용자가 쉽게 이해할 수 있도록 다양한 지표를 제공합니다.
+
+- **공지사항**:  
+  사용자가 중요한 공지사항을 확인할 수 있는 섹션으로, 최신 정보와 업데이트를 제공하여 작업 환경의 안전성을 높입니다.
+
+- **로그인/회원가입**:  
+  
+
+- **마이페이지**:  
+  사용자 개인의 정보를 관리할 수 있는 공간으로, 작업 기록 및 경고 이력 등 개인화된 데이터를 확인할 수 있습니다.
 
