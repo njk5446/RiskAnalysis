@@ -11,13 +11,14 @@ export default function ShowGraph({ onClose }) {
   const [barData, setBarData] = useState([]);
   const [heatmapData, setHeatmapData] = useState([]);
   const [userCodes, setUserCodes] = useState([]);
+  const [workDateList, setWorkDateList] = useState([]);
   const [selectedWorkDate, setSelectedWorkDate] = useState('');
   const [selectedUserCode, setSelectedUserCode] = useState('');
   const url = process.env.REACT_APP_BACKEND_URL;
   const token = sessionStorage.getItem('token');
 
   // userCode 슬롯박스 값 불러오기
-  const getUsercodes = async () => {
+  const getUserCodes = async () => {
     const resp = await axios.get(`${url}showgraph/userlist?workDate=${selectedWorkDate}`, {
       headers: {
         'Content-Type': 'application/json',
@@ -26,6 +27,22 @@ export default function ShowGraph({ onClose }) {
     });
     const userList = resp.data;
     setUserCodes(userList);
+  };
+
+  // workDate 슬롯박스 값 불러오기
+  const getWorkDateList = async () => {
+    try {
+      const resp = await axios.get(`${url}workdatelist`,{
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': token,
+        }
+      });
+      const workDateList = resp.data;
+      setWorkDateList(workDateList);
+    } catch (error) {
+      console.error("작업일자를 불러오는 중 오류 발생:", error);
+    }
   };
 
   const fetchRiskData = async () => {
@@ -118,10 +135,14 @@ export default function ShowGraph({ onClose }) {
     return barData;
   }
 
+  useEffect(() => {
+    getWorkDateList();
+  }, []);
+
   // 작업일자 변경 시 작업자 코드 불러오기
   useEffect(() => {
     if (selectedWorkDate) {
-      getUsercodes();
+      getUserCodes();
     }
   }, [selectedWorkDate]);
 
@@ -151,13 +172,12 @@ export default function ShowGraph({ onClose }) {
             onChange={(e) => setSelectedWorkDate(e.target.value)}
           >
             <option value="">작업일자 선택</option>
-            {Array.from({ length: 26 }, (_, i) => {
-              const date = new Date(2024, 7, i + 2);
-              const formattedDate = date.toISOString().split('T')[0];
-              return <option key={formattedDate} value={formattedDate}>{formattedDate}</option>
-            })}
+            {workDateList.map((workDateListObj, index) => (
+              <option key={index} value={workDateListObj.workDate}>
+                {workDateListObj.workDate}
+              </option>
+            ))}
           </select>
-
           <select
             className="p-3 border border-gray-300 rounded-lg bg-gray-50 focus:ring-2 focus:ring-[#c7722c] focus:border-[#c7722c] transition duration-200"
             value={selectedUserCode}

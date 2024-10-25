@@ -13,6 +13,7 @@ import com.ai.projection.LogProjection;
 import com.ai.projection.LogResponseProjection;
 import com.ai.projection.RiskFlagProjection;
 import com.ai.projection.UserCodeProjection;
+import com.ai.projection.WorkDateListProjection;
 
 // log 테이블
 public interface LogRepository extends JpaRepository<Log, Integer> {
@@ -68,6 +69,13 @@ public interface LogRepository extends JpaRepository<Log, Integer> {
 			+ "WHERE work_date = ?",
 	nativeQuery = true)
 	List<UserCodeProjection> findUserCodeByWorkDate(LocalDate workDate);
+	
+	// 과거부터 현재까지 기록된 일자들 전부 가져오기
+	@Query
+	(value = "SELECT DISTINCT work_date "
+			+ "FROM log ",
+	nativeQuery = true)
+	List<WorkDateListProjection> findWorkDateList();
 	
 	@Query
 	(value = "SELECT activity, COUNT(*) as COUNT "

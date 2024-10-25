@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.ai.domain.Log;
 import com.ai.projection.LogProjection;
 import com.ai.projection.UserCodeProjection;
+import com.ai.projection.WorkDateListProjection;
 import com.ai.repository.CurrentWorkDateRepository;
 import com.ai.repository.LogRepository;
 
@@ -20,7 +21,7 @@ public class LogService {
 	private final LogRepository logRepo;
 	private final CurrentWorkDateRepository curRepo;
 
-    // 해당 userCode, 일자별 이전 데이터 조회
+    // 해당 userCode, 일자별 이전 데이터 조회 (최근 60개)
     public List<LogProjection> getUserLogs(String userCode, LocalDate workDate) {
         return logRepo.findLogsByUserCodeAndWorkDate(userCode, workDate);
     }
@@ -28,7 +29,7 @@ public class LogService {
     // 모든 유저 코드에 대한 로그를 한 번에 가져오는 메서드 추가
     public List<LogProjection> getAllUserLogs(int workDateId) {
         // 1. 현재 작업일자 가져오기
-        LocalDate workDate = getWorkDate(workDateId);
+        LocalDate workDate = getCurrentWorkDate(workDateId);
         // 2. 해당 작업일자의 유저 코드 리스트 가져오기
         List<UserCodeProjection> userCodes = getUserCodeByWorkDate(workDate);
         // 3. 로그를 저장할 리스트 초기화
@@ -52,6 +53,10 @@ public class LogService {
     	return logRepo.findLogsByWorkDate(workDate);
     }
     
+    // 과거부터 현재가지 기록된 workDate 조회
+    public List<WorkDateListProjection> getWorkDateList() {
+    	return logRepo.findWorkDateList();
+    }
 	
 	// 모든 작업자의 이전 데이터 조회 (모든 일자)
 	public List<Log> getAllLogs() {
@@ -63,12 +68,8 @@ public class LogService {
 		return logRepo.findUserCodeByWorkDate(workDate);
 	}
 	
-//    // 일자별 60개 이전 데이터 조회
-//    public List<LogProjection> getLogsByDateLimit(LocalDate workDate) {
-//    	return logRepo.findLogsByWorkDateLimit(workDate);
-//    }
-	
-	public LocalDate getWorkDate(int id) {
+	// 현재 일자 불러오기
+	public LocalDate getCurrentWorkDate(int id) {
 		System.out.println("getWorkDate: " + curRepo.findById(id).orElse(null).getWorkDate());
         return curRepo.findById(id).orElse(null).getWorkDate();
     }

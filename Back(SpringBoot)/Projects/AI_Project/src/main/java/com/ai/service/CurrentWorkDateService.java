@@ -12,7 +12,7 @@ import lombok.RequiredArgsConstructor;
 public class CurrentWorkDateService {
 	private final CurrentWorkDateRepository curRepo;
 	
-	public CurrentWorkDate getWorkDate(int id) {
+	public CurrentWorkDate getCurrentWorkDate(int id) {
 		return curRepo.findById(id).orElse(null);
 	}
 
