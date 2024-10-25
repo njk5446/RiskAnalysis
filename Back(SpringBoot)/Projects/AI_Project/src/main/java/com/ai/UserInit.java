@@ -66,10 +66,10 @@
 //
 //        // 관리자용
 //        userRepo.save(User.builder()
-//                  .userCode("0")
+//                  .userCode("1111")
 //                  .userId("admin1")
 //                  .password(passwordEnc.encode("11"))
-//                  .userName("관리자1")
+//                  .userName("이찬희")
 //                  .role(Role.ROLE_ADMIN)
 //                  .dept(Dept.IT)
 //                  .region(Region.HQ)
@@ -78,8 +78,8 @@
 //        );
 //        
 //        userRepo.save(User.builder()
-//                .userCode("00")
-//                .userId("admin2")
+//                .userCode("2222")
+//                .userId("김화영")
 //                .password(passwordEnc.encode("11"))
 //                .userName("관리자2")
 //                .role(Role.ROLE_ADMIN)
@@ -89,17 +89,29 @@
 //                .build()  
 //      );
 //        
-////        userRepo.save(User.builder()
-////                .userCode("00")
-////                .userId("admin22")
-////                .password(passwordEnc.encode("11"))
-////                .userName("관리자3")
-////                .role(Role.ROLE_ADMIN)
-////                .dept(Dept.IT)
-////                .region(Region.HQ)
-////                .gender(Gender.M)
-////                .build()  
-////      );
+//        userRepo.save(User.builder()
+//                .userCode("3333")
+//                .userId("admin3")
+//                .password(passwordEnc.encode("11"))
+//                .userName("문동윤")
+//                .role(Role.ROLE_ADMIN)
+//                .dept(Dept.IT)
+//                .region(Region.HQ)
+//                .gender(Gender.M)
+//                .build()  
+//      );
+//        
+//        userRepo.save(User.builder()
+//                .userCode("4444")
+//                .userId("admin4")
+//                .password(passwordEnc.encode("11"))
+//                .userName("리버풀")
+//                .role(Role.ROLE_ADMIN)
+//                .dept(Dept.IT)
+//                .region(Region.HQ)
+//                .gender(Gender.M)
+//                .build()  
+//      );
 //      
 //        for (int i : numbers) {
 //            userRepo.save(User.builder()

@@ -1,12 +1,17 @@
 package com.ai.service;
 
+import java.util.List;
+
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.ai.domain.Board;
+import com.ai.domain.Dept;
 import com.ai.domain.User;
 import com.ai.dto.MyInfoDTO;
+import com.ai.repository.BoardRepository;
 import com.ai.repository.UserRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -15,6 +20,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class MyPageService {
 	private final UserRepository userRepo;
+	private final BoardRepository boardRepo;
 	private final PasswordEncoder passwordEnc;
 	
 	// 회원정보 조회: 로그인 후 얻은 토큰의 User 객체 정보의 토큰을 뽑아내서 DB에서 일치하는 User 객체를 가져옴
@@ -59,12 +65,20 @@ public class MyPageService {
 		}
 	};
 	
-	// 부서 변경
+	// 해당 유저의 부서 변경 및 해당 유저가 쓴 게시물의 부서도 변경 
 	public boolean changeDept(User newDept) {
 		try {
-			User currentDept = userRepo.findByUserCode(getUserFromToken().getUserCode()).orElseThrow();
-			currentDept.setDept(newDept.getDept());
-			userRepo.save(currentDept);
+			User currentUser = userRepo.findByUserCode(getUserFromToken().getUserCode()).orElseThrow();
+			Dept newDepartment = newDept.getDept();
+			currentUser.setDept(newDept.getDept());
+			userRepo.save(currentUser);
+			
+			List<Board> userBoards = boardRepo.findByUserCode(currentUser.getUserCode());
+			
+			for (Board board : userBoards) {
+				board.setDept(newDepartment);
+				boardRepo.save(board);
+			}
 			return true;
 		} catch (Exception e) {
 			return false;

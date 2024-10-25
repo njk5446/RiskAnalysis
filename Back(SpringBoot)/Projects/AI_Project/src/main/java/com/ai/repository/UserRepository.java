@@ -5,6 +5,7 @@ import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
+import com.ai.domain.Dept;
 import com.ai.domain.User;
 
 //JPARepository: CRUD 메서드를 상속해줌
@@ -26,4 +27,11 @@ public interface UserRepository extends JpaRepository<User, String>{
 			+ "WHERE user_id = ?",
 	nativeQuery = true)
 	String searchPersonName(String userId);
+	
+	// 부서 가져오기
+	@Query
+	(value = "SELECT dept FROM user "
+			+ "WHERE user_id = ?",
+	nativeQuery = true)
+	Dept findDept(String userId);
 }

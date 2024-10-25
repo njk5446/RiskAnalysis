@@ -38,7 +38,7 @@
 //        		.orElseThrow(() -> new UsernameNotFoundException("User Not Found"));
 //        
 //        
-//        for (int i = 1; i <= 30; i++) {
+//        for (int i = 1; i <= 26; i++) {
 //            boardRepo.save(Board.builder()
 //                    .user(admin)
 //                    .title(admin.getUserName() + "의 공지사항")

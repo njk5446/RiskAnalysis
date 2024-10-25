@@ -47,6 +47,12 @@ export default function BoardEdit({ onClose, postId }) {
     fetchPost();
   }, [postId, url]);
 
+  const showDept = {
+    HR: '인사',
+    IT: '전산관리',
+    QM: '품질관리',
+  };
+
   const handleEdit = async (e) => {
     e.preventDefault();
     // 여기에 게시글 제출 로직을 구현합니다.
@@ -92,7 +98,7 @@ export default function BoardEdit({ onClose, postId }) {
         </div>
         <div className="flex text-base text-gray-900 mb-4 mt-2">
           <label htmlFor="dept" className='ml-4 mr-10 font-semibold text-gray-800'>
-            부서: <span className="font-normal text-gray-600">{dept}</span>
+            부서: <span className="font-normal text-gray-600">{showDept[dept]}</span>
           </label>
           <label htmlFor="userName" className='font-semibold text-gray-800'>
             작성자: <span className="font-normal text-gray-600">{userName}</span>

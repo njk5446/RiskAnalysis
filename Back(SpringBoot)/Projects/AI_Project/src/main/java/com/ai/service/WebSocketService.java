@@ -181,8 +181,8 @@ public class WebSocketService {
 	// Flask와 API 연결
 	private CompletableFuture<RiskPrediction> sendDataToFlaskAsync(FlaskRequestDTO fqDTO) {
 		return webClient.post() // POST 요청 준비
-//				.uri("http://192.168.55.203:8000/api/data/") // 요청 보낼 flask 서버
-				.uri("http://192.168.0.131:8000/api/data/") // 요청 보낼 flask 서버
+				.uri("http://192.168.55.203:8000/api/data/") // 요청 보낼 flask 서버
+//				.uri("http://192.168.0.131:8000/api/data/") // 요청 보낼 flask 서버
 				.bodyValue(fqDTO) // Flask 서버에 보낼 데이터
 				.retrieve() // 응답을 받아오는 메서드
 				.bodyToMono(RiskPrediction.class) // 응답 받은 객체를 RiskPrediction 객체로 변환

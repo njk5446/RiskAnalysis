@@ -49,4 +49,20 @@ public class UserInfoController {
 								 .body("사용자 이름을 가져오는 중 오류가 발생했습니다.");
 		}
 	}
+	
+	@GetMapping("/department")
+	public ResponseEntity<?> getDepartment(@RequestParam String userId) {
+		try {
+			return ResponseEntity.ok(userService.getDepartment(userId));
+		} catch (UsernameNotFoundException e) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND)
+								 .body(e.getMessage());
+		} catch (IllegalArgumentException e) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+								 .body("유효하지않은 userId" + userId);
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+								 .body("사용자 이름을 가져오는 중 오류가 발생했습니다.");
+		}
+	}
 }

@@ -1,5 +1,6 @@
 package com.ai.repository;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.domain.Page;
@@ -53,4 +54,10 @@ public interface BoardRepository extends JpaRepository<Board, Integer> {
 				+ "JOIN user u ON b.user_code = u.user_code WHERE b.content LIKE %?%",
 	nativeQuery = true)
 	Page<GetBoardsProjection> findBoardsByContent(Pageable pageable, String title);
+	
+	@Query
+	(value = "SELECT * FROM board "
+			+ "WHERE user_code = ?",
+	nativeQuery = true)	
+	List<Board> findByUserCode(String userCode);
 }
