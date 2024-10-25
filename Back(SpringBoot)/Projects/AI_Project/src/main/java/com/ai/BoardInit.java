@@ -28,12 +28,17 @@
 //        User admin = userRepo.findByUserId("admin1")
 //                .orElseThrow(() -> new UsernameNotFoundException("User Not Found"));
 //        
-//        User manager = userRepo.findByUserId("admin2")
+//        User manager1 = userRepo.findByUserId("admin2")
 //                .orElseThrow(() -> new UsernameNotFoundException("User Not Found"));
 //
-//
+//        User manager2 = userRepo.findByUserId("admin3")
+//        		.orElseThrow(() -> new UsernameNotFoundException("User Not Found"));
 //        
-//        for (int i = 1; i <= 60; i++) {
+//        User manager3 = userRepo.findByUserId("admin4")
+//        		.orElseThrow(() -> new UsernameNotFoundException("User Not Found"));
+//        
+//        
+//        for (int i = 1; i <= 30; i++) {
 //            boardRepo.save(Board.builder()
 //                    .user(admin)
 //                    .title(admin.getUserName() + "의 공지사항")
@@ -44,12 +49,30 @@
 //                    .build());
 //            
 //            boardRepo.save(Board.builder()
-//            		.user(manager)
-//                    .title(manager.getUserName() + "의 공지사항")
-//                    .content(manager.getUserName() + "의 공지사항 내용")
-//                    .userId(manager.getUserId())
-//                    .userName(manager.getUserName())
-//                    .dept(manager.getDept())
+//            		.user(manager1)
+//                    .title(manager1.getUserName() + "의 공지사항")
+//                    .content(manager1.getUserName() + "의 공지사항 내용")
+//                    .userId(manager1.getUserId())
+//                    .userName(manager1.getUserName())
+//                    .dept(manager1.getDept())
+//                    .build());
+//            
+//            boardRepo.save(Board.builder()
+//            		.user(manager2)
+//                    .title(manager2.getUserName() + "의 공지사항")
+//                    .content(manager2.getUserName() + "의 공지사항 내용")
+//                    .userId(manager2.getUserId())
+//                    .userName(manager2.getUserName())
+//                    .dept(manager2.getDept())
+//                    .build());
+//            
+//            boardRepo.save(Board.builder()
+//            		.user(manager3)
+//                    .title(manager3.getUserName() + "의 공지사항")
+//                    .content(manager3.getUserName() + "의 공지사항 내용")
+//                    .userId(manager3.getUserId())
+//                    .userName(manager3.getUserName())
+//                    .dept(manager3.getDept())
 //                    .build());
 //        }
 //

@@ -14,4 +14,8 @@ public class UserInfoService {
 	public String getYourName(String userCode) {
 		return userRepo.searchUserName(userCode);
 	}
+	
+	public String getPersonName(String userId) {
+		return userRepo.searchPersonName(userId);
+	}
 }

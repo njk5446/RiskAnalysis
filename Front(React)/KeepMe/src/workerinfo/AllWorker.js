@@ -143,6 +143,7 @@ export default function ShowGraph({ onClose }) {
   useEffect(() => {
     if (selectedWorkDate) {
       getUserCodes();
+      setSelectedUserCode(''); // * 수정 부분 *
     }
   }, [selectedWorkDate]);
 
@@ -159,7 +160,7 @@ export default function ShowGraph({ onClose }) {
     }
   };
 
-
+  
   return (
     <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex justify-center items-center z-40" onClick={onClose}>
       <div className="flex flex-col rounded-lg w-4/5 max-h-full bg-white overflow-hidden" onClick={(e) => e.stopPropagation()}>

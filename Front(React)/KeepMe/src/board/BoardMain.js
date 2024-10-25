@@ -76,28 +76,6 @@ export default function BoardMain({ onClose }) {
 
   }, [refresh]);
 
-//   const refreshBoardData = async () => {
-//     try {
-//         const response = await axios.get(`${url}boards`, {
-//             params: {
-//                 page: currentPage - 1,
-//                 size: postsPerPage,
-//             },
-//             headers: { 'Authorization': sessionStorage.getItem('token') }
-//         });
-
-//         setDataBoard(response.data.content);
-//         setPage({
-//             size: response.data.pagesize,
-//             number: response.data.pageNumber,
-//             totalElements: response.data.totalElements,
-//             totalPages: response.data.totalPages,
-//         });
-//     } catch (error) {
-//         console.error('Error refreshing posts:', error);
-//     }
-// };
-
   const searchBoard = async (pageNumber = 0) => {
     let keyword = inputRef.current.value.trim();
     const selectedType = selectRef.current.value; // 선택한 타입
@@ -142,7 +120,6 @@ export default function BoardMain({ onClose }) {
     setCurrentPage(1); // 현재 페이지를 1로 초기화
     sessionStorage.setItem('currentBoardPage', '1');
     setIsBoardWriteOpen(false);
-    // onClose();
   };
 
 
@@ -194,9 +171,14 @@ export default function BoardMain({ onClose }) {
     setIsBoardDetailOpen(true);
   };
 
+  const handleOnClose = () => {
+    setCurrentPage(1); // 현재 페이지를 1로 초기화
+    sessionStorage.setItem('currentBoardPage', '1'); // sessionStorage에 저장
+    onClose(); // 원래의 onClose 호출
+  };
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-40" onClick={onClose}>
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-40" onClick={handleOnClose}>
       <div
         className="relative w-full max-w-[90vw] md:max-w-[900px] h-full max-h-[80vh] md:max-h-[550px] bg-white shadow-2xl rounded-lg overflow-hidden"
         onClick={(e) => e.stopPropagation()}
@@ -290,7 +272,7 @@ export default function BoardMain({ onClose }) {
               작성
             </button>
             <button
-              onClick={onClose}
+              onClick={handleOnClose}
               className="bg-slate-700 text-white rounded-lg px-4 py-2 hover:bg-slate-800 transition duration-300"
             >
               닫기

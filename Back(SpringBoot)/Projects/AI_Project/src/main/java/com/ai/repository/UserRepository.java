@@ -20,4 +20,10 @@ public interface UserRepository extends JpaRepository<User, String>{
 			+ "WHERE user_code = ?",
 	nativeQuery = true)
 	String searchUserName(String userCode);
+	
+	@Query
+	(value = "SELECT user_name FROM user "
+			+ "WHERE user_id = ?",
+	nativeQuery = true)
+	String searchPersonName(String userId);
 }

@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
 function MyPage({ onClose }) {
   const [newPassword, setNewPassword] = useState('');
   const [checkNewPassword, setCheckNewPassword] = useState('');
   const [newDepartment, setNewDepartment] = useState('');
+  const [userName, setUserName] = useState('');
   const url = process.env.REACT_APP_BACKEND_URL;
   const navigation = useNavigate();
   const headers = {
@@ -16,6 +18,36 @@ function MyPage({ onClose }) {
     IT: '전산관리',
     QM: '품질관리',
   };
+
+  const getUserName = async () => {
+    try {
+      const userId = sessionStorage.getItem("userId");
+      if (!userId) {
+        throw new Error("userId가 존재하지 않습니다.");
+      }
+
+      const resp = await axios.get(`${url}username`, { params: { userId } });
+      return resp.data;
+    } catch (error) {
+      console.error("사용자 이름을 가져오는 중 오류 발생: " + error);
+      throw error;
+    }
+  }
+
+  // 컴포넌트가 마운트될 때 사용자 이름 가져오기
+  useEffect(() => {
+    const fetchUserName = async () => {
+      try {
+        const name = await getUserName();
+        setUserName(name); // 가져온 사용자 이름 상태에 저장
+      } catch (error) {
+        console.error('사용자 이름을 가져오는 데 실패했습니다.', error);
+      }
+    };
+
+    fetchUserName();
+  }, []);
+
   const handlePasswordChange = async () => {
     if (newPassword === checkNewPassword) {
       try {
@@ -78,6 +110,7 @@ function MyPage({ onClose }) {
       <div className="relative bg-[#ffffff] rounded-lg w-[450px] h-[600px] p-6 flex flex-col items-center" onClick={(e) => e.stopPropagation()}>
         {/* 타이틀 추가 */}
         <h2 className="text-xl font-bold mb-4 text-left font-sans">마이페이지</h2>
+        <h3 className="text-lg text-sky-700 font-semibold mb-5 text-left">환영합니다, {userName}님!</h3> {/* 사용자 이름 표시 */}
         <div className="justify-center items-center border-b border-black border-opacity-30 w-full h-[210px] mb-4">
           <button className="absolute top-3 right-3 text-[#143A52]" onClick={onClose}>
             <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#143A52">
