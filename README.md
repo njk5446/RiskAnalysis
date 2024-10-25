@@ -1,10 +1,10 @@
-<div align="center">
+<div>
+  <h1>작업자 위험 예측 분석 웹 서비스</h1>
   <br />
   <img src="./images/로그인.png" alt="Project" width="700px" />
   <br />
-  <h1>작업자 위험 예측 분석 웹 서비스</h1>
   <a href="#">
-  <img src="https://img.shields.io/badge/GitHub%20Pages-Active-AEF359?&logo=github&logoColor=white" alt="GitHub-Pages" />
+    <img src="https://img.shields.io/badge/GitHub%20Pages-Active-AEF359?&logo=github&logoColor=white" alt="GitHub-Pages" />
   </a>
   <br />
 </div>
@@ -21,7 +21,6 @@
 
 &nbsp;&nbsp;웨어러블 디바이스를 통해 작업자의 생체 신호 및 환경 데이터를  
 &nbsp;&nbsp;실시간으로 분석해 위험을 예측하는 SPA 웹 서비스 구현
-
 
 <br />
 
@@ -96,7 +95,7 @@
         <img src="./images/위험예측분석대시보드.png" alt="위험 예측 분석 대시보드" width="300">
       </a>
       <br />
-    <strong style="display: block;">위험 예측 분석 대시보드</strong>
+      <strong style="display: block;">위험 예측 분석 대시보드</strong>
     </td>
     <td style="vertical-align: top; padding-left: 20px;">
       <ul>
@@ -114,7 +113,7 @@
         <img src="./images/공지사항.png" alt="공지사항" width="300">
       </a>
       <br />
-    <strong style="display: block;">공지사항</strong>
+      <strong style="display: block;">공지사항</strong>
     </td>
     <td style="vertical-align: top; padding-left: 20px;">
       <ul>
@@ -130,7 +129,7 @@
         <img src="./images/마이페이지.png" alt="마이페이지" width="300">
       </a>
       <br />
-    <strong style="display: block;">마이페이지</strong>
+      <strong style="display: block;">마이페이지</strong>
     </td>
     <td style="vertical-align: top; padding-left: 20px;">
       <ul>
@@ -140,14 +139,13 @@
       </ul>
     </td>
   </tr>
-  
   <tr>
     <td align="center">
       <a href="https://youtu.be/CI-VMvWaQaY?feature=shared">
         <img src="./images/위험알림.png" alt="위험 알림" width="300">
       </a>
       <br />
-    <strong style="display: block;">위험 알림</strong>
+      <strong style="display: block;">위험 알림</strong>
     </td>
     <td style="vertical-align: top; padding-left: 20px;">
       <ul>
@@ -158,4 +156,3 @@
 </table>
 
 <br />
-
