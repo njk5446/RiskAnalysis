@@ -57,58 +57,62 @@
 <br />
 
 ## 💡 주요 기능
-<table>
+<table style="width: 100%;">
   <tr>
     <td align="center">
       <a href="https://youtu.be/dsc7zG2_40g?feature=shared">
         <img src="./images/로그인.png" alt="로그인/회원가입" width="300">
       </a>
       <br />
-      로그인/회원가입
+      <strong style="display: block;">로그인/회원가입</strong>
     </td>
-    <td align="center">
-      <a href="https://youtu.be/Ni84VvYxORA?feature=shared">
-        <img src="./images/위험예측분석대시보드.png" alt="위험 예측 분석 대시보드" width="300">
-      </a>
-      <br />
-      위험 예측 분석 대시보드
+    <td style="vertical-align: top; padding-left: 20px;">
+      <ul>
+        <li>회원가입 아이디 중복 확인 및 비밀번호 검증</li>
+        <li>로그인, 로그아웃 시 JWT 토큰 생성 또는 제거</li>
+      </ul>
     </td>
   </tr>
   <tr>
-    <td align="center">
-      <a href="https://youtu.be/ZXVSq8vKsf8?feature=shared">
-        <img src="./images/공지사항.png" alt="공지사항" width="300">
-      </a>
-      <br />
-      공지사항
-    </td>
     <td align="center">
       <a href="https://youtu.be/CcyLQtlwfi8?feature=shared">
         <img src="./images/작업자실시간모니터링.png" alt="작업자 실시간 모니터링" width="300">
       </a>
       <br />
-      작업자 실시간 모니터링
+      <strong style="display: block;">작업자 실시간 모니터링</strong>
+    </td>
+    <td style="vertical-align: top; padding-left: 20px;">
+      <ul>
+        <li>웹소켓으로 위험 예측 데이터, 생체 데이터, 위치 데이터를 실시간 수신</li>
+        <li>작업자 상태와 위험도 시각화</li>
+        <li>외부 온도 업데이트</li>
+        <li>네이버맵 API로 작업자 표시</li>
+      </ul>
     </td>
   </tr>
   <tr>
     <td align="center">
-      <a href="https://youtu.be/CI-VMvWaQaY?feature=shared">
-        <img src="./images/마이페이지.png" alt="마이페이지" width="300">
+      <a href="https://youtu.be/Ni84VvYxORA?feature=shared">
+        <img src="./images/위험예측분석대시보드.png" alt="위험 예측 분석 대시보드" width="300">
       </a>
       <br />
-      마이페이지
+    <strong style="display: block;">위험 예측 분석 대시보드</strong>
+    </td>
+    <td style="vertical-align: top; padding-left: 20px;">
+      <ul>
+        <li>일자별, 작업자별 위험 예측 데이터 시각화</li>
+        <li></li>
+        <li></li>
+      </ul>
     </td>
   </tr>
 </table>
 
 <br />
 
-- **작업자 실시간 모니터링**:  
-  - 웹소켓으로 위험 예측 데이터, 생체 데이터, 위치 데이터를 실시간 수신
-  - 작업자 상태에 따라 위험도를 시각화
-  - 외부 온도 업데이트
-  - 
-  - 네이버맵 API 활용한 작업자 위치 표시 
+
+
+
 
 - **위험 예측 분석 대시보드**:  
   수집된 데이터를 기반으로 위험 예측 분석 결과를 시각적으로 표현하며, 사용자가 쉽게 이해할 수 있도록 다양한 지표를 제공합니다.
