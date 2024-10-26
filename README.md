@@ -141,7 +141,7 @@
   </tr>
   <tr>
     <td align="center">
-      <a href="https://youtu.be/CI-VMvWaQaY?feature=shared">
+      <a href="https://youtu.be/WCR1UOIg68c?feature=shared">
         <img src="./images/위험알림.png" alt="위험 알림" width="300">
       </a>
       <br />
