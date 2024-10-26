@@ -1,5 +1,5 @@
 <div>
-  <h1>👷‍♂️작업자 위험 예측 분석 웹 서비스</h1>
+  <h1>작업자 위험 예측 분석 웹 서비스</h1>
   <br />
   <img src="./images/로그인.png" alt="Project" width="700px" />
   <br />
