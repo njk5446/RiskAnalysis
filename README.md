@@ -67,8 +67,8 @@
     </td>
     <td style="vertical-align: top; padding-left: 20px;">
       <ul>
-        <li>회원가입 아이디 중복 확인 및 비밀번호 검증</li>
-        <li>로그인, 로그아웃 시 JWT 토큰 생성 또는 제거</li>
+        <li>로그인 및 로그아웃 시 JWT 토큰 자동 생성 및 삭제</li>
+        <li>회원가입 시 아이디 중복 확인 및 비밀번호 강도 검증</li>
       </ul>
     </td>
   </tr>
