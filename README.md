@@ -56,6 +56,7 @@
 <br />
 
 ## 💡 주요 기능
+**👉 이미지를 클릭하면 각 기능 구현 영상을 볼 수 있습니다.**
 <table style="width: 100%;">
   <tr>
     <td align="center">
