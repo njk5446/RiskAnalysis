@@ -5,7 +5,7 @@ import styles from './App.module.css'
 import MainPage from './main/MainPage';
 import LoginForm from './login/LoginForm';
 import RegisterForm from './login/RegisterForm';
-import BoardMain from './board/BoardMain';
+import BoardList from './board/BoardList';
 import BoardDetail from './board/BoardDetail';
 import BoardWrite from './board/BoardWrite';
 import BoardEdit from './board/BoardEdit';
@@ -22,7 +22,7 @@ function App() {
           <Route path="/" element={<LoginForm />} className={styles.LoginForm} />
           <Route path="/signup" element={<RegisterForm />} />
           <Route path="/main" element={<MainPage/>} />
-          <Route path="/boards" element={<BoardMain />} />
+          <Route path="/board/list" element={<BoardList />} />
           <Route path="/board/detail" element={<BoardDetail />} />
           <Route path="/board/write" element={<BoardWrite />} />
           <Route path="/board/edit" element={<BoardEdit />} />

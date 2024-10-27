@@ -14,7 +14,7 @@ export default function RiskAlert({ onClose, riskUserHeartbeat, riskUserTemperat
         async function fetchUserName() {
             try {
                 console.log("** riskUserCode 확인용 **: " + riskUserCode);
-                const resp = await axios.get(`${url}userinfo/username?userCode=${riskUserCode}`);
+                const resp = await axios.get(`${url}userinfo/username/usercode?userCode=${riskUserCode}`);
                 setUserName(resp.data);
                 console.log("내가 setUserName 밑에 찍은거 " + userName);
             } catch (error) {

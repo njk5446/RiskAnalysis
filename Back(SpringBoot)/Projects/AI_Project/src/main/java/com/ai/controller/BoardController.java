@@ -28,7 +28,7 @@ public class BoardController {
 	// final 선언해서 RequiredArgs에 따라 의존성 주입되어 BoardService의 모든 메서드 사용 가능 
 	
 	// 게시판 출력
-	@GetMapping("/boards")
+	@GetMapping("/board/list")
 	public ResponseEntity<?> getBoards( 
 			@PageableDefault(page = 0, 
  							 size = 10,
@@ -47,7 +47,7 @@ public class BoardController {
     };
     
     // 게시물 조회
-    @GetMapping("/board") // localhost:8080/board?idx=4 이런식으로 확인 
+    @GetMapping("/board/detail") // localhost:8080/board?idx=4 이런식으로 확인 
     public ResponseEntity<?> getBoard(@RequestParam int idx) {
     	// @PathVariable: URL 경로의 변수 {idx}를 메서드의 파라미터로 변환해줌
     	try {
@@ -58,7 +58,7 @@ public class BoardController {
 		}
     }
     
-    @GetMapping("/boards/search")
+    @GetMapping("/board/search")
     public ResponseEntity<?> getSearch(
     		@PageableDefault(page = 0,
     						 size = 10,
@@ -118,7 +118,7 @@ public class BoardController {
     }
     
     // 게시물 작성 시 나타나는 정보들
-    @GetMapping("/getUserInfo")
+    @GetMapping("/board/getUserInfo")
     public ResponseEntity<?> getUserInfo() {
         WriteUserDTO writeUserDTO = boardService.getUserInfo();
         // WriteUserDTO를 ResponseEntity로 반환
@@ -130,7 +130,7 @@ public class BoardController {
     }
     
     // 게시물에 저장된 유저 정보 검증 메서드
-    @PostMapping("/checkUser") // /checkUser?idx=5
+    @PostMapping("/board/checkUser") // /checkUser?idx=5
     public ResponseEntity<?> checkUser(@RequestParam int idx) {
     	try {
     		int result = boardService.checkUser(idx);

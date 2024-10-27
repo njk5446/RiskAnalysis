@@ -29,7 +29,7 @@ export default function BoardDetail({ onClose, postId }) {
   useEffect(() => {
     const fetchPost = async () => {
       try {
-        const response = await axios.get(`${url}board?idx=${postId}`, { headers: headers });
+        const response = await axios.get(`${url}board/detail?idx=${postId}`, { headers: headers });
         setPost(response.data);
         console.log(response.data);
       } catch (error) {
@@ -45,7 +45,7 @@ export default function BoardDetail({ onClose, postId }) {
 
   const handleEditButton = async () => {
     try {
-      const resp = await axios.post(`${url}checkUser?idx=${postId}`, '', {
+      const resp = await axios.post(`${url}board/checkUser?idx=${postId}`, '', {
         headers: headers
       });
       if (resp.status === 200) {
@@ -60,7 +60,7 @@ export default function BoardDetail({ onClose, postId }) {
 
   const handleDeleteButton = async () => {
     try {
-      const resp = await axios.post(`${url}checkUser?idx=${postId}`, '', {
+      const resp = await axios.post(`${url}board/checkUser?idx=${postId}`, '', {
         headers: headers
       });
       if (resp.status === 200) {

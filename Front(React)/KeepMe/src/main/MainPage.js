@@ -40,7 +40,7 @@ export default function MainPage() {
       return;
     }
     try {
-      const response = await axios.get(`${url}alllog/workdate`, {
+      const response = await axios.get(`${url}log/alllog/workdate`, {
         headers: {
           'Content-Type': 'application/json',
           'Authorization': token,
@@ -77,7 +77,7 @@ export default function MainPage() {
             vitalDate: item.vitalDate,
             workDate: item.workDate,
             activity: item.activity,
-            outsideTemperature: item.outsideTemperature,
+            outsideTemperature: item.outsideTemperature
           };
         });
         return newData;

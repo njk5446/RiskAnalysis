@@ -53,10 +53,11 @@ public class WebSocketService {
 	private final WebClient webClient = WebClient.create();
 	
 	// 위험 분석 응답 데이터 전송
-	@Scheduled(fixedRate = 20)
+	@Scheduled(fixedRate = 80)
 	public void pushData() throws IOException {
 		// DB의 user_vital_sign 테이블에서 no를 1씩 증가시키며 해당 행 조회 후 vitalSign 인스턴스에 저장
 		// 현재 lastNo값 추출
+		System.out.println("no: " + no);
 
 		// (최종)Vital Gyro 통합 테이블
 		SensorData sd = sensorRepo.findById(no).orElse(null);

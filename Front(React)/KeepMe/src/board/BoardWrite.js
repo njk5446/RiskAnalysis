@@ -26,7 +26,7 @@ export default function BoardWrite({ onClose }) {
 
     const getUserInfo = async () => {
         try {
-            const response = (await axios.get(`${url}getUserInfo`, { headers: headers }
+            const response = (await axios.get(`${url}board/getUserInfo`, { headers: headers }
             )).data;
             console.log(response);
             setUserName(response.userName)

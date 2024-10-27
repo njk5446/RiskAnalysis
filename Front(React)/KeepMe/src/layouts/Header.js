@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Mypage from '../mypage/Mypage';
 import MyPageAuth from '../mypage/MypageAuth';
-import BoardMain from '../board/BoardMain';
+import BoardMain from '../board/BoardList';
 export default function HeaderForm() {
   const [isMypageOpen, setIsMypageOpen] = useState(false);
   const [isMypageAuthOpen, setIsMypageAuthOpen] = useState(false);

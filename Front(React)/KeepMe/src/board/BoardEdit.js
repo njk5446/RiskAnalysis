@@ -33,7 +33,7 @@ export default function BoardEdit({ onClose, postId }) {
   useEffect(() => {
     const fetchPost = async () => {
       try {
-        const response = await axios.get(`${url}board?idx=${postId}`, { headers: headers });
+        const response = await axios.get(`${url}board/detail?idx=${postId}`, { headers: headers });
         console.log('response', response);
         const post = response.data;
         setEditedTitle(post.title);

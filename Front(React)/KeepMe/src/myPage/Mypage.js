@@ -27,7 +27,7 @@ function MyPage({ onClose }) {
         throw new Error("userId가 존재하지 않습니다.");
       }
 
-      const resp = await axios.get(`${url}username`, { params: { userId } });
+      const resp = await axios.get(`${url}userinfo/username/userid`, { params: { userId } });
       return resp.data;
     } catch (error) {
       console.error("사용자 이름을 가져오는 중 오류 발생: " + error);
@@ -39,7 +39,7 @@ function MyPage({ onClose }) {
   const getCurrentDept = async () => {
     try {
       const userId = sessionStorage.getItem("userId");
-      const resp = await axios.get(`${url}department`,{ params: { userId }});
+      const resp = await axios.get(`${url}userinfo/department`,{ params: { userId }});
       return resp.data;
     } catch (error) {
       console.error("현재 부서를 가져오는 중 오류 발생: " + error);

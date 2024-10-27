@@ -32,7 +32,7 @@ export default function ShowGraph({ onClose }) {
   // workDate 슬롯박스 값 불러오기
   const getWorkDateList = async () => {
     try {
-      const resp = await axios.get(`${url}workdatelist`,{
+      const resp = await axios.get(`${url}log/workdatelist`,{
         headers: {
           'Content-Type': 'application/json',
           'Authorization': token,

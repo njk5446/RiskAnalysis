@@ -36,7 +36,7 @@ export default function HeartbeatGraph({ userCode, workDate, onClose }) {
     useEffect(() => {
         async function fetchUserName() {
             try {
-                const resp = await axios.get(`${url}userinfo/username?userCode=${userCode}`);
+                const resp = await axios.get(`${url}userinfo/username/usercode?userCode=${userCode}`);
                 setUserName(resp.data);
                 console.log("내가 setUserName 밑에 찍은거 " + userName);
             } catch (error) {

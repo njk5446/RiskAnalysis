@@ -14,13 +14,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class CORSConfig implements WebMvcConfigurer {
 	@Override
 	public void addCorsMappings(@NonNull CorsRegistry registry) {
-		
 		//헤더란? HTTP 요청과 응답시 메타데이터를 전달하는 필드
-		registry.addMapping("/**")
-				.allowedMethods("*") // 모든 HTTP 메서드 허용
-				.exposedHeaders(HttpHeaders.AUTHORIZATION)
-				.allowedHeaders("*") // 모든 헤더 허용
-				.allowedOrigins("*"); // 접근 가능 ip 주소
 		
 		registry.addMapping("/login") // 해당 경로 접근시 CORS 정책 적용
 				.allowCredentials(true) // 자격증명(쿠키, Http 인증헤더(토큰),...) 보내는 것을 허용
@@ -30,7 +24,10 @@ public class CORSConfig implements WebMvcConfigurer {
 						HttpMethod.POST.name(),
 						HttpMethod.OPTIONS.name())
 				.allowedOrigins( // 접근 가능한 ip 주소
-						"*"
+						"http://localhost:3000",
+						"http://192.168.0.131:3000",
+						"http://192.168.55.203:3000",
+						"http://58.235.21.221:3000"
 						);	
 		
 		registry.addMapping("/signup/**")
@@ -40,64 +37,99 @@ public class CORSConfig implements WebMvcConfigurer {
 						HttpMethod.GET.name(),
 						HttpMethod.POST.name())
 				.allowedOrigins(
-						"*"
-						);
+						"http://localhost:3000",
+						"http://192.168.0.131:3000",
+						"http://192.168.55.203:3000",
+						"http://58.235.21.221:3000"
+						);	
 		
-		registry.addMapping("/boards/**")
+		registry.addMapping("/board/**")
+				.allowCredentials(true) // 자격증명(쿠키, Http 인증헤더(토큰),...) 보내는 것을 허용
+				.allowedHeaders(HttpHeaders.CONTENT_TYPE, HttpHeaders.AUTHORIZATION)
+				.allowedMethods(
+						HttpMethod.GET.name(),
+						HttpMethod.POST.name())
+				.allowedOrigins(
+						"http://localhost:3000",
+						"http://192.168.0.131:3000",
+						"http://192.168.55.203:3000",
+						"http://58.235.21.221:3000"
+						);	
+		
+		registry.addMapping("/showgraph/**")
 				.allowCredentials(true) // 자격증명(쿠키, Http 인증헤더(토큰),...) 보내는 것을 허용
 				.allowedHeaders(HttpHeaders.CONTENT_TYPE, HttpHeaders.AUTHORIZATION)
 				.allowedMethods(
 						HttpMethod.GET.name())
 				.allowedOrigins(
-						"*"
-		);
+						"http://localhost:3000",
+						"http://192.168.0.131:3000",
+						"http://192.168.55.203:3000",
+						"http://58.235.21.221:3000"
+						);	
 		
-		registry.addMapping("/board/write/**")
+		registry.addMapping("/log/**")
 				.allowCredentials(true) // 자격증명(쿠키, Http 인증헤더(토큰),...) 보내는 것을 허용
 				.allowedHeaders(HttpHeaders.CONTENT_TYPE, HttpHeaders.AUTHORIZATION)
 				.allowedMethods(
-						HttpMethod.POST.name())
+						HttpMethod.GET.name())
 				.allowedOrigins(
-						"*"
-						);
-				
-		registry.addMapping("/board/edit/**")
+						"http://localhost:3000",
+						"http://192.168.0.131:3000",
+						"http://192.168.55.203:3000",
+						"http://58.235.21.221:3000"
+						);	
+		
+		registry.addMapping("/mypage/**")
 				.allowCredentials(true) // 자격증명(쿠키, Http 인증헤더(토큰),...) 보내는 것을 허용
 				.allowedHeaders(HttpHeaders.CONTENT_TYPE, HttpHeaders.AUTHORIZATION)
 				.allowedMethods(
+						HttpMethod.GET.name(),
 						HttpMethod.POST.name())
 				.allowedOrigins(
-						"*"
-						);
-				
-		registry.addMapping("/board/delete/**")
+						"http://localhost:3000",
+						"http://192.168.0.131:3000",
+						"http://192.168.55.203:3000",
+						"http://58.235.21.221:3000"
+						);	
+		
+		registry.addMapping("/userinfo/**")
+				.allowCredentials(true) // 자격증명(쿠키, Http 인증헤더(토큰),...) 보내는 것을 허용
+				.allowedHeaders(HttpHeaders.CONTENT_TYPE, HttpHeaders.AUTHORIZATION)
+				.allowedMethods(
+						HttpMethod.GET.name(),
+						HttpMethod.POST.name())
+				.allowedOrigins(
+						"http://localhost:3000",
+						"http://192.168.0.131:3000",
+						"http://192.168.55.203:3000",
+						"http://58.235.21.221:3000"
+						);	
+			
+		registry.addMapping("/mypage/checkpw/**")
 				.allowCredentials(true) // 자격증명(쿠키, Http 인증헤더(토큰),...) 보내는 것을 허용
 				.allowedHeaders(HttpHeaders.AUTHORIZATION)
 				.allowedMethods(
 						HttpMethod.POST.name())
 				.allowedOrigins(
-						"*"
-						);
-				
-				
-		registry.addMapping("/mypage/checkpw/**")
-		.allowCredentials(true) // 자격증명(쿠키, Http 인증헤더(토큰),...) 보내는 것을 허용
-		.allowedHeaders(HttpHeaders.AUTHORIZATION)
-		.allowedMethods(
-				HttpMethod.POST.name())
-		.allowedOrigins(
-				"*"
-				);
+						"http://localhost:3000",
+						"http://192.168.0.131:3000",
+						"http://192.168.55.203:3000",
+						"http://58.235.21.221:3000"
+						);	
 		
         // 메인 경로에 대한 CORS 정책 설정 (특정 IP에서만 접근 가능)
         registry.addMapping("/main/**")
                 .allowCredentials(true)
                 .allowedHeaders(HttpHeaders.AUTHORIZATION)
-                .allowedMethods(HttpMethod.GET.name(), HttpMethod.POST.name())
+                .allowedMethods(
+                		HttpMethod.GET.name(), 
+                		HttpMethod.POST.name())
                 .allowedOrigins(
-                		"*"
-                );
-		
-		
+						"http://localhost:3000",
+						"http://192.168.0.131:3000",
+						"http://192.168.55.203:3000",
+						"http://58.235.21.221:3000"
+						);	
 	}
 }

@@ -38,7 +38,7 @@ export default function BoardMain({ onClose }) {
   const url = process.env.REACT_APP_BACKEND_URL;
   const loadBoard = async () => {
     try {
-      const response = (await axios.get(`${url}boards`, {
+      const response = (await axios.get(`${url}board/list`, {
         params: {
           page: currentPage - 1,
           size: postsPerPage,
@@ -86,7 +86,7 @@ export default function BoardMain({ onClose }) {
       return;
     }
     try {
-      const resp = await axios.get(`${url}boards/search`, {
+      const resp = await axios.get(`${url}board/search`, {
         params: {
           type: selectedType,
           keyword: keyword,

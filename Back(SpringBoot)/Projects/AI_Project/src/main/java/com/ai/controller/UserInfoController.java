@@ -17,7 +17,7 @@ public class UserInfoController {
 	private final UserInfoService userService;
 	
 	// userCode로 userName 가져오기
-	@GetMapping("/userinfo/username")
+	@GetMapping("/userinfo/username/usercode")
 	public ResponseEntity<?> getYourName(@RequestParam String userCode) {
 		try {
 			return ResponseEntity.ok(userService.getYourName(userCode));
@@ -34,7 +34,7 @@ public class UserInfoController {
 	}
 	
 	// sessionStorage의 userId로 userName 가져오기
-	@GetMapping("/username")
+	@GetMapping("/userinfo/username/userid")
 	public ResponseEntity<?> getPersonName(@RequestParam String userId) {
 		try {
 			return ResponseEntity.ok(userService.getPersonName(userId));
@@ -50,7 +50,7 @@ public class UserInfoController {
 		}
 	}
 	
-	@GetMapping("/department")
+	@GetMapping("/userinfo/department")
 	public ResponseEntity<?> getDepartment(@RequestParam String userId) {
 		try {
 			return ResponseEntity.ok(userService.getDepartment(userId));

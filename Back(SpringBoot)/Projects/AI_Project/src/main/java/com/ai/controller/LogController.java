@@ -25,7 +25,7 @@ public class LogController {
 	private final LogService logService;
 
 	// 해당일자의 지정한 userCode의 정보 조회 
-	@GetMapping("/userlog")
+	@GetMapping("/log/userlog")
 	public ResponseEntity<?> getUserLog(@RequestParam String userCode, @RequestParam LocalDate workDate) {
 		try {
 			return ResponseEntity.ok(logService.getUserLogs(userCode, workDate));
@@ -39,7 +39,7 @@ public class LogController {
 	}
 	
 	// 과거부터 이전까지 기록된 workDate 가져오기
-	@GetMapping("/workdatelist")
+	@GetMapping("/log/workdatelist")
 	public ResponseEntity<?> getWorkDateList() {
 		try {
 			List<WorkDateListProjection> logs = logService.getWorkDateList();
@@ -60,7 +60,7 @@ public class LogController {
 	}
 	
 	// 해당일자의 모든 userCode의 기록 가져오기 
-	@GetMapping("/alllog/workdate")
+	@GetMapping("/log/alllog/workdate")
 	public ResponseEntity<?> getUserLogs() {
 		try {
 			List<LogProjection> logs = logService.getAllUserLogs(1);
@@ -74,7 +74,7 @@ public class LogController {
 		}
 	}
 
-	@GetMapping("/alllog")
+	@GetMapping("/log/alllog")
 	public ResponseEntity<?> getAllLog() {
 		try {
 			return ResponseEntity.ok(logService.getAllLogs());
