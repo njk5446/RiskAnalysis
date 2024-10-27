@@ -82,10 +82,10 @@
     </td>
     <td style="vertical-align: top; padding-left: 20px;">
       <ul>
-        <li>웹소켓으로 위험 예측 데이터, 생체 데이터, 위치 데이터를 실시간 수신</li>
-        <li>작업자 상태와 위험도 시각화</li>
-        <li>외부 온도 업데이트</li>
-        <li>네이버맵 API를 활용한 작업자 위치 표시</li>
+        <li>위험 예측, 생체 데이터 및 위치 정보 실시간 수신</li>
+        <li>작업자 상태와 위험도를 시각적으로 표시</li>
+        <li>외부 온도 정보 실시간 업데이트</li>
+        <li>작업자 위치를 지도에 표시</li>
       </ul>
     </td>
   </tr>
@@ -100,8 +100,6 @@
     <td style="vertical-align: top; padding-left: 20px;">
       <ul>
         <li>일자별, 작업자별 위험 예측 데이터 시각화</li>
-        <li>셀렉트 박스로 작업일자와 작업자 선택</li>
-        <li>nivo의 Heatmap, Bar 차트 활용</li>
         <li>특정 작업자의 해당일자의 시간대별 위험 주의 빈도</li>
         <li>활동별 위험 빈도</li>
       </ul>
@@ -117,9 +115,8 @@
     </td>
     <td style="vertical-align: top; padding-left: 20px;">
       <ul>
-        <li>페이지네이션 기능</li>
-        <li>제목, 내용, 이름으로 검색 필터링 제공</li>
-        <li>사용자는 자신의 게시물만 수정 및 삭제 가능</li>
+        <li>게시물 검색, 글쓰기, 수정, 삭제</li>
+        <li>게시판 페이지네이션</li>
       </ul>
     </td>
   </tr>
@@ -133,9 +130,9 @@
     </td>
     <td style="vertical-align: top; padding-left: 20px;">
       <ul>
-        <li>마이페이지 접속 시 비밀번호 검증</li>
+        <li>마이페이지 접근 시 비밀번호 검증</li>
         <li>비밀번호 및 부서 변경 기능</li>
-        <li>회원탈퇴 기능</li>
+        <li>회원탈퇴 기</li>
       </ul>
     </td>
   </tr>
@@ -149,7 +146,7 @@
     </td>
     <td style="vertical-align: top; padding-left: 20px;">
       <ul>
-        <li>웹소켓 수신 위험 예측 데이터 기반으로 위험 알림 시각화</li>
+        <li>실시간 위험 예측 데이터를 기반으로 위험 알림 시각화</li>
       </ul>
     </td>
   </tr>
