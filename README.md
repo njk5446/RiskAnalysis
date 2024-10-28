@@ -37,12 +37,14 @@
 - ![React](https://img.shields.io/badge/-React-61DAFB?&logo=react&logoColor=white) ![Version](https://img.shields.io/badge/React%20v18.3.1-blue)
 
 **Back-end**
-
-- ![Python](https://img.shields.io/badge/-Python-3776AB?&logo=python&logoColor=white) ![Version](https://img.shields.io/badge/Python%20v3.12.7-blue)
-- ![FastAPI](https://img.shields.io/badge/-FastAPI-005571?&logo=fastapi&logoColor=white) ![Version](https://img.shields.io/badge/FastAPI%20v0.95.2-blue)
+- ![Java](https://img.shields.io/badge/-Java-E34F26?&logo=java&logoColor=white) ![Version](https://img.shields.io/badge/Java%20v17.0.10-blue)
 - ![Spring Boot](https://img.shields.io/badge/-Spring%20Boot-6DB33F?&logo=spring&logoColor=white) ![Version](https://img.shields.io/badge/Spring%20Boot%20v3.3.5-blue)
 - ![MySQL](https://img.shields.io/badge/-MySQL-4479A1?&logo=mysql&logoColor=white) ![Version](https://img.shields.io/badge/MySQL%20v8.0.39-blue)
-- ![Java](https://img.shields.io/badge/-Java-E34F26?&logo=java&logoColor=white) ![Version](https://img.shields.io/badge/Java%20v17.0.10-blue)
+- ![Python](https://img.shields.io/badge/-Python-3776AB?&logo=python&logoColor=white) ![Version](https://img.shields.io/badge/Python%20v3.12.7-blue)
+- ![FastAPI](https://img.shields.io/badge/-FastAPI-005571?&logo=fastapi&logoColor=white) ![Version](https://img.shields.io/badge/FastAPI%20v0.95.2-blue)
+
+
+
 
 **AI/ML**
 
