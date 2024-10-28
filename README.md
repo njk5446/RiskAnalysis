@@ -39,7 +39,10 @@
 
 <br />
 
-![시스템 아키텍처](./images/Risk 시스템 아키텍처.png)
+## 🏗️ 시스템 아키텍처
+
+![시스템 아키텍처](./images/system_architecture.png)
+
 <br />
 
 ## 🛠 기술 스택
