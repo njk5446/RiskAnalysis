@@ -57,7 +57,6 @@ public class WebSocketService {
 	public void pushData() throws IOException {
 		// DB의 user_vital_sign 테이블에서 no를 1씩 증가시키며 해당 행 조회 후 vitalSign 인스턴스에 저장
 		// 현재 lastNo값 추출
-		System.out.println("no: " + no);
 
 		// (최종)Vital Gyro 통합 테이블
 		SensorData sd = sensorRepo.findById(no).orElse(null);
@@ -114,7 +113,6 @@ public class WebSocketService {
 				FlaskResponseDTO frDTO = getFrDTO(rp);
 				// 기록된 최근 위험 예측 데이터를 ld에 저장
 				
-				System.out.println(frDTO);
 				// 저장 프로시저 메서드
 				setRiskStoreProcedure(frDTO);
 
@@ -196,7 +194,6 @@ public class WebSocketService {
 		Set<WebSocketSession> clients = wsConfig.getClients();
 		// 연결된 클라이언트가 없으면 그냥 리턴
 	    if (clients.size() == 0) {
-	    	System.out.println("클라이언트 연결이 없습니다.");
 	    	return;
 	    }	
 	    // 자바 객체를 JSON 문자열로 변환

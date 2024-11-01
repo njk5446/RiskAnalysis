@@ -316,7 +316,8 @@ def predict_activity_and_evaluate_risk(user_code, work_date):
 @app.post("/api/data/")
 async def receive_data(request: PredictRequest):
     try:
-        logger.info(f"Received data: {request.json()}")
+        # 들어오는거 확인용
+        # logger.info(f"Received data: {request.json()}")
 
         user_code = request.userCode
         work_date = request.workDate
@@ -340,7 +341,9 @@ async def receive_data(request: PredictRequest):
         ]
         combined_buffers[key].append(combined_data)
 
-        logger.info(f"Buffer size for user {user_code} on {work_date}: {len(gyro_buffers[key])}")
+
+        # 콘솔 출력용
+        # logger.info(f"Buffer size for user {user_code} on {work_date}: {len(gyro_buffers[key])}")
 
         response = {}
         if len(gyro_buffers[key]) == WINDOW_SIZE and len(combined_buffers[key]) == WINDOW_SIZE:
@@ -360,7 +363,8 @@ async def receive_data(request: PredictRequest):
                 'activity': activity,
                 'riskFlag': risk_flag,
             }
-            logger.info(f"Processed data for user {user_code} on {work_date}: {response}")
+            # 콘솔 출력용
+            # logger.info(f"Processed data for user {user_code} on {work_date}: {response}")
 
             # 버퍼 재설정
             gyro_buffers[key].clear()

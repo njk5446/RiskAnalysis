@@ -4,27 +4,17 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom'
 import { useRecoilState } from 'recoil';
 
-import { userIdState, authState, userRoleState, wsState} from '../recoil/Atoms';
+import { authState, userRoleState, wsState} from '../recoil/Atoms';
 export default function LoginForm() {
     const [userRole, setUserRole] = useRecoilState(userRoleState);
     const [userId, setUserId] = useState('');
     const [password, setPassword] = useState('');
     const [ws, setWs] = useRecoilState(wsState);
-    const [loggedIn, setLoggedIn] = useState(false);
     const navigate = useNavigate();
     const [auth, setAuth] = useRecoilState(authState);
     const url = process.env.REACT_APP_BACKEND_URL;
     console.log(url)
-    const [bgImage, setBgImage] = useState('');
 
-    useEffect(() => {
-        const img = new Image();
-        img.src = `${process.env.PUBLIC_URL}/img/construction1.jpg`;
-        img.onload = () => {
-            setBgImage(`url(${img.src})`);
-        };
-    }, []);
-    
     let token = "";
     const login = async (e) => {
         e.preventDefault();//폼 제출 시 기본 동작을 막음
