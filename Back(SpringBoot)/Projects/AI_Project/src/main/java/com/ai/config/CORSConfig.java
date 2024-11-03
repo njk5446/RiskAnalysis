@@ -48,7 +48,9 @@ public class CORSConfig implements WebMvcConfigurer {
 				.allowedHeaders(HttpHeaders.CONTENT_TYPE, HttpHeaders.AUTHORIZATION)
 				.allowedMethods(
 						HttpMethod.GET.name(),
-						HttpMethod.POST.name())
+						HttpMethod.POST.name(),
+						HttpMethod.PUT.name(),
+						HttpMethod.DELETE.name())
 				.allowedOrigins(
 						"http://localhost:3000",
 						"http://192.168.0.131:3000",
@@ -85,7 +87,9 @@ public class CORSConfig implements WebMvcConfigurer {
 				.allowedHeaders(HttpHeaders.CONTENT_TYPE, HttpHeaders.AUTHORIZATION)
 				.allowedMethods(
 						HttpMethod.GET.name(),
-						HttpMethod.POST.name())
+						HttpMethod.POST.name(),
+						HttpMethod.PUT.name(),
+						HttpMethod.DELETE.name())
 				.allowedOrigins(
 						"http://localhost:3000",
 						"http://192.168.0.131:3000",

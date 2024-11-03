@@ -61,7 +61,7 @@ export default function BoardEdit({ onClose, postId }) {
       return;
     }
     try {
-      await axios.post(`${url}board/edit?idx=${postId}`,
+      await axios.put(`${url}board/edit?idx=${postId}`,
         {
           title: editedTitle, content: editedContent
         }, { headers: headers }

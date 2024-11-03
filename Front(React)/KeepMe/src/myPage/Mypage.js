@@ -39,7 +39,7 @@ function MyPage({ onClose }) {
   const getCurrentDept = async () => {
     try {
       const userId = sessionStorage.getItem("userId");
-      const resp = await axios.get(`${url}userinfo/department`,{ params: { userId }});
+      const resp = await axios.get(`${url}userinfo/department`, { params: { userId } });
       return resp.data;
     } catch (error) {
       console.error("현재 부서를 가져오는 중 오류 발생: " + error);
@@ -66,7 +66,7 @@ function MyPage({ onClose }) {
   const handlePasswordChange = async () => {
     if (newPassword === checkNewPassword) {
       try {
-        const response = await axios.post(`${url}mypage/changepw`, {
+        const response = await axios.put(`${url}mypage/changepw`, {
           password: newPassword
         }, { headers: headers });
         alert('비밀번호가 변경되었습니다.');
@@ -84,6 +84,7 @@ function MyPage({ onClose }) {
       setCheckNewPassword('');
     }
   }
+
   const handleDepartmentChange = async () => {
     if (newDepartment === currentDept) {
       alert(`같은 부서로 변경 할 수 없습니다.`);
@@ -91,7 +92,7 @@ function MyPage({ onClose }) {
     }
     console.log('부서 변경:', newDepartment);
     try {
-      const response = await axios.post(`${url}mypage/changedept`, {
+      const response = await axios.put(`${url}mypage/changedept`, {
         dept: newDepartment
       }, { headers: headers });
       console.log('부서 변경 완료:', response.data);
@@ -106,12 +107,12 @@ function MyPage({ onClose }) {
   const handleDeleteAccount = async () => {
     if (window.confirm('정말로 탈퇴하시겠습니까?')) {
       try {
-        const response = await axios.post(`${url}mypage/deleteacc`, {}, {
+        const response = await axios.delete(`${url}mypage/deleteacc`, {
           headers: {
             'authorization': sessionStorage.getItem('token'),
             'Content-Type': 'application/json',
           }
-        });
+        })
         console.log('회원 탈퇴 처리:', response);
         alert('회원 탈퇴가 완료되었습니다.');
         sessionStorage.removeItem('token');

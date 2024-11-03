@@ -6,8 +6,10 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -58,6 +60,7 @@ public class BoardController {
 		}
     }
     
+    // 게시물 검색
     @GetMapping("/board/search")
     public ResponseEntity<?> getSearch(
     		@PageableDefault(page = 0,
@@ -89,7 +92,7 @@ public class BoardController {
     }
     
     // 게시물 수정
-    @PostMapping("/board/edit")
+    @PutMapping("/board/edit")
     public ResponseEntity<?> editBoard(@RequestBody Board board, @RequestParam int idx)  {
     	try {
     		int boardStat = boardService.editBoard(board, idx);
@@ -102,7 +105,7 @@ public class BoardController {
     }
     
     // 게시물 삭제
-    @PostMapping("/board/delete")
+    @DeleteMapping("/board/delete")
     public ResponseEntity<?> deleteBoard(@RequestParam int idx) {
         try {
             int result = boardService.deleteBoard(idx);

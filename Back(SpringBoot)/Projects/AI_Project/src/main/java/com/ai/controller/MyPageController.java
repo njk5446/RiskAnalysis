@@ -3,8 +3,10 @@ package com.ai.controller;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import com.ai.domain.User;
@@ -29,7 +31,7 @@ public class MyPageController {
 	}
 	
 
-	
+	// 비밀번호 검증
 	@PostMapping("/mypage/checkpw")
 	public ResponseEntity<?> checkPasword(@RequestBody User user) {
 		try {
@@ -46,7 +48,7 @@ public class MyPageController {
 	
 	
 	// 비밀번호 변경
-	@PostMapping("/mypage/changepw")
+	@PutMapping("/mypage/changepw")
 	public ResponseEntity<?> changePassword(@RequestBody User user) {
 		if (ms.changePassword(user) == true) {
 			return ResponseEntity.ok("비밀번호 변경 성공");
@@ -56,7 +58,7 @@ public class MyPageController {
 	}
 	
 	// 부서 변경
-	@PostMapping("/mypage/changedept")
+	@PutMapping("/mypage/changedept")
 	public ResponseEntity<?> changeDept(@RequestBody User user) {
 		if (ms.changeDept(user) == true) {
 			return ResponseEntity.ok("부서 변경 성공");
@@ -66,7 +68,7 @@ public class MyPageController {
 	}
 	
 	// 회원 탈퇴
-	@PostMapping("/mypage/deleteacc")
+	@DeleteMapping("/mypage/deleteacc")
 	public ResponseEntity<?> deleteacc() {
 		if (ms.deleteAccount() == true) {
 			return ResponseEntity.ok("회원 탈퇴 성공");
