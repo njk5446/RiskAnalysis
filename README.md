@@ -13,8 +13,9 @@
 0. **팀원 구성**
 1. **웹 서비스 소개**
 2. **시스템 아키텍처**
-3. **기술 스택**
-4. **주요 기능**
+3. **플로우차트**
+4. **기술 스택**
+5. **주요 기능**
 
 <br />
 
@@ -42,6 +43,19 @@
 ## 🏗️ 시스템 아키텍처
 
 ![시스템 아키텍처](./images/system_architecture.png)
+
+<br />
+
+## 📈 플로우차트 (Flowchart)
+
+<div>
+  <h4>로그인/회원가입</h4>
+  <img src="./images/RiskAnalysis_Login.drawio.png" alt="로그인/회원가입" width="700px" />
+</div>
+<div>
+  <h4>메인페이지</h4>
+  <img src="./images/RiskAnalysis_Main.drawio.png" alt="메인페이지" width="700px" />
+</div>
 
 <br />
 
