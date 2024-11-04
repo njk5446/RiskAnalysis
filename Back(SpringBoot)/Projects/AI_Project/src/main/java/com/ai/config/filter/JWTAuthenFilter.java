@@ -79,7 +79,7 @@ public class JWTAuthenFilter extends UsernamePasswordAuthenticationFilter{
 		response.setStatus(HttpStatus.OK.value());
 		// 응답으로 인증 성공했음을 클라이언트 화면에 출력
 		
-		// 응답 본문에 토큰과 Role 정보를 포함
+		// 응답 본문에 Role 정보도 포함
 		String jsonResponse = String.format("{\"role\":\"%s\"}", user.getAuthorities().toString());
 		response.getWriter().write(jsonResponse);
 	}
