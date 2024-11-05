@@ -75,13 +75,14 @@
 - ![Python](https://img.shields.io/badge/-Python-3776AB?&logo=python&logoColor=white) ![Version](https://img.shields.io/badge/Python%20v3.12.7-blue)
 - ![FastAPI](https://img.shields.io/badge/-FastAPI-005571?&logo=fastapi&logoColor=white) ![Version](https://img.shields.io/badge/FastAPI%20v0.95.2-blue)
 
-
-
-
 **AI/ML**
 
 - ![PyTorch](https://img.shields.io/badge/-PyTorch-EE4C2C?&logo=pytorch&logoColor=white) ![Version](https://img.shields.io/badge/PyTorch%20v1.13.0-blue)
 - ![Scikit-learn](https://img.shields.io/badge/-Scikit%20Learn-F7931E?&logo=scikit-learn&logoColor=white) ![Version](https://img.shields.io/badge/Scikit%20Learn%20v1.0.2-blue)
+
+**IDE**
+- ![Eclipse](https://img.shields.io/badge/-Eclipse-2C2255?&logo=eclipse&logoColor=white) ![Version](https://img.shields.io/badge/Eclipse%20v4.28-blue)
+- ![VS Code](https://img.shields.io/badge/-VS%20Code-007ACC?&logo=visual-studio-code&logoColor=white) ![Version](https://img.shields.io/badge/VS%20Code%20v1.83.1-blue)
 
 **ETC**
 
