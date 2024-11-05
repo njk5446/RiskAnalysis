@@ -81,8 +81,8 @@
 - ![Scikit-learn](https://img.shields.io/badge/-Scikit%20Learn-F7931E?&logo=scikit-learn&logoColor=white) ![Version](https://img.shields.io/badge/Scikit%20Learn%20v1.0.2-blue)
 
 **IDE**
-- ![Eclipse](https://img.shields.io/badge/-Eclipse-2C2255?&logo=eclipse&logoColor=white) ![Version](https://img.shields.io/badge/Eclipse%20v4.28-blue)
-- ![VS Code](https://img.shields.io/badge/-VS%20Code-007ACC?&logo=visual-studio-code&logoColor=white) ![Version](https://img.shields.io/badge/VS%20Code%20v1.83.1-blue)
+- ![Eclipse](https://img.shields.io/badge/-Eclipse-2C2255?&logo=eclipse&logoColor=white) ![Version](https://img.shields.io/badge/Eclipse%20v4.32-blue)
+- ![VS Code](https://img.shields.io/badge/-VS%20Code-007ACC?&logo=visual-studio-code&logoColor=white) ![Version](https://img.shields.io/badge/VS%20Code%20v1.95-blue)
 
 **ETC**
 
