@@ -13,10 +13,12 @@
 0. **팀원 구성**
 1. **웹 서비스 소개**
 2. **시스템 아키텍처**
-3. **플로우차트**
-4. **기술 스택**
-5. **주요 기능**
-6. **구현 중 어려웠던 점 및 해결방법** 
+3. **ERD 설계**
+4. **유스케이스 다이어그램**
+5. **플로우차트**
+6. **기술 스택**
+7. **주요 기능**
+8. **구현 중 어려웠던 점 및 해결방법** 
 
 <br />
 
@@ -36,7 +38,7 @@
 <br />
 
 [**🔗 배포된 웹 서비스로 바로가기 Click !**](http://58.235.21.221:3000/) 👈 <br />
-<a>(임시 ID: admin1, PW: 111111)</a>
+<a>(임시 ID: abcd, PW: 11)</a>
 
 > 새 창 열기 방법 : CTRL+click (on Windows and Linux) | CMD+click (on MacOS)
 
@@ -58,6 +60,18 @@
   <h4>메인페이지</h4>
   <img src="./images/RiskAnalysis_Main.drawio.png" alt="메인페이지" width="700px" />
 </div>
+
+<br />
+
+## ⚙ ERD 설계
+
+![ERD 설계](./images/Risk_Analysis_ERD.png)
+
+<br />
+
+## 📝 유스케이스 다이어그램
+
+![ERD 설계](./images/UseCase.png)
 
 <br />
 
