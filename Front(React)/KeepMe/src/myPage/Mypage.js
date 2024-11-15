@@ -107,7 +107,7 @@ function MyPage({ onClose }) {
   const handleDeleteAccount = async () => {
     if (window.confirm('정말로 탈퇴하시겠습니까?')) {
       try {
-        const response = await axios.delete(`${url}mypage/deleteacc`, {
+        const response = await axios.delete(`${url}mypage`, {
           headers: {
             'authorization': sessionStorage.getItem('token'),
             'Content-Type': 'application/json',

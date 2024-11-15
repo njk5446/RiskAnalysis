@@ -74,6 +74,7 @@ public class LogController {
 		}
 	}
 
+	// 모든 작업자의 이전 데이터 조회
 	@GetMapping("/log/alllog")
 	public ResponseEntity<?> getAllLog() {
 		try {

@@ -68,7 +68,7 @@ public class MyPageController {
 	}
 	
 	// 회원 탈퇴
-	@DeleteMapping("/mypage/deleteacc")
+	@DeleteMapping("/mypage")
 	public ResponseEntity<?> deleteacc() {
 		if (ms.deleteAccount() == true) {
 			return ResponseEntity.ok("회원 탈퇴 성공");

@@ -65,7 +65,7 @@ export default function BoardDetail({ onClose, postId }) {
       });
       if (resp.status === 200) {
         if (window.confirm('해당 게시글을 삭제하시겠습니까?')) {
-          const response = await axios.delete(`${url}board/delete?idx=${postId}`, { headers: headers });
+          const response = await axios.delete(`${url}board?idx=${postId}`, { headers: headers });
           if (response.status === 200) {
             alert('게시글이 삭제되었습니다.');
             setIsBoardDetailOpen(false);

@@ -105,7 +105,7 @@ public class BoardController {
     }
     
     // 게시물 삭제
-    @DeleteMapping("/board/delete")
+    @DeleteMapping("/board")
     public ResponseEntity<?> deleteBoard(@RequestParam int idx) {
         try {
             int result = boardService.deleteBoard(idx);
