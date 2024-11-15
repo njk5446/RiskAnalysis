@@ -81,7 +81,11 @@
 //        userRepo.save(User.builder()
 //                  .userCode("1111")
 //                  .userId("admin1")
+<<<<<<< .merge_file_8LRf5d
 //                  .password(passwordEnc.encode("111111"))
+=======
+//                  .password(passwordEnc.encode("11"))
+>>>>>>> .merge_file_hyzgvn
 //                  .userName("이찬희")
 //                  .role(Role.ROLE_ADMIN)
 //                  .dept(Dept.IT)
