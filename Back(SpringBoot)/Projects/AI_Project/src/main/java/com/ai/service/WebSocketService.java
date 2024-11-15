@@ -60,12 +60,13 @@ public class WebSocketService {
 
 		// (최종)Vital Gyro 통합 테이블
 		SensorData sd = sensorRepo.findById(no).orElse(null);
-		
 		setCurrentStoreProcedure(sd);
 		
 		if(sd == null) {
 			return; // DB 데이터가 더이상 조회 안되면 종료
 		}
+		
+		System.out.println("no: " + sd.getNo());
 		FlaskRequestDTO fqDTO = getFqDTO(sd);
 
 		// Flask 요청(fqDTO) 전송 후 응답 frDTO로 변환
