@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -52,12 +53,15 @@ public class WebSocketService {
 	private final WebSocketConfig wsConfig;
 	private final WebClient webClient = WebClient.create();
 	
+	// Flask Server 통신 url
+	@Value("${flask.server.url}")
+	private String flaskServerUrl;
+	
 	// 위험 분석 응답 데이터 전송
 	@Scheduled(fixedRate = 1000000000)
 	public void pushData() throws IOException {
 		// DB의 user_vital_sign 테이블에서 no를 1씩 증가시키며 해당 행 조회 후 vitalSign 인스턴스에 저장
 		// 현재 lastNo값 추출
-
 		// (최종)Vital Gyro 통합 테이블
 		SensorData sd = sensorRepo.findById(no).orElse(null);
 		setCurrentStoreProcedure(sd);
@@ -181,8 +185,7 @@ public class WebSocketService {
 	// Flask와 API 연결
 	private CompletableFuture<RiskPrediction> sendDataToFlaskAsync(FlaskRequestDTO fqDTO) {
 		return webClient.post() // POST 요청 준비
-				.uri("http://192.168.55.203:8000/api/data/") // 요청 보낼 flask 서버
-//				.uri("http://192.168.0.131:8000/api/data/") // 요청 보낼 flask 서버
+				.uri(flaskServerUrl) // 요청 보낼 flask 서버
 				.bodyValue(fqDTO) // Flask 서버에 보낼 데이터
 				.retrieve() // 응답을 받아오는 메서드
 				.bodyToMono(RiskPrediction.class) // 응답 받은 객체를 RiskPrediction 객체로 변환
