@@ -28,7 +28,7 @@ public class CORSConfig implements WebMvcConfigurer {
 						"http://192.168.0.131:3000",
 						"http://192.168.55.203:3000",
 						"http://58.235.21.221:3000",
-						"http://43.203.54.209:3000"
+						"http://3.36.158.138:3000"
 						);	
 		
 		registry.addMapping("/signup/**")
@@ -42,7 +42,7 @@ public class CORSConfig implements WebMvcConfigurer {
 						"http://192.168.0.131:3000",
 						"http://192.168.55.203:3000",
 						"http://58.235.21.221:3000",
-						"http://43.203.54.209:3000"
+						"http://3.36.158.138:3000"
 						);	
 		
 		registry.addMapping("/board/**")
@@ -58,7 +58,7 @@ public class CORSConfig implements WebMvcConfigurer {
 						"http://192.168.0.131:3000",
 						"http://192.168.55.203:3000",
 						"http://58.235.21.221:3000",
-						"http://43.203.54.209:3000"
+						"http://3.36.158.138:3000"
 						);	
 		
 		registry.addMapping("/showgraph/**")
@@ -71,7 +71,7 @@ public class CORSConfig implements WebMvcConfigurer {
 						"http://192.168.0.131:3000",
 						"http://192.168.55.203:3000",
 						"http://58.235.21.221:3000",
-						"http://43.203.54.209:3000"
+						"http://3.36.158.138:3000"
 						);	
 		
 		registry.addMapping("/log/**")
@@ -84,7 +84,7 @@ public class CORSConfig implements WebMvcConfigurer {
 						"http://192.168.0.131:3000",
 						"http://192.168.55.203:3000",
 						"http://58.235.21.221:3000",
-						"http://43.203.54.209:3000"
+						"http://3.36.158.138:3000"
 						);	
 		
 		registry.addMapping("/mypage/**")
@@ -100,7 +100,7 @@ public class CORSConfig implements WebMvcConfigurer {
 						"http://192.168.0.131:3000",
 						"http://192.168.55.203:3000",
 						"http://58.235.21.221:3000",
-						"http://43.203.54.209:3000"
+						"http://3.36.158.138:3000"
 						);	
 		
 		registry.addMapping("/userinfo/**")
@@ -114,7 +114,7 @@ public class CORSConfig implements WebMvcConfigurer {
 						"http://192.168.0.131:3000",
 						"http://192.168.55.203:3000",
 						"http://58.235.21.221:3000",
-						"http://43.203.54.209:3000"
+						"http://3.36.158.138:3000"
 						);	
 			
 		registry.addMapping("/mypage/checkpw/**")
@@ -127,7 +127,7 @@ public class CORSConfig implements WebMvcConfigurer {
 						"http://192.168.0.131:3000",
 						"http://192.168.55.203:3000",
 						"http://58.235.21.221:3000",
-						"http://43.203.54.209:3000"
+						"http://3.36.158.138:3000"
 						);	
 		
         // 메인 경로에 대한 CORS 정책 설정 (특정 IP에서만 접근 가능)
@@ -142,7 +142,7 @@ public class CORSConfig implements WebMvcConfigurer {
 						"http://192.168.0.131:3000",
 						"http://192.168.55.203:3000",
 						"http://58.235.21.221:3000",
-						"http://43.203.54.209:3000"
+						"http://3.36.158.138:3000"
 						);	
 	}
 }
