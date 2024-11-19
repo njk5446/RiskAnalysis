@@ -5,7 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
 @EnableScheduling
-@SpringBootApplication(scanBasePackages = "com.ai")
+@SpringBootApplication
 public class AiProjectApplication {
 
 	public static void main(String[] args) {

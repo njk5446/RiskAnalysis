@@ -16,10 +16,12 @@ import com.ai.config.filter.JWTAuthorFilter;
 import com.ai.repository.UserRepository;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
+@Slf4j
 public class SecurityConfig {
 	
 	private final AuthenticationConfiguration authConfig;
@@ -33,7 +35,7 @@ public class SecurityConfig {
 	// Bean 어노테이션으로 등록된 함수들은 ioc컨테이너라는 중간 매개체에 함수들이 저장되어
 	@Bean // 서로 다른 클래스에서 자유롭게 사용이 가능하게 만든다..
 	SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-		
+		log.info("SecurityConfig 실행중");
 		http.authorizeHttpRequests(security->security
 				// authenticated(): 인증된 사용자면 해당 경로에 접근 가능
 				// hasRole: 해당 경로로 시작하는 모든 요청은 ADMIN 역할을 가진 사용자만 접근 가능
