@@ -79,7 +79,7 @@ public interface LogRepository extends JpaRepository<Log, Integer> {
 	
 	@Query
 	(value = "SELECT activity, COUNT(*) as COUNT "
-			+ "FROM Log "
+			+ "FROM log "
 			+ "WHERE user_code = ? AND work_date = ? AND risk_flag > 1 "
 			+ "GROUP BY activity, risk_flag "
 			+ "ORDER BY activity",
