@@ -24,7 +24,6 @@ public class CORSConfig implements WebMvcConfigurer {
 						HttpMethod.POST.name(),
 						HttpMethod.OPTIONS.name())
 				.allowedOrigins( // 접근 가능한 ip 주소
-						
 						"http://192.168.0.131:3000",
 						"http://192.168.55.203:3000",
 						"http://58.235.21.221:3000",
@@ -38,7 +37,6 @@ public class CORSConfig implements WebMvcConfigurer {
 						HttpMethod.GET.name(),
 						HttpMethod.POST.name())
 				.allowedOrigins(
-						
 						"http://192.168.0.131:3000",
 						"http://192.168.55.203:3000",
 						"http://58.235.21.221:3000",
@@ -54,7 +52,6 @@ public class CORSConfig implements WebMvcConfigurer {
 						HttpMethod.PUT.name(),
 						HttpMethod.DELETE.name())
 				.allowedOrigins(
-						
 						"http://192.168.0.131:3000",
 						"http://192.168.55.203:3000",
 						"http://58.235.21.221:3000",
@@ -67,7 +64,6 @@ public class CORSConfig implements WebMvcConfigurer {
 				.allowedMethods(
 						HttpMethod.GET.name())
 				.allowedOrigins(
-						
 						"http://192.168.0.131:3000",
 						"http://192.168.55.203:3000",
 						"http://58.235.21.221:3000",
@@ -80,7 +76,6 @@ public class CORSConfig implements WebMvcConfigurer {
 				.allowedMethods(
 						HttpMethod.GET.name())
 				.allowedOrigins(
-						
 						"http://192.168.0.131:3000",
 						"http://192.168.55.203:3000",
 						"http://58.235.21.221:3000",
@@ -96,7 +91,6 @@ public class CORSConfig implements WebMvcConfigurer {
 						HttpMethod.PUT.name(),
 						HttpMethod.DELETE.name())
 				.allowedOrigins(
-						
 						"http://192.168.0.131:3000",
 						"http://192.168.55.203:3000",
 						"http://58.235.21.221:3000",
@@ -110,7 +104,6 @@ public class CORSConfig implements WebMvcConfigurer {
 						HttpMethod.GET.name(),
 						HttpMethod.POST.name())
 				.allowedOrigins(
-						
 						"http://192.168.0.131:3000",
 						"http://192.168.55.203:3000",
 						"http://58.235.21.221:3000",
@@ -123,7 +116,6 @@ public class CORSConfig implements WebMvcConfigurer {
 				.allowedMethods(
 						HttpMethod.POST.name())
 				.allowedOrigins(
-						
 						"http://192.168.0.131:3000",
 						"http://192.168.55.203:3000",
 						"http://58.235.21.221:3000",
@@ -138,7 +130,6 @@ public class CORSConfig implements WebMvcConfigurer {
                 		HttpMethod.GET.name(), 
                 		HttpMethod.POST.name())
                 .allowedOrigins(
-						
 						"http://192.168.0.131:3000",
 						"http://192.168.55.203:3000",
 						"http://58.235.21.221:3000",
