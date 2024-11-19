@@ -9,11 +9,15 @@ import org.springframework.lang.NonNull;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+import lombok.extern.slf4j.Slf4j;
+
 
 @Configuration
+@Slf4j
 public class CORSConfig implements WebMvcConfigurer {
 	@Override
 	public void addCorsMappings(@NonNull CorsRegistry registry) {
+		log.info("CORSConfig 실행되는중");
 		//헤더란? HTTP 요청과 응답시 메타데이터를 전달하는 필드
 		
 		registry.addMapping("/login") // 해당 경로 접근시 CORS 정책 적용
