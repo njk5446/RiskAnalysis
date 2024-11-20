@@ -44,3 +44,6 @@ Thumbs.db
 
 # application.properties 제외
 src/main/resources/application.properties
+
+# 무시할 META-INF 디렉토리
+META-INF/
