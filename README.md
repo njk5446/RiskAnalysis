@@ -99,8 +99,11 @@
 - ![Eclipse](https://img.shields.io/badge/-Eclipse-2C2255?&logo=eclipse&logoColor=white) ![Version](https://img.shields.io/badge/Eclipse%20v4.32-blue)
 - ![VS Code](https://img.shields.io/badge/-VS%20Code-007ACC?&logo=visual-studio-code&logoColor=white) ![Version](https://img.shields.io/badge/VS%20Code%20v1.95-blue)
 
-**ETC**
+**DevOps / ETC**
 
+- ![Ubuntu](https://img.shields.io/badge/-Ubuntu-E95420?&logo=ubuntu&logoColor=white) ![Version](https://img.shields.io/badge/Ubuntu%20v22.04-blue)
+- ![AWS EC2](https://img.shields.io/badge/-AWS%20EC2-232F3E?&logo=amazon-aws&logoColor=white) ![Version](https://img.shields.io/badge/AWS%20EC2-blue)
+- ![Linux](https://img.shields.io/badge/-Linux-FCC624?&logo=linux&logoColor=white)
 - ![Git](https://img.shields.io/badge/-Git-F05032?&logo=git&logoColor=white) ![GitHub](https://img.shields.io/badge/-GitHub-181717?&logo=github&logoColor=white)
 
 <br />
