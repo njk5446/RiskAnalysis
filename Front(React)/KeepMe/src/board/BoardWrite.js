@@ -28,11 +28,10 @@ export default function BoardWrite({ onClose }) {
         try {
             const response = (await axios.get(`${url}board/getUserInfo`, { headers: headers }
             )).data;
-            console.log(response);
             setUserName(response.userName)
             setDept(response.dept)
         } catch (error) {
-            console.log('Error fetching posts:', error);
+            console.error('Error fetching posts:', error);
         }
     }
 
@@ -59,7 +58,6 @@ export default function BoardWrite({ onClose }) {
         } catch (error) {
             setError("게시글 등록에 실패하였습니다.");
         }
-        console.log({ title, userName, dept, content });
         // 제출 후 게시판 목록 페이지로 이동
 
 

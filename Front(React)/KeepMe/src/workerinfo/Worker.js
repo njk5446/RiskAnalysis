@@ -38,7 +38,6 @@ export default function HeartbeatGraph({ userCode, workDate, onClose }) {
             try {
                 const resp = await axios.get(`${url}userinfo/username/usercode?userCode=${userCode}`);
                 setUserName(resp.data);
-                console.log("내가 setUserName 밑에 찍은거 " + userName);
             } catch (error) {
                 console.error('사용자 이름을 요청하는데 실패했습니다.' + error);
             }
@@ -48,7 +47,6 @@ export default function HeartbeatGraph({ userCode, workDate, onClose }) {
 
     // 최고 심박수와 최저 심박수 계산
     const maxHeartbeat = Math.max(...userData.heartbeat);
-    console.log('userData', userData)
     const heartbeatData = {
         labels: userData.heartbeat.map((_, index) => index + 1),
         datasets: [{
@@ -139,7 +137,6 @@ export default function HeartbeatGraph({ userCode, workDate, onClose }) {
 
     const currentRiskLevel = userData.riskFlag || 0; // 기본값 설정
 
-    console.log('workDate', workDate);
     return (
         <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex justify-center items-center z-40" onClick={onClose}>
             <div className="rounded-lg w-full max-w-xl min-h-[600px] h-3/5 max-h-[500px] overflow-hidden flex flex-col bg-white" onClick={e => e.stopPropagation()}>

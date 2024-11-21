@@ -70,13 +70,11 @@ function MyPage({ onClose }) {
           password: newPassword
         }, { headers: headers });
         alert('비밀번호가 변경되었습니다.');
-        console.log('비밀번호 변경 완료:', response.data);
         // onClose();
       } catch (error) {
         alert('비밀번호 변경 중 오류가 발생했습니다.');
         setNewPassword('');
         setCheckNewPassword('');
-        console.log('비밀번호 변경 중 오류가 발생했습니다.', error);
       }
     } else {
       alert('비밀번호가 일치하지 않습니다.');
@@ -90,16 +88,13 @@ function MyPage({ onClose }) {
       alert(`같은 부서로 변경 할 수 없습니다.`);
       return;
     }
-    console.log('부서 변경:', newDepartment);
     try {
       const response = await axios.put(`${url}mypage/changedept`, {
         dept: newDepartment
       }, { headers: headers });
-      console.log('부서 변경 완료:', response.data);
       alert('부서가 변경되었습니다.');
       // onClose();
     } catch (error) {
-      console.log('부서 변경 중 오류가 발생했습니다.', error);
       alert('부서 변경 중 오류가 발생했습니다.');
     }
   };
@@ -113,12 +108,11 @@ function MyPage({ onClose }) {
             'Content-Type': 'application/json',
           }
         })
-        console.log('회원 탈퇴 처리:', response);
         alert('회원 탈퇴가 완료되었습니다.');
         sessionStorage.removeItem('token');
         navigation('/');
       } catch (error) {
-        console.log('회원 탈퇴 중 오류가 발생했습니다.');
+        console.error('회원 탈퇴 중 오류가 발생했습니다.');
       }
     } else {
       console.log('회원 탈퇴가 취소되었습니다.');

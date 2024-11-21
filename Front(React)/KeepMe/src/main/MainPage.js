@@ -28,9 +28,6 @@ export default function MainPage() {
   const [isChart, setIsChart] = useState(false);
   const [initialDataLoaded, setInitialDataLoaded] = useState(false);
 
-  console.log('socketData', socketData);
-  console.log("userId 확인: " + userId);
-
   const fetchInitialData = async () => {
     const url = process.env.REACT_APP_BACKEND_URL;
     const token = sessionStorage.getItem('token');
@@ -46,7 +43,6 @@ export default function MainPage() {
           'Authorization': token,
         }
       });
-      console.log("왜 다 안나와 새로고침했는데 " + response);
 
       const userdata = response.data.map(item => ({
         userCode: item.userCode,
@@ -94,14 +90,10 @@ export default function MainPage() {
 
   useEffect(() => {
     if (initialDataLoaded && !ws && userId) {
-      console.log("initialDataLoaded 상태가 true로 변경됨, WebSocket 연결 시작");
-      console.log("url 찍기전");
       const url = process.env.REACT_APP_BACKEND_URL;
-      console.log("웹소켓 연결전")
       const newWs = new WebSocket(`${url.replace(/^http/, 'ws')}pushservice?userId=${userId}`);
       setWs(newWs);
       newWs.onopen = () => {
-        console.log('WebSocket 연결 성공');
       };
       newWs.onmessage = (e) => {
         const newData = JSON.parse(e.data);
@@ -136,7 +128,6 @@ export default function MainPage() {
       return () => {
         if (ws) {
           newWs.close();
-          console.log("WebSocket 연결 종료");
         }
       }
     }
@@ -154,19 +145,16 @@ export default function MainPage() {
 
   const normalCount = Object.values(socketData).filter(data => {
     const normal = data.riskFlag === 0;
-    console.log('normal', normal);
     return normal;
   }).length;
 
   const cautionCount = Object.values(socketData).filter(data => {
     const caution = data.riskFlag === 1;
-    console.log('caution', caution);
     return caution;
   }).length;
 
   const dangerCount = Object.values(socketData).filter(data => {
     const danger = data.riskFlag === 2;
-    console.log('danger', danger);
     return danger;
   }).length;
   const onClose = () => {

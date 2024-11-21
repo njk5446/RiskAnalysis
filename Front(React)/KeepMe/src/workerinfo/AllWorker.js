@@ -112,7 +112,6 @@ export default function ShowGraph({ onClose }) {
         }))
       }
     ];
-    console.log(JSON.stringify(formattedData, null, 2));
     setHeatmapData(formattedData);
     return heatmapData;
   };

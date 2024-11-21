@@ -13,13 +13,11 @@ export default function LoginForm() {
     const navigate = useNavigate();
     const [auth, setAuth] = useRecoilState(authState);
     const url = process.env.REACT_APP_BACKEND_URL;
-    console.log(url)
 
     let token = "";
     const login = async (e) => {
         e.preventDefault();//폼 제출 시 기본 동작을 막음
         try {
-            console.log("요청 시작: " + url);
             const response = await axios.post(`${url}login`, 
                 {
                   userId,
@@ -36,14 +34,11 @@ export default function LoginForm() {
                 sessionStorage.setItem("userId", userId);
                 sessionStorage.setItem("token", token);
                 setAuth(true);
-                console.log(response.data.role);
                 const role = response.data.role;
                 if (role.includes('ROLE_ADMIN')){
-                    console.log('userROLE',role)
                     setUserRole(role);
                     navigate('/main');
                 }else if (role.includes('ROLE_USER')) {
-                    console.log('userRole',userRole)
                     setUserRole(role);
                     navigate('/user');
                 }

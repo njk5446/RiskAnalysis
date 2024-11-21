@@ -14,7 +14,6 @@ function MyPageAuth({ onSuccess, onClose }) {
     // 비밀번호 확인 로직 구현
     try {
       const response = await axios.post(`${url}mypage/checkpw`, { password: password }, { headers: headers });
-      console.log(response.data);
       if (response.data === '비밀번호 검증 성공') {
         onSuccess(); // 인증 성공 시 MyPage 모달 열기
       }

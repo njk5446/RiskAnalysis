@@ -13,10 +13,8 @@ export default function RiskAlert({ onClose, riskUserHeartbeat, riskUserTemperat
     useEffect(() => {
         async function fetchUserName() {
             try {
-                console.log("** riskUserCode 확인용 **: " + riskUserCode);
                 const resp = await axios.get(`${url}userinfo/username/usercode?userCode=${riskUserCode}`);
                 setUserName(resp.data);
-                console.log("내가 setUserName 밑에 찍은거 " + userName);
             } catch (error) {
                 console.error('사용자 이름을 요청하는데 실패했습니다.' + error);
             }

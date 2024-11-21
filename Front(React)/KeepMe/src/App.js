@@ -12,8 +12,6 @@ import BoardEdit from './board/BoardEdit';
 
 function App() {
   const setAuth = useRecoilValue(authState);
-  console.log('setAuth', setAuth)
-
   
   return (
     <RecoilRoot>
