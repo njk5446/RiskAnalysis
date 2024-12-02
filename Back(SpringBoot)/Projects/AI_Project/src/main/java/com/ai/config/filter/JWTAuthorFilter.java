@@ -81,7 +81,8 @@ public class JWTAuthorFilter extends OncePerRequestFilter{
 			//Authentication 객체를 생성: 아이디, 비밀번호(null:표시되면안됨), Role(사용자 권한)
 			Authentication auth = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
 			
-			// 세션에 등록
+			// 현재 요청에 대한 사용자의 인증 상태를 관리하고, 
+			// 다른 컴포넌트들이 그 정보를 활용할 수 있도록 해주는 역할
 			SecurityContextHolder.getContext().setAuthentication(auth);
 		} catch (TokenExpiredException e) {
 			response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "토큰이 검증 오류.");
@@ -98,3 +99,8 @@ public class JWTAuthorFilter extends OncePerRequestFilter{
 // 2단계 검증을 거치는 이유:
 // 1. 보안강화: 토큰이 존재해도 잘못된 사용자나 만료된 토큰의 경우를 보호
 // 2. 사용자 정보의 일관성 유지: DB와 토큰간의 동기화가 맞지 않을 수 있음, 불일치 문제 해결 
+
+
+// 최종 결론
+// JWTAuthorFilter는 이미 발급된 JWT 토큰이 있는 경우 이를 검증하고 유효한 토큰이면 인증 정보를 설정
+// 

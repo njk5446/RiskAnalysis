@@ -33,7 +33,7 @@ public class WebSocketConfig extends TextWebSocketHandler implements WebSocketCo
 	// WebSocket 연결명 설정 (ws://localhost:8080/pushservice) ==> WebSocketConfigurer
 	@Override
 	public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
-		registry.addHandler(this, "/pushservice") // 엔드포인트 /pushservice로 지정
+		registry.addHandler(this, "/pushservice") // 엔드포인트 /pushservice로 지정, this가 핸들러 그 자체(TextWebSocketHandler를 상속)
 				.setAllowedOrigins("*") // 모든 컴퓨터에서 접근 가능
 				.addInterceptors(customInter); // 핸드셰이크로 세션 속성키 설정
 	}

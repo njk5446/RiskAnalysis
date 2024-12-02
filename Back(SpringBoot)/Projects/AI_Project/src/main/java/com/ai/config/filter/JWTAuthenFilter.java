@@ -45,12 +45,13 @@ public class JWTAuthenFilter extends UsernamePasswordAuthenticationFilter{
 		// ObjectMapper: JSON 데이터를 Java 객체로 변환
 		try { // 요청 데이터를 JSON으로 읽어 Mapper(Java 객체)로 변환하고 user 객체에 저장
 			com.ai.domain.User user = mapper.readValue(request.getInputStream(), com.ai.domain.User.class);	
-			// UsernamePasswordAuthenticationToken:토큰에 자격증명(ID,PW)를 포함해서 토큰생성
+			// UsernamePasswordAuthenticationToken:토큰에 자격증명(ID,PW)를 포함한 정보 객체 생성
+			// 이 객체는 단순히 인증 요청을 나타내는 역할을 하며, JWT 토큰과는 관련이 없음
 			Authentication authToken = new UsernamePasswordAuthenticationToken(user.getUserId(), user.getPassword());
 			
 			return am.authenticate(authToken); 
 			// authenticationManager.authenticate: 인증 시도 후 자격증명의 정보를 검증 후,
-			// 인증 성공 시 토큰 반환(successfulAuthentication으로)  
+			// 인증 성공 시 인증된 사용자 정보를 반환(successfulAuthentication으로)  
 		} catch (Exception e) {
 			log.info(e.getMessage()); // 인증과정 예외발생(비밀번호 불일치, 사용자 없음)
 			// 로그를 남기고 클라이언트에게 401 Unauthorized 반환
