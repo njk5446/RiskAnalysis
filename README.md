@@ -65,7 +65,7 @@
 
 ## ⚙ ERD 설계
 
-![ERD 설계](./images/RiskAnalysisERD.png)
+![ERD 설계](./images/RiskAnalysis_ERD.png)
 
 <br />
 
