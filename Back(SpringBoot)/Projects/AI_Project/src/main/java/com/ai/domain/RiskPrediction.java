@@ -4,6 +4,9 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
+
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -19,6 +22,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.MapsId;
+import jakarta.persistence.OneToOne;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -71,8 +75,9 @@ public class RiskPrediction {
 	private String activity;
 	
 	
-    @ManyToOne
-    @JoinColumn(name = "userCode", nullable = false)
+	@OneToOne // 일대일 관계
+	@JoinColumn(name = "user_code", referencedColumnName = "user_code", nullable = false, unique = true) // unique 제약 조건 추가
+	@Cascade(CascadeType.ALL) 
     @MapsId
     @JsonBackReference // JSON 직렬화 시 제외
     private User user;

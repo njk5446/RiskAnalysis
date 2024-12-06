@@ -15,6 +15,7 @@ import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -74,9 +75,7 @@ public class User {
 	@JsonManagedReference 
 	private List<Log> logs;
 	
-	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-	@JsonManagedReference
-	private List<RiskPrediction> rps;
+
 	
 }
 
