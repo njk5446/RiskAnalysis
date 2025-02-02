@@ -124,11 +124,12 @@ public class WebSocketService {
 
 				LogResponseProjection ld = logRepo.findByLastNo().orElse(null);
 				
-				if (ld == null) {
-					sendPushMessage(frDTO);
-				} else {
-					sendPushMessage(ld);
-				}
+				sendPushMessage(ld);
+//				if (ld == null) {
+//					sendPushMessage(frDTO);
+//				} else {
+//					sendPushMessage(ld);
+//				}
 			 }				
 		}).exceptionally(ex -> {
 			System.err.println("에러 발생: " + ex.getMessage());
