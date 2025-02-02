@@ -57,6 +57,7 @@ public class WebSocketService {
 	@Value("${FASTAPI_SERVER_URL}")
 	private String fastApiUrl;
 	
+	// 주석 수정확인?
 	// 위험 분석 응답 데이터 전송
 	@Scheduled(fixedRate = 1000000000)
 	public void pushData() throws IOException {
