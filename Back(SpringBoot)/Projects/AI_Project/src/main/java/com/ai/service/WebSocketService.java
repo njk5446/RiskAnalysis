@@ -53,7 +53,7 @@ public class WebSocketService {
 	private final WebSocketConfig wsConfig;
 	private final WebClient webClient = WebClient.create();
 	
-	// Flask Server 통신 url
+	// FastAPI 서버 통신 url
 	@Value("${FASTAPI_SERVER_URL}")
 	private String fastApiUrl;
 	
