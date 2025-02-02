@@ -125,6 +125,8 @@ public class WebSocketService {
 				LogResponseProjection ld = logRepo.findByLastNo().orElse(null);
 				
 				sendPushMessage(ld);
+				
+				// 필요시 다시 수정 예정
 //				if (ld == null) {
 //					sendPushMessage(frDTO);
 //				} else {
